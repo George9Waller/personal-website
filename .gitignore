@@ -1,0 +1,27 @@
+# PRP ignores
+certs/
+temp/
+www_data/
+env/
+.env
+.DS_Store
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+env/
+*.iml
+.idea/
+*.md5
+*.mo
+
+# Editors
+.*.swp
+.*.swo
+.ropeproject
+celerybeat.pid
+coverage
+media/
+celerybeat-schedule.db
+.vscode/settings.json

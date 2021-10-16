@@ -1,0 +1,122 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}George Waller{% endblock title %}</title>
+        {% block head_favicon %}
+            <link
+                rel="icon"
+                type="image/png"
+                href="{{ STATIC_URL }}images/favicon.ico"
+            >
+        {% endblock head_favicon %}
+        {% block head_meta %}
+            {% block head_meta_charset %}
+                <meta
+                    http-eqiv="Content-Type"
+                    content="text/html; charset=utf-8"
+                />
+            {% endblock head_meta_charset %}
+            {% block head_meta_contentlangauge %}
+                <meta
+                    http-equiv="Content-Language"
+                    value="en-UK"
+                />
+            {% endblock head_meta_contentlangauge %}
+            {% block head_meta_viewport %}
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1.0"
+                />
+            {% endblock head_meta_viewport %}
+        {% endblock head_meta %}
+        {% block head_css_site %}
+            <link
+                href="{% static 'css/app.css' %}"
+                rel="stylesheet"
+                type="text/css"
+                media="screen"
+            />
+            <link
+                href="{% static 'css/tailwind.css' %}"
+                rel="stylesheet"
+                type="text/css"
+                media="screen"
+            />
+        {% endblock head_css_site %}
+        {% block head_css_page %}
+        {% endblock head_css_page %}
+    </head>
+    <body>
+        {% block body %}
+            {% block nav %}
+                <!-- Navbar goes here -->
+                <nav class="bg-white shadow-lg">
+                    <div class="max-w-6xl mx-auto px-4">
+                        <div class="flex justify-between">
+                            <div class="flex space-x-7">
+                                <div>
+                                    <!-- Website Logo -->
+                                    <a href="/" class="flex items-center py-4 px-2">
+                                        <span class="font-semibold text-gray-500 text-lg">George Waller</span>
+                                    </a>
+                                </div>
+                                <!-- Primary Navbar items -->
+                                <div class="hidden md:flex items-center space-x-1">
+                                    <a href="" class="py-4 px-2 {% if request.path == "/" %}text-green-500 border-b-4 border-green-500 font-semibold {% else %} text-gray-500 font-semibold hover:text-green-500 transition duration-300{% endif %}">CV</a>
+                                    <a href="" class="py-4 px-2 {% if request.path == "/projects/" %}text-green-500 border-b-4 border-green-500 font-semibold {% else %} text-gray-500 font-semibold hover:text-green-500 transition duration-300{% endif %}">Projects</a>
+                                </div>
+                            </div>
+                            <!-- Secondary Navbar items -->
+                            <div class="hidden md:flex items-center space-x-3 ">
+                                <a href="" class="py-2 px-2 font-medium text-white bg-green-500 rounded hover:bg-green-400 transition duration-300">Contact me</a>
+                            </div>
+                            <!-- Mobile menu button -->
+                            <div class="md:hidden flex items-center">
+                                <button class="outline-none mobile-menu-button">
+                                <svg class=" w-6 h-6 text-gray-500 hover:text-green-500 "
+                                    x-show="!showMenu"
+                                    fill="none"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path d="M4 6h16M4 12h16M4 18h16"></path>
+                                </svg>
+                            </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- mobile menu -->
+                    <div class="hidden mobile-menu">
+                        <ul class="">
+                            <li {% if request.path == "/" %}class="active"{% endif %}><a href="/" class="block text-sm px-2 py-4 {% if request.path == "/" %}text-white bg-green-500 font-semibold{% else %}hover:bg-green-500 transition duration-300{% endif %}">CV</a></li>
+                            <li {% if request.path == "/projects/" %}class="active"{% endif %}><a href="/" class="block text-sm px-2 py-4 {% if request.path == "/projects/" %}text-white bg-green-500 font-semibold{% else %}hover:bg-green-500 transition duration-300{% endif %}">Projects</a></li>
+                            <li {% if request.path == "/contact/" %}class="active"{% endif %}><a href="/" class="block text-sm px-2 py-4 {% if request.path == "/contact/" %}text-white bg-green-500 font-semibold{% else %}hover:bg-green-500 transition duration-300{% endif %}">Contact me</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            {% endblock nav %}
+            {% block content %}
+            {% endblock content %}
+        {% endblock body %}
+    </body>
+    {% block end_js %}
+        {% block end_js_site %}
+            <script src="https://kit.fontawesome.com/5156af669c.js" crossorigin="anonymous"></script>
+            <script>
+                const btn = document.querySelector("button.mobile-menu-button");
+                const menu = document.querySelector(".mobile-menu");
+
+                btn.addEventListener("click", () => {
+                    menu.classList.toggle("hidden");
+                });
+            </script>
+        {% endblock end_js_site %}
+        {% block end_js_page %}
+        {% endblock end_js_page %}
+    {% endblock end_js %}
+</html>

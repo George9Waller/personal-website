@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <main>
+        <div class="bg-fixed h-screen w-screen overflow-x-hidden">
+            <div class="container mx-auto p-6 m-16 max-w-screen-lg bg-white rounded-3xl">
+                <div class="grid sm:grid-cols-1 lg:grid-cols-5 gap-8">
+                    <div class="lg:col-span-3 sm:col-span-1 grid grid-cols-1 gap-8">
+                        <div>
+                            <h1 class="text-5xl font-medium">{{ name }}</h1>
+                            <h1 class="text-2xl subpixel-antialiased font-light key-color text-opacity-20 pt-4">{{ role }}</h1>
+                        </div>
+                        <div>
+                            <h1 class="text-xl headding">About</h1>
+                            <div class="opacity-75">
+                                {% autoescape off %}
+                                    {{ about }}
+                                {% endautoescape %}
+                            </div>
+                        </div>
+                        <div>
+                            <hr>
+                        </div>
+                        <div>
+                            <h1 class="text-xl headding">Experience</h1>
+                            <div class="relative wrap p-8 h-auto">
+                                {% for event in events %}
+                                    <div class="{% if not forloop.last %}mb-4{% endif %} flex justify-between flex-row items-center w-full">
+                                        <h1 class=" text-gray-700 text-opacity-30 font-semibold text-xs mb-2 absolute transform -rotate-90 -translate-x-{% if event.end_date %}12{% else %}9{% endif %}">{{ event.start_date.year }} - {% if event.end_date %}{{ event.end_date.year }}{% else %}...{% endif %}</h1>
+                                        <div class="order-1 bg-blue-50 rounded-xl p-4 w-max">
+                                            <h6 class="font-medium">{% if event.icon_html %}{% autoescape off %}<span class="mr-2">{{ event.icon_html }}</span>{% endautoescape %}{% endif %}{{ event.location }} <span class="font-100">- {{ event.title }}</h6>
+                                            <p class="text-xs opacity-75">{{ event.start_date|date:"F, Y" }} - {% if event.end_date %}{{ event.end_date|date:"F, Y" }}{% else %}...{% endif %}</p>
+                                            <div class="opacity-75 text-sm wrap">
+                                                {% autoescape off %}
+                                                    {{ event.description }}
+                                                {% endautoescape %}
+                                            </div>
+                                            {% if event.link %}
+                                                <div class="truncate break-all overflow-ellipsis w-96">
+                                                    
+                                                    <a href="{{ event.link }}" target="_blank" class="underline-on-hover text-xs"><i class="fas fa-external-link-alt fa-xs mr-1"></i>{{ event.link }}</a>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div>
+                            <hr>
+                        </div>
+                         <div>
+                            <h1 class="text-xl headding">Interests</h1>
+                            {% autoescape off %}
+                            <div class="">
+                                {% for item in interests %}
+                                    <div class="p-4 m-2 bg-blue-50 rounded-xl">
+                                        <div class="flex">
+                                            {{ item.icon_html }}
+                                            <h6 class="font-medium ml-1">{{ item.title }}</h6>
+                                        </div>
+                                        <div class="opacity-75 text-sm">
+                                            {{ item.description }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            {% endautoescape %}
+                        </div>
+
+                    </div>
+                    <div class="lg:col-span-2 sm:col-span-1 bg-gradient-to-b from-green-400 to-blue-500 rounded-3xl p-6 text-white" style="position: relative">
+                        <div class="grid place-items-center">
+                            <div class="flex items-center">
+                                <img
+                                    src="{{ profile_picture.url }}"
+                                    class="rounded-full mb-12 sm:mx-4 sm:mt-4 lg:mx-8 lg:mx-8"
+                                />
+                            </div>
+                            <div class="grid grid-cols-1 gap-2">
+                                {% for item in contact_items %}
+                                    {% if item.link %}
+                                        <a href="{{ item.link }}" target="_blank">
+                                    {% endif %}
+                                        <div class="flex items-center">
+                                            {% autoescape off %}
+                                                {{ item.icon_html }}
+                                            {% endautoescape %}
+                                            <p class="pl-2{% if item.link %} underline-on-hover{% endif %}">{{ item.title }}</p>
+                                        </div>
+                                        {% if item.link %}
+                                            </a>
+                                        {% endif %}
+                                {% endfor %}
+                                <div class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+                                    </svg>
+                                    <ol>
+                                    {% autoescape off %}
+                                    {% for language in languages %}
+                                        <li class="ml-2" style="display: flex;">
+                                            <p class="pl-2">{{ language.title }} | <span class="ml-1">{{ language.description }}</span></p>
+                                        </li>
+                                    {% endfor %}
+                                    {% endautoescape %}
+                                    </ol>
+                                </div>
+                            </div>
+                            <div class="flex items-center mt-12">
+                                <h1 class="text-xl">Skills</h1>
+                            </div>
+                            {% for category in skills_array %}
+                                <div class="flex items-center sm:mt-2 lg:mt-3">
+                                    <h2>{{ category.0 }}</h2>
+                                </div>
+                                <div class="flex flex-wrap">
+                                    {% for item in category %}
+                                        {% if forloop.counter != 1 %}
+                                            <div 
+                                                class="flex-none flex items-center content-center rounded-lg bg-opacity-20 bg-gray-200 hover:bg-opacity-40 transition duration-500 ease-in-out m-1 px-2 py-1 has-tooltip"
+                                            >
+                                                <div class="flex vertical items-center p-1">
+                                                    {% if item.icon_html %}
+                                                        <span class="tooltip rounded shadow-lg p1 bg-gray-200 bg-opacity-80 text-black -mt-12 -ml-1 p-1 focus:visible transition duration-500 ease-in-out">{{ item.title }}</span>
+                                                        {% autoescape off %}
+                                                            {{ item.icon_html }}
+                                                        {% endautoescape %}
+                                                        {% if is_touch %}
+                                                            <p class="ml-2">{{ item.title }}</p>
+                                                        {% endif %}
+                                                    {% else %}
+                                                        <p>{{ item.title }}</p>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+                            <div class="flex items-center mt-12">
+                                <h1 class="text-xl">Personality</h1>
+                            </div>
+                            <div class="flex flex-wrap">
+                                    {% for item in personality %}
+                                        <div class="p-4 m-2 rounded-lg bg-opacity-20 bg-gray-200 hover:bg-opacity-40 transition duration-500 ease-in-out">
+                                        <h6 class="font-medium">{{ item.title }}</h6>
+                                        <div class="opacity-75 text-sm">
+                                            {% autoescape off %}
+                                                {{ item.description }}
+                                            {% endautoescape %}
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock content %}
