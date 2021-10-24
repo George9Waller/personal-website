@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load martortags %}
+
+{% block head_css_page %}
+    <link rel="stylesheet" href="{% static 'css/modest.css' %}">
+{% endblock head_css_page %}
+
+{% block content %}
+    <main>
+        <div class="bg-fixed h-screen w-screen overflow-x-hidden">
+            <div class="container mx-auto p-6 m-16 max-w-screen-lg bg-white rounded-3xl grid grid-cols-1 gap-4">
+                <div class="py-2 px-4 bg-gray-300 bg-opacity-50 hover:bg-opacity-100 transition transition-duration-300 ease-in-out rounded-3xl">
+                    <a href="{% url 'blog_list' %}?category={{ back_category }}">
+                        <h1 class="text-lg"><i class="fas fa-arrow-left mr-2"></i>Back to <b>{{ back_category }}</b> projects</h1>
+                    </a>
+                </div>
+                <div class="w-auto bg-cover bg-center bg-clip-border rounded-3xl bg-opacity-10" style="background-image: url({{ blogentry.cover_image.url }})">
+                    <div class="w-auto bg-gradient-to-r from-pink-900 to-blue-900 mix-blend-color-burn p-6 rounded-3xl text-white">
+                        <h1 class="text-3xl mb-2">{{ blogentry.title }}</h1>
+                        <div class="category-color-border" style="border-color: {{ blogentry.category_color }}">
+                            <p>{{ blogentry.category }} &middot; {{ blogentry.date|date:"M, Y" }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modest-css ml-4">
+                    {{ blogentry.content|safe_markdown }}
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock content %}

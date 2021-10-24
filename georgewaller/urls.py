@@ -17,8 +17,13 @@ from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
 
+from georgewaller.views import HomeView
+
 urlpatterns = [
+    path('', HomeView.as_view(), name='home'),
     path('admin/', admin.site.urls),
-    path('', include('cv.urls')),
+    path('cv/', include('cv.urls')),
+    path('projects/', include('blog.urls')),
     path('tinymce/', include('tinymce.urls')),
+    path('martor/', include('martor.urls')),
 ]

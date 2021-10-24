@@ -67,6 +67,13 @@ i {
     margin-bottom: 0.5em;
 }
 
+.category-color-border {
+    border-left-width: 6px;
+    letter-spacing: .1em;
+    padding-left: .5em;
+    margin-bottom: 0.5em;
+}
+
 .tooltip {
     visibility: hidden;
     position: absolute;

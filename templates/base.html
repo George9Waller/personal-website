@@ -44,6 +44,18 @@
                 type="text/css"
                 media="screen"
             />
+            <link
+                href="{% static 'plugins/css/ace.min.css' %}"
+                type="text/css"
+                media="all"
+                rel="stylesheet"
+            />
+            <link
+                href="{% static 'martor/css/martor.bootstrap.min.css' %}"
+                type="text/css"
+                media="all"
+                rel="stylesheet"
+            />
         {% endblock head_css_site %}
         {% block head_css_page %}
         {% endblock head_css_page %}
@@ -64,13 +76,14 @@
                                 </div>
                                 <!-- Primary Navbar items -->
                                 <div class="hidden md:flex items-center space-x-1">
-                                    <a href="" class="py-4 px-2 {% if request.path == "/" %}text-green-500 border-b-4 border-green-500 font-semibold {% else %} text-gray-500 font-semibold hover:text-green-500 transition duration-300{% endif %}">CV</a>
-                                    <a href="" class="py-4 px-2 {% if request.path == "/projects/" %}text-green-500 border-b-4 border-green-500 font-semibold {% else %} text-gray-500 font-semibold hover:text-green-500 transition duration-300{% endif %}">Projects</a>
+                                    <a href="{% url 'home' %}" class="py-4 px-2 {% if request.path == "/" %}text-green-500 border-b-4 border-green-500 font-semibold {% else %} text-gray-500 font-semibold hover:text-green-500 transition duration-300{% endif %}">About Me</a>
+                                    <a href="{% url 'cv' %}" class="py-4 px-2 {% if request.path == "/cv/" %}text-green-500 border-b-4 border-green-500 font-semibold {% else %} text-gray-500 font-semibold hover:text-green-500 transition duration-300{% endif %}">CV</a>
+                                    <a href="{% url 'blog_list' %}" class="py-4 px-2 {% if request.path == "/projects/" %}text-green-500 border-b-4 border-green-500 font-semibold {% else %} text-gray-500 font-semibold hover:text-green-500 transition duration-300{% endif %}">Projects</a>
                                 </div>
                             </div>
                             <!-- Secondary Navbar items -->
                             <div class="hidden md:flex items-center space-x-3 ">
-                                <a href="" class="py-2 px-2 font-medium text-white bg-green-500 rounded hover:bg-green-400 transition duration-300">Contact me</a>
+                                <a href="mailto:george@georgewaller.com" class="py-2 px-2 font-medium text-white bg-green-500 rounded hover:bg-green-400 transition duration-300">Contact me</a>
                             </div>
                             <!-- Mobile menu button -->
                             <div class="md:hidden flex items-center">
@@ -93,9 +106,9 @@
                     <!-- mobile menu -->
                     <div class="hidden mobile-menu">
                         <ul class="">
-                            <li {% if request.path == "/" %}class="active"{% endif %}><a href="/" class="block text-sm px-2 py-4 {% if request.path == "/" %}text-white bg-green-500 font-semibold{% else %}hover:bg-green-500 transition duration-300{% endif %}">CV</a></li>
-                            <li {% if request.path == "/projects/" %}class="active"{% endif %}><a href="/" class="block text-sm px-2 py-4 {% if request.path == "/projects/" %}text-white bg-green-500 font-semibold{% else %}hover:bg-green-500 transition duration-300{% endif %}">Projects</a></li>
-                            <li {% if request.path == "/contact/" %}class="active"{% endif %}><a href="/" class="block text-sm px-2 py-4 {% if request.path == "/contact/" %}text-white bg-green-500 font-semibold{% else %}hover:bg-green-500 transition duration-300{% endif %}">Contact me</a></li>
+                            <li {% if request.path == "/cv/" %}class="active"{% endif %}><a href="{% url 'cv' %}" class="block text-sm px-2 py-4 {% if request.path == "/cv/" %}text-white bg-green-500 font-semibold{% else %}hover:bg-green-500 transition duration-300{% endif %}">CV</a></li>
+                            <li {% if request.path == "/projects/" %}class="active"{% endif %}><a href="{% url 'blog_list' %}" class="block text-sm px-2 py-4 {% if request.path == "/projects/" %}text-white bg-green-500 font-semibold{% else %}hover:bg-green-500 transition duration-300{% endif %}">Projects</a></li>
+                            <li {% if request.path == "/contact" %}class="active"{% endif %}><a href="mailto:george@georgewaller.com" class="block text-sm px-2 py-4 {% if request.path == "/contact/" %}text-white bg-green-500 font-semibold{% else %}hover:bg-green-500 transition duration-300{% endif %}">Contact me</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -107,12 +120,18 @@
     {% block end_js %}
         {% block end_js_site %}
             <script src="https://kit.fontawesome.com/5156af669c.js" crossorigin="anonymous"></script>
+            <script type="text/javascript" src="{% static 'jquery/dist/jquery.min.js' %}" />
             <script>
                 const btn = document.querySelector("button.mobile-menu-button");
                 const menu = document.querySelector(".mobile-menu");
 
                 btn.addEventListener("click", () => {
                     menu.classList.toggle("hidden");
+                });
+            </script>
+            <script>
+                $('.martor-preview pre').each(function(i, block){
+                    hljs.highlightBlock(block);
                 });
             </script>
         {% endblock end_js_site %}

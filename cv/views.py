@@ -1,9 +1,10 @@
-from django.db.models.expressions import ExpressionWrapper
+from django.db.models.expressions import F, ExpressionWrapper
 from django.db.models.fields import BooleanField
 from django.db.models.query_utils import Q
 from django.views.generic import TemplateView
 from django_user_agents.utils import get_user_agent
 from cv.models import ContactItem, Cv, EventItem, Interest, Language, Personality, SkillsLevel
+from blog.models import BlogCategory, BlogEntry
 
 
 # Create your views here.
@@ -32,6 +33,7 @@ class HomepageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         cv = Cv.objects.all().last()
+        cv_category = BlogCategory.objects.filter(cv_category=True)[0]
         context = super().get_context_data(**kwargs)
         context["is_touch"] = get_is_touch(self.request)
         context["name"] = cv.name
@@ -44,5 +46,6 @@ class HomepageView(TemplateView):
         context["interests"] = Interest.objects.filter(cv=cv).order_by('ranking')
         context["skills_array"] = get_skills_array(cv)
         context["events"] = EventItem.objects.filter(cv=cv).order_by('-start_date')
+        context['cv_projects'] = BlogEntry.objects.filter(blogcategory=cv_category).annotate(category_title=F('blogcategory__title')).annotate(category_color=F('blogcategory__color_hex')).order_by('-date')[:3]
         return context
     
