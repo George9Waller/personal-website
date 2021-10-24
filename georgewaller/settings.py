@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+import django_heroku
 import dj_database_url
 from dotenv import load_dotenv
 from pathlib import Path
@@ -244,3 +245,5 @@ MARTOR_MARKDOWN_BASE_MENTION_URL = 'https://python.web.id/author/'              
 MARTOR_ALTERNATIVE_JS_FILE_THEME = "semantic-themed/semantic.min.js"   # default None
 MARTOR_ALTERNATIVE_CSS_FILE_THEME = "semantic-themed/semantic.min.css" # default None
 MARTOR_ALTERNATIVE_JQUERY_JS_FILE = "jquery/dist/jquery.min.js"        # default None
+
+django_heroku.settings(locals())
