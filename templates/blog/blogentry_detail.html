@@ -15,14 +15,15 @@
                         <h1 class="text-lg"><i class="fas fa-arrow-left mr-2"></i>Back to <b>{{ back_category }}</b> projects</h1>
                     </a>
                 </div>
-                <div class="w-auto bg-cover bg-center bg-clip-border rounded-3xl bg-opacity-10" style="background-image: url({{ blogentry.cover_image.url }})">
-                    <div class="w-auto bg-gradient-to-r from-pink-900 to-blue-900 mix-blend-color-burn p-6 rounded-3xl text-white">
+                <div class="w-auto bg-cover bg-center bg-clip-border rounded-3xl bg-opacity-10">
+                    <div class="w-auto bg-gradient-to-r from-pink-900 to-blue-900 bg-opacity-50 p-6 rounded-3xl text-white">
                         <h1 class="text-3xl mb-2">{{ blogentry.title }}</h1>
                         <div class="category-color-border" style="border-color: {{ blogentry.category_color }}">
                             <p>{{ blogentry.category }} &middot; {{ blogentry.date|date:"M, Y" }}</p>
                         </div>
                     </div>
                 </div>
+                <div class="w-auto bg-cover bg-center bg-clip-border rounded-3xl bg-opacity-10" style="background-image: url({{ blogentry.cover_image.url }}); height: 300px"></div>
                 <div class="modest-css ml-4">
                     {{ blogentry.content|safe_markdown }}
                 </div>

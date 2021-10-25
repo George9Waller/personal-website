@@ -46,6 +46,6 @@ class HomepageView(TemplateView):
         context["interests"] = Interest.objects.filter(cv=cv).order_by('ranking')
         context["skills_array"] = get_skills_array(cv)
         context["events"] = EventItem.objects.filter(cv=cv).order_by('-start_date')
-        context['cv_projects'] = BlogEntry.objects.filter(blogcategory=cv_category).annotate(category_title=F('blogcategory__title')).annotate(category_color=F('blogcategory__color_hex')).order_by('-date')[:3]
+        context['cv_projects'] = BlogEntry.objects.filter(draft=False).filter(blogcategory=cv_category).annotate(category_title=F('blogcategory__title')).annotate(category_color=F('blogcategory__color_hex')).order_by('-date')[:3]
         return context
     

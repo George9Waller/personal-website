@@ -4,7 +4,7 @@ from django.contrib import admin
 
 from martor.widgets import AdminMartorWidget
 
-from blog.models import BlogCategory, BlogEntry
+from blog.models import BlogCategory, BlogEntry, BlogImage
 
 # Register your models here.
 class BlogEntryAdmin(admin.ModelAdmin):
@@ -24,3 +24,4 @@ class BlogEntryAdmin(admin.ModelAdmin):
 
 admin.site.register(BlogEntry, BlogEntryAdmin)
 admin.site.register(BlogCategory)
+admin.site.register(BlogImage)

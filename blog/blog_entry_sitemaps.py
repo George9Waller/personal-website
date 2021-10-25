@@ -7,7 +7,7 @@ class ProjectsSitemap(Sitemap):
     priority = 0.5
 
     def items(self):
-        return BlogEntry.objects.all().order_by('-date')
+        return BlogEntry.objects.filter(draft=False).order_by('-date')
     
     def lastmod(self, obj):
         return obj.date

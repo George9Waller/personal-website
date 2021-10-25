@@ -32,12 +32,12 @@ class BlogListView(ListView):
     def get_queryset(self):
         cat = get_category(self.request)
         if cat != '':
-            queryset = BlogEntry.objects.filter(blogcategory=cat).annotate(category_title=F('blogcategory__title')).annotate(category_color=F('blogcategory__color_hex')).order_by('-date')
+            queryset = BlogEntry.objects.filter(draft=False).filter(blogcategory=cat).annotate(category_title=F('blogcategory__title')).annotate(category_color=F('blogcategory__color_hex')).order_by('-date')
         else:
-            queryset = BlogEntry.objects.all().annotate(category_title=F('blogcategory__title')).annotate(category_color=F('blogcategory__color_hex')).order_by('-date')
+            queryset = BlogEntry.objects.filter(draft=False).annotate(category_title=F('blogcategory__title')).annotate(category_color=F('blogcategory__color_hex')).order_by('-date')
 
         if len(queryset) == 0:
-            queryset = BlogEntry.objects.all().annotate(category_title=F('blogcategory__title')).annotate(category_color=F('blogcategory__color_hex')).order_by('-date')
+            queryset = BlogEntry.objects.filter(draft=False).annotate(category_title=F('blogcategory__title')).annotate(category_color=F('blogcategory__color_hex')).order_by('-date')
         return queryset
 
             
@@ -52,7 +52,7 @@ class BlogDetailView(DetailView):
 
     def get_object(self):
         try:
-            object = BlogEntry.objects.filter(id=self.kwargs.get('pk')).annotate(category=F('blogcategory__title')).annotate(category_color=F('blogcategory__color_hex'))[0]
+            object = BlogEntry.objects.filter(draft=False).filter(id=self.kwargs.get('pk')).annotate(category=F('blogcategory__title')).annotate(category_color=F('blogcategory__color_hex'))[0]
             return object
         except:
             return Http404

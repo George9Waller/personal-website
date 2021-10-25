@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.fields import BooleanField
 from martor.models import MartorField
 
 blog_categories = (
@@ -14,6 +15,7 @@ class BlogEntry(models.Model):
     short_description = models.CharField(max_length=512)
     cover_image = models.FileField()
     content = MartorField()
+    draft = BooleanField(default=False)
 
     class Meta:
         ordering = ['-date']
@@ -33,4 +35,13 @@ class BlogCategory(models.Model):
         ordering = ['ranking']
     
     def __str__(self) -> str:
-        return self.title
+        return f'{self.title} | {self.color_hex}'
+
+
+class BlogImage(models.Model):
+    title = models.CharField(max_length=50)
+    image = models.FileField()
+    blog = models.ManyToManyField(BlogEntry)
+
+    def __str__(self) -> str:
+        return f'{self.title} | {self.blog}'
