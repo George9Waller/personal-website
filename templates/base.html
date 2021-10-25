@@ -139,8 +139,8 @@
     </body>
     {% block end_js %}
         {% block end_js_site %}
+            <script src="https://kit.fontawesome.com/5156af669c.js" crossorigin="anonymous"></script>
             {% compress js inline %}
-                <script src="https://kit.fontawesome.com/5156af669c.js" crossorigin="anonymous"></script>
                 <script type="text/javascript" src="{% static 'jquery/dist/jquery.min.js' %}" />
             {% endcompress %}
         {% endblock end_js_site %}

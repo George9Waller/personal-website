@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sitemaps',
     'storages',
     'django_user_agents',
     'martor',
@@ -133,14 +134,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATICFILES_FINDERS = [
-    'compressor.finders.CompressorFinder'
+    'compressor.finders.CompressorFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
 USE_S3 = os.getenv('USE_S3') == 'TRUE'
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+USE_S3 = True
 
 if USE_S3:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
     AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
@@ -156,10 +159,12 @@ if USE_S3:
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/'
     COMPRESS_STORAGE = STATICFILES_STORAGE
     COMPRESS_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/'
-    # COMPRESS_ENABLED = True
+    COMPRESS_ENABLED = True
+    COMPRESS_OFFLINE = True
 else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/static')
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-    STATIC_URL = '/staticfiles/'
+    STATIC_URL = '/staticfiles/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
@@ -258,5 +263,5 @@ MARTOR_ALTERNATIVE_JS_FILE_THEME = "semantic-themed/semantic.min.js"   # default
 MARTOR_ALTERNATIVE_CSS_FILE_THEME = "semantic-themed/semantic.min.css" # default None
 MARTOR_ALTERNATIVE_JQUERY_JS_FILE = "jquery/dist/jquery.min.js"        # default None
 
-django_heroku.settings(locals())
+django_heroku.settings(locals(), staticfiles=False)
 
