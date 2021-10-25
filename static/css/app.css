@@ -87,3 +87,27 @@ i {
 .border-blue {
     border-color: #3a87c7;
 }
+
+.text-primary-blue {
+    color: #243c5a;
+}
+
+.border-primary-blue {
+    border-color: #243c5a;
+}
+
+.hover-primary-blue:hover {
+    color: #243c5a;
+}
+
+.bg-primary-blue {
+    background-color: #243c5a;
+}
+
+.hover-bg-primary-blue:hover {
+    background-color: #243c5a;
+}
+
+.hover-bg-white:hover {
+    background-color: white;
+}
