@@ -43,5 +43,8 @@ class BlogImage(models.Model):
     image = models.FileField()
     blog = models.ManyToManyField(BlogEntry)
 
+    class Meta:
+        ordering = ['title']
+
     def __str__(self) -> str:
         return f'{self.title} | {self.blog}'

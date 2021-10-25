@@ -32,13 +32,14 @@
                     {{ blogentry.content|safe_markdown }}
                 </div>
                 {% if images %}
-                    <div class="grid gap-4 space-evenly justify-between align-middle sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5">
+                    <div class="grid gap-4 space-evenly items-stretch justify-between align-middle sm:grid-cols-1 md:grid-cols-3">
                         {% for image in images %}
-                            <div>
+                            <div class="grid grid-cols1 content-center">
                                 <a href="#img_{{ forloop.counter }}">
                                     <img
                                         src="{{ image.image.url }}"
                                         alt="{{ image.title }}"
+                                        style="pointer-events: none;"
                                     />
                                 </a>
                                 <small>{{ image.title }}</small>
