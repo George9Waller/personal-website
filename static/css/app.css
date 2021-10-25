@@ -111,3 +111,7 @@ i {
 .hover-bg-white:hover {
     background-color: white;
 }
+
+.blue-link {
+    color: #0645AD;
+}

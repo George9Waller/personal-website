@@ -84,6 +84,7 @@
 	max-width: 90%;
 	max-height: 80%;
 	position: relative;
+    align-self: baseline;
 	top: -100%;
 	/* Transition */
 	transition: all 1s ease;

@@ -49,7 +49,10 @@
                             <a href="#_{{ forloop.counter }}" class="lightbox trans" id="img_{{ forloop.counter }}">
                                 <img
                                     src="{{ image.image.url }}"
+                                    alt="{{ image.title }}"
+                                    style="pointer-events: none;"
                                 />
+                                <p class="text-white">{{ image.title }}</p>
                             </a>
                         {% endfor %}
 

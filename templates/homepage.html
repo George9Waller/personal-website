@@ -1,14 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load compress %}
 {% load martortags %}
 
 {% block head_css_page %}
-    <link rel="stylesheet" href="{% static 'css/modest.min.css' %}">
-    <style>
-        a {
-            color: #0645AD;
-        }
-    </style>
+    {% compress css %}
+        <link rel="stylesheet" href="{% static 'css/modest.min.css' %}">
+    {% endcompress%}
 {% endblock head_css_page %}
 
 {% block content %}
@@ -16,14 +14,14 @@
         <div class="bg-fixed h-screen w-screen overflow-x-hidden">
             <div class="container mx-auto p-6 m-16 max-w-screen-md bg-white rounded-3xl grid grid-cols-1 gap-4">
                 <h1 class="text-3xl">George Waller</h1>
-                <p>I am a software engineer, working in web development but also do photography and design focusing mainly on perspective. My work includes fine-art aerial photography, wildlife and landscapes but I am open to all kinds of projects. My recent work is available on the <a href="{% url 'blog_list' %}">projects</a> section of this site.</p>
-                <p>More information is available on my <a href="{% url 'cv' %}">CV</a></p>
-                <p>For further information, print inquires and photographic work please contact me via <a href="mailto:george@georgewaller.com">george@georgewaller.com</a></p>
+                <p>I am a software engineer, working in web development but also do photography and design focusing mainly on perspective. My work includes fine-art aerial photography, wildlife and landscapes but I am open to all kinds of projects. My recent work is available on the <a class="blue-link" href="{% url 'blog_list' %}">projects</a> section of this site.</p>
+                <p>More information is available on my <a class="blue-link" href="{% url 'cv' %}">CV</a></p>
+                <p>For further information, print inquires and photographic work please contact me via <a class="blue-link" href="mailto:george@georgewaller.com">george@georgewaller.com</a></p>
                 <div class="grid md:grid-cols-2 sm:grid-cols-1 gap-4">
-                    <a class="p-4 grid items-center bg-indigo-50 rounded hover:bg-indigo-100" href="{% url 'blog_list' %}">
+                    <a class="p-4 grid items-center bg-indigo-100 rounded hover:bg-indigo-200 blue-link" href="{% url 'blog_list' %}">
                         <h1>Projects</h1>
                     </a>
-                    <a class="p-4 grid items-center bg-green-50 rounded hover:bg-green-100" href="{% url 'cv' %}">
+                    <a class="p-4 grid items-center bg-green-100 rounded hover:bg-green-200 blue-link" href="{% url 'cv' %}">
                         <h1>CV</h1>
                     </a>
                 </div>
@@ -31,13 +29,13 @@
                     <h1 class="text-xl headding sm:mt-2 lg:mt-4">Recent Projects</h1>
                     <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                         {% for item in recent_projects %}
-                            <div class="p-4 m-2 rounded-lg bg-opacity-20 bg-gray-200 hover:bg-opacity-40 transition duration-500 ease-in-out border-l-4" style="border-color: {{ item.category_color }}">
-                                <h2 class="font-medium">{{ item.title }}</h6>
-                                <div class="category-color-border text-xs" style="border-color: {{ item.category_color }}">
-                                    <p>{{ item.category_title }} &middot; {{ item.date|date:"M, Y" }}</p>
-                                </div>
-                                <p class="opacity-75 text-sm">{{ item.short_description }}</p>
-                                <a href="{% url 'blog_detail' pk=item.id %}" >
+                            <a href="{% url 'blog_detail' pk=item.id %}" >
+                                <div class="p-4 m-2 rounded-lg bg-opacity-20 bg-gray-200 hover:bg-opacity-40 transition duration-500 ease-in-out border-l-4" style="border-color: {{ item.category_color }}">
+                                    <h2 class="font-medium">{{ item.title }}</h6>
+                                    <div class="category-color-border text-xs" style="border-color: {{ item.category_color }}">
+                                        <p>{{ item.category_title }} &middot; {{ item.date|date:"M, Y" }}</p>
+                                    </div>
+                                    <p class="opacity-75 text-sm">{{ item.short_description }}</p>
                                     <div>
                                         <img
                                             src="{{ item.cover_image.url }}"
@@ -45,11 +43,12 @@
                                             alt="{{ item.title }} project cover image"
                                         />
                                     </div>
-                                    <span class="text-xs hover:text-green-500 transition duration-300 mt-2 block"><i class="fas fa-arrow-right mr-1"></i>View project</span>
-                                </a>
-                            </div>
+                                    <span class="text-xs hover-primary-blue transition duration-300 mt-2 block"><i class="fas fa-arrow-right mr-1"></i>View project</span>
+                                </div>
+                            </a>
                         {% endfor %}
                     </div>
+                </div>
             </div>
         </div>
     </main>

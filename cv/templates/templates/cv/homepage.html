@@ -162,12 +162,12 @@
                     <div class="grid sm:grid-cols-1 lg:grid-cols-3 gap-3">
                         {% for item in cv_projects %}
                             <div class="p-4 m-2 rounded-lg bg-opacity-20 bg-gray-200 hover:bg-opacity-40 transition duration-500 ease-in-out border-l-4" style="border-color: {{ item.category_color }}">
-                                <h2 class="font-medium">{{ item.title }}</h6>
-                                <div class="category-color-border text-xs" style="border-color: {{ item.category_color }}">
-                                    <p>{{ item.category_title }} &middot; {{ item.date|date:"M, Y" }}</p>
-                                </div>
-                                <p class="opacity-75 text-sm">{{ item.short_description }}</p>
                                 <a href="{% url 'blog_detail' pk=item.id %}" >
+                                    <h2 class="font-medium">{{ item.title }}</h6>
+                                    <div class="category-color-border text-xs" style="border-color: {{ item.category_color }}">
+                                        <p>{{ item.category_title }} &middot; {{ item.date|date:"M, Y" }}</p>
+                                    </div>
+                                    <p class="opacity-75 text-sm">{{ item.short_description }}</p>
                                     <div>
                                         <img
                                             src="{{ item.cover_image.url }}"
