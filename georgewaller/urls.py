@@ -21,7 +21,7 @@ from django.views.generic.base import TemplateView
 from blog.blog_entry_sitemaps import ProjectsSitemap
 from georgewaller.static_sitemaps import StaticViewSitemap
 
-from georgewaller.views import HomeView
+from georgewaller.views import HomeView, RobotsTxtView
 
 sitemaps = {
     'static': StaticViewSitemap,
@@ -36,5 +36,5 @@ urlpatterns = [
     path('tinymce/', include('tinymce.urls')),
     path('martor/', include('martor.urls')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
-    path('robots.txt', TemplateView.as_view(template_name="robots.txt"))
+    path('robots.txt', RobotsTxtView.as_view()),
 ]

@@ -30,7 +30,9 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://georgewaller.com']
+
+SITE_URL = 'https://www.georgewaller.com'
 
 SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
 
@@ -140,7 +142,6 @@ STATICFILES_FINDERS = [
 ]
 
 USE_S3 = os.getenv('USE_S3') == 'TRUE'
-USE_S3 = True
 
 if USE_S3:
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
