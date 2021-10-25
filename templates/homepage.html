@@ -29,7 +29,7 @@
                 </div>
                 <div>
                     <h1 class="text-xl headding sm:mt-2 lg:mt-4">Recent Projects</h1>
-                    <div class="grid sm:grid-cols-1 lg:grid-cols-3 gap-3">
+                    <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                         {% for item in recent_projects %}
                             <div class="p-4 m-2 rounded-lg bg-opacity-20 bg-gray-200 hover:bg-opacity-40 transition duration-500 ease-in-out border-l-4" style="border-color: {{ item.category_color }}">
                                 <h2 class="font-medium">{{ item.title }}</h6>

@@ -119,10 +119,10 @@
                     <!-- mobile menu -->
                     <div class="hidden mobile-menu">
                         <ul class="">
-                            <li {% if request.path == "/" %}class="active"{% endif %}><a href="{% url 'home' %}" class="block text-sm px-2 py-4 {% if request.path == "/" %}text-white bg-primary-blue font-semibold{% else %}hover-bg-primary-blue transition duration-300{% endif %}">About Me</a></li>
-                            <li {% if request.path == "/cv/" %}class="active"{% endif %}><a href="{% url 'cv' %}" class="block text-sm px-2 py-4 {% if request.path == "/cv/" %}text-white bg-primary-blue font-semibold{% else %}hover-bg-primary-blue transition duration-300{% endif %}">CV</a></li>
-                            <li {% if request.path == "/projects/" %}class="active"{% endif %}><a href="{% url 'blog_list' %}" class="block text-sm px-2 py-4 {% if request.path == "/projects/" %}text-white bg-primary-blue font-semibold{% else %}hover-bg-primary-blue transition duration-300{% endif %}">Projects</a></li>
-                            <li {% if request.path == "/contact" %}class="active"{% endif %}><a href="mailto:george@georgewaller.com" class="block text-sm px-2 py-4 {% if request.path == "/contact/" %}text-white bg-primary-blue font-semibold{% else %}hover-bg-primary-blue transition duration-300{% endif %}">Contact me</a></li>
+                            <li {% if request.path == "/" %}class="active"{% endif %}><a href="{% url 'home' %}" class="block text-sm px-2 py-4 {% if request.path == "/" %}text-white bg-primary-blue font-semibold{% else %}hover-bg-primary-blue hover:text-white text-primary-blue transition duration-300{% endif %}">About Me</a></li>
+                            <li {% if request.path == "/cv/" %}class="active"{% endif %}><a href="{% url 'cv' %}" class="block text-sm px-2 py-4 {% if request.path == "/cv/" %}text-white bg-primary-blue font-semibold{% else %}hover-bg-primary-blue hover:text-white text-primary-blue transition duration-300{% endif %}">CV</a></li>
+                            <li {% if request.path == "/projects/" %}class="active"{% endif %}><a href="{% url 'blog_list' %}" class="block text-sm px-2 py-4 {% if request.path == "/projects/" %}text-white bg-primary-blue font-semibold{% else %}hover-bg-primary-blue hover:text-white text-primary-blue transition duration-300{% endif %}">Projects</a></li>
+                            <li {% if request.path == "/contact" %}class="active"{% endif %}><a href="mailto:george@georgewaller.com" class="block text-sm px-2 py-4 {% if request.path == "/contact/" %}text-white bg-primary-blue font-semibold{% else %}hover-bg-primary-blue hover:text-white text-primary-blue transition duration-300{% endif %}">Contact me</a></li>
                         </ul>
                     </div>
                     <script>
