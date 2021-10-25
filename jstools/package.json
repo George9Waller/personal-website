@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tailwind build ../static/css/tailwind.css -o ../static/css/tailwind-output.css && cleancss -o ../static/css/tailwind-output.min.css ../static/css/tailwind-output.css && cleancss -o ../static/css/app.min.css ../static/css/app.css"
+    "build": "tailwind build ../static/css/tailwind.css -o ../static/css/tailwind-output.css && cleancss -o ../static/css/tailwind-output.min.css ../static/css/tailwind-output.css && cleancss -o ../static/css/app.min.css ../static/css/app.css && cleancss -o ../static/css/lightbox.min.css ../static/css/lightbox.css && cleancss -o ../static/css/modest.min.css ../static/css/modest.css"
   },
   "keywords": [],
   "author": "",
