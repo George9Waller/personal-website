@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'storages',
     'django_user_agents',
     'martor',
+    'compressor',
 ]
 
 MIDDLEWARE = [
@@ -131,7 +132,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+STATICFILES_FINDERS = [
+    'compressor.finders.CompressorFinder'
+]
+
 USE_S3 = os.getenv('USE_S3') == 'TRUE'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 if USE_S3:
     AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
@@ -140,14 +147,19 @@ if USE_S3:
     AWS_DEFAULT_ACL = 'public-read'
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+    AWS_IS_GZIPPED = True
 
     AWS_LOCATION = 'static'
+    COMPRESS_ROOT = STATIC_ROOT
+    STATICFILES_STORAGE = 'georgewaller.storage_backends.CachedS3Boto3Storage'
+    
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/'
-    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    COMPRESS_STORAGE = STATICFILES_STORAGE
+    COMPRESS_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/'
+    # COMPRESS_ENABLED = True
 else:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
     STATIC_URL = '/staticfiles/'
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
@@ -247,3 +259,4 @@ MARTOR_ALTERNATIVE_CSS_FILE_THEME = "semantic-themed/semantic.min.css" # default
 MARTOR_ALTERNATIVE_JQUERY_JS_FILE = "jquery/dist/jquery.min.js"        # default None
 
 django_heroku.settings(locals())
+

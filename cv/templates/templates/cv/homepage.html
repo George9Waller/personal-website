@@ -25,10 +25,10 @@
                             <h1 class="text-xl headding">Experience</h1>
                             <div class="relative wrap p-8 h-auto">
                                 {% for event in events %}
+                                    <h1 class=" text-gray-700 text-opacity-50 font-semibold text-xs mb-2">{{ event.start_date.year }} - {% if event.end_date %}{{ event.end_date.year }}{% else %}...{% endif %}</h1>
                                     <div class="{% if not forloop.last %}mb-4{% endif %} flex justify-between flex-row items-center w-full">
-                                        <h1 class=" text-gray-700 text-opacity-30 font-semibold text-xs mb-2 absolute transform -rotate-90 -translate-x-{% if event.end_date %}12{% else %}9{% endif %}">{{ event.start_date.year }} - {% if event.end_date %}{{ event.end_date.year }}{% else %}...{% endif %}</h1>
                                         <div class="order-1 bg-blue-50 rounded-xl p-4 w-max">
-                                            <h6 class="font-medium">{% if event.icon_html %}{% autoescape off %}<span class="mr-2">{{ event.icon_html }}</span>{% endautoescape %}{% endif %}{{ event.location }} <span class="font-100">- {{ event.title }}</h6>
+                                            <h2 class="font-medium">{% if event.icon_html %}{% autoescape off %}<span class="mr-2">{{ event.icon_html }}</span>{% endautoescape %}{% endif %}{{ event.location }} <span class="font-100">- {{ event.title }}</h2>
                                             <p class="text-xs opacity-75">{{ event.start_date|date:"F, Y" }} - {% if event.end_date %}{{ event.end_date|date:"F, Y" }}{% else %}...{% endif %}</p>
                                             <div class="opacity-75 text-sm wrap">
                                                 {% autoescape off %}
@@ -37,7 +37,7 @@
                                             </div>
                                             {% if event.link %}
                                                 <div class="truncate break-all overflow-ellipsis w-48">
-                                                    <a href="{{ event.link }}" target="_blank" class="underline-on-hover text-xs"><i class="fas fa-external-link-alt fa-xs mr-1"></i>{{ event.link }}</a>
+                                                    <a href="{{ event.link }}" target="_blank" class="underline-on-hover text-xs" rel="noreferrer"><i class="fas fa-external-link-alt fa-xs mr-1"></i>{{ event.link }}</a>
                                                 </div>
                                             {% endif %}
                                         </div>
@@ -56,7 +56,7 @@
                                     <div class="p-4 m-2 bg-blue-50 rounded-xl">
                                         <div class="flex">
                                             {{ item.icon_html }}
-                                            <h6 class="font-medium ml-1">{{ item.title }}</h6>
+                                            <h2 class="font-medium ml-1">{{ item.title }}</h2>
                                         </div>
                                         <div class="opacity-75 text-sm">
                                             {{ item.description }}
@@ -74,12 +74,13 @@
                                 <img
                                     src="{{ profile_picture.url }}"
                                     class="rounded-full mb-12 sm:mx-4 sm:mt-4 lg:mx-8 lg:mx-8"
+                                    alt="Headshot of George Waller"
                                 />
                             </div>
                             <div class="grid grid-cols-1 gap-2">
                                 {% for item in contact_items %}
                                     {% if item.link %}
-                                        <a href="{{ item.link }}" target="_blank">
+                                        <a href="{{ item.link }}" target="_blank" rel="noreferrer">
                                     {% endif %}
                                         <div class="flex items-center">
                                             {% autoescape off %}
@@ -142,8 +143,8 @@
                             </div>
                             <div class="flex flex-wrap">
                                     {% for item in personality %}
-                                        <div class="p-4 m-2 rounded-lg bg-opacity-20 bg-gray-200 hover:bg-opacity-40 transition duration-500 ease-in-out">
-                                        <h6 class="font-medium">{{ item.title }}</h6>
+                                        <div class="p-4 m-2 w-full rounded-lg bg-opacity-20 bg-gray-200 hover:bg-opacity-40 transition duration-500 ease-in-out">
+                                        <h2 class="font-medium">{{ item.title }}</h2>
                                         <div class="opacity-75 text-sm">
                                             {% autoescape off %}
                                                 {{ item.description }}
@@ -160,7 +161,7 @@
                     <div class="grid sm:grid-cols-1 lg:grid-cols-3 gap-3">
                         {% for item in cv_projects %}
                             <div class="p-4 m-2 rounded-lg bg-opacity-20 bg-gray-200 hover:bg-opacity-40 transition duration-500 ease-in-out border-l-4" style="border-color: {{ item.category_color }}">
-                                <h6 class="font-medium">{{ item.title }}</h6>
+                                <h2 class="font-medium">{{ item.title }}</h6>
                                 <div class="category-color-border text-xs" style="border-color: {{ item.category_color }}">
                                     <p>{{ item.category_title }} &middot; {{ item.date|date:"M, Y" }}</p>
                                 </div>
@@ -170,6 +171,7 @@
                                         <img
                                             src="{{ item.cover_image.url }}"
                                             class="mt-2"
+                                            alt="{{ item.title }} project cover image"
                                         />
                                     </div>
                                     <span class="text-xs hover:text-green-500 transition duration-300 mt-2 block"><i class="fas fa-arrow-right mr-1"></i>View project</span>

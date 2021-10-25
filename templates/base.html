@@ -1,7 +1,8 @@
 {% load static %}
+{% load compress %}
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <title>{% block title %}George Waller{% endblock title %}</title>
         {% block head_favicon %}
@@ -30,32 +31,42 @@
                     content="width=device-width, initial-scale=1.0"
                 />
             {% endblock head_meta_viewport %}
+            {% block head_meta_description %}
+                <meta
+                    name="description"
+                    content="I am a web developer and also a photographer specialising in aerial, landscape and wildlife. I am open to all types of work and I try to work with my clients to produce the work they want."
+                />
+            {% endblock head_meta_description%}
         {% endblock head_meta %}
         {% block head_css_site %}
-            <link
-                href="{% static 'css/app.css' %}"
-                rel="stylesheet"
-                type="text/css"
-                media="screen"
-            />
-            <link
-                href="{% static 'css/tailwind.css' %}"
-                rel="stylesheet"
-                type="text/css"
-                media="screen"
-            />
-            <link
-                href="{% static 'plugins/css/ace.min.css' %}"
-                type="text/css"
-                media="all"
-                rel="stylesheet"
-            />
-            <link
-                href="{% static 'martor/css/martor.bootstrap.min.css' %}"
-                type="text/css"
-                media="all"
-                rel="stylesheet"
-            />
+            {% compress css %}
+                <link
+                    href="{% static 'css/app.min.css' %}"
+                    rel="stylesheet"
+                    type="text/css"
+                    media="screen"
+                />
+            {% endcompress %}
+            {% compress css inline %}
+                <link
+                    href="{% static 'css/tailwind-output.min.css' %}"
+                    rel="stylesheet"
+                    type="text/css"
+                    media="screen"
+                />
+                <link
+                    href="{% static 'plugins/css/ace.min.css' %}"
+                    type="text/css"
+                    media="all"
+                    rel="stylesheet"
+                />
+                <link
+                    href="{% static 'martor/css/martor.bootstrap.min.css' %}"
+                    type="text/css"
+                    media="all"
+                    rel="stylesheet"
+                />
+            {% endcompress %}
         {% endblock head_css_site %}
         {% block head_css_page %}
         {% endblock head_css_page %}
@@ -87,7 +98,7 @@
                             </div>
                             <!-- Mobile menu button -->
                             <div class="md:hidden flex items-center">
-                                <button class="outline-none mobile-menu-button">
+                                <button class="outline-none mobile-menu-button" aria-label="open mobile navigation menu">
                                 <svg class=" w-6 h-6 text-gray-500 hover:text-green-500 "
                                     x-show="!showMenu"
                                     fill="none"
@@ -128,21 +139,10 @@
     </body>
     {% block end_js %}
         {% block end_js_site %}
-            <script src="https://kit.fontawesome.com/5156af669c.js" crossorigin="anonymous"></script>
-            <script type="text/javascript" src="{% static 'jquery/dist/jquery.min.js' %}" />
-            <script>
-                const btn = document.querySelector("button.mobile-menu-button");
-                const menu = document.querySelector(".mobile-menu");
-
-                btn.addEventListener("click", () => {
-                menu.classList.toggle("hidden");
-                });
-            </script>
-            <script>
-                $('.martor-preview pre').each(function(i, block){
-                    hljs.highlightBlock(block);
-                });
-            </script>
+            {% compress js inline %}
+                <script src="https://kit.fontawesome.com/5156af669c.js" crossorigin="anonymous"></script>
+                <script type="text/javascript" src="{% static 'jquery/dist/jquery.min.js' %}" />
+            {% endcompress %}
         {% endblock end_js_site %}
         {% block end_js_page %}
         {% endblock end_js_page %}

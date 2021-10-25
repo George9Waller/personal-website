@@ -25,3 +25,7 @@ coverage
 media/
 celerybeat-schedule.db
 .vscode/settings.json
+
+jstools/node_modules
+
+staticfiles/*
