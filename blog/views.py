@@ -47,7 +47,7 @@ class BlogDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["back_category"] = self.request.GET.get('back_category', '')
+        context["back_category"] = str(self.request.GET.get('back_category', '').split('#')[0])
         context["images"] = self.object.blogimage_set.all()
         return context
 
