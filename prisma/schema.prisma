@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model BlogEntry {
+  id                     Int                      @id @default(autoincrement())
+  date                   DateTime                 @db.Date
+  title                  Json
+  shortDescription       Json
+  content                Json
+  draft                  Boolean
+  category               String[]
+  images                 BlogImage[]
+}
+
+model BlogImage {
+  id                  Int                   @id @default(autoincrement())
+  isCover             Boolean               @default(false)
+  title               Json
+  altText             Json
+  imageUrl            String                @db.VarChar(255)
+  width               Int
+  height              Int
+  blogEntryId         Int
+  blogEntry           BlogEntry             @relation(fields: [blogEntryId], references: [id])
+}
