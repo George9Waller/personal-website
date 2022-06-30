@@ -1,35 +1,42 @@
 import { faLanguage, faPalette } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
-import { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ThemeSwitch } from "./ThemeSwitch";
 
-const getNavButtonClasses = (path: string) => {
-  const pathName = useRouter().pathname;
+interface NavLinkProps {
+  pathName: string;
+}
+
+const getNavButtonClasses = (path: string, pathName: string) => {
+  let selectedClassNames = "btn-ghost";
+  if ((path !== '/' && pathName.includes(path)) || (path === '/' && pathName === '/')) {
+    selectedClassNames = "btn-primary btn-outline"
+  }
+
   return classNames(
     "btn",
-    pathName.endsWith(path) ? "btn-primary btn-outline" : "btn-ghost"
+    selectedClassNames
   );
 };
 
-const NavLinks = () => {
+const NavLinks = ({ pathName }: NavLinkProps) => {
   return (
     <>
       <li>
         <Link href="/">
-          <a className={getNavButtonClasses("/")}>About Me</a>
+          <a className={getNavButtonClasses("/", pathName)}>About Me</a>
         </Link>
       </li>
       <li>
         <Link href="/cv">
-          <a className={getNavButtonClasses("/cv")}>CV</a>
+          <a className={getNavButtonClasses("/cv", pathName)}>CV</a>
         </Link>
       </li>
       <li>
         <Link href="/projects">
-          <a className={getNavButtonClasses("/projects")}>Projects</a>
+          <a className={getNavButtonClasses("/projects", pathName)}>Projects</a>
         </Link>
       </li>
     </>
@@ -37,6 +44,7 @@ const NavLinks = () => {
 };
 
 export const NavBar = () => {
+  const pathName = useRouter().pathname;
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -61,7 +69,7 @@ export const NavBar = () => {
             tabIndex={0}
             className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
           >
-            <NavLinks />
+            <NavLinks pathName={pathName} />
           </ul>
         </div>
         <Link href="/">
@@ -69,7 +77,7 @@ export const NavBar = () => {
         </Link>
         <div className="hidden lg:flex">
           <ul className="menu menu-horizontal p-0">
-            <NavLinks />
+            <NavLinks pathName={pathName} />
           </ul>
         </div>
       </div>
@@ -129,3 +137,5 @@ export const NavBar = () => {
     </div>
   );
 };
+
+export default NavBar

@@ -1,4 +1,3 @@
-import { NextPage } from "next";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
@@ -47,7 +46,6 @@ const ThemeDetail = (props: ThemeDetailProps) => {
 
 export const ThemeSwitch = () => {
   const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     setMounted(true);
@@ -87,3 +85,5 @@ export const ThemeSwitch = () => {
     </div>
   );
 };
+
+export default ThemeSwitch

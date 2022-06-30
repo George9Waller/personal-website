@@ -1,3 +1,5 @@
+const { env } = require('process')
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -6,8 +8,8 @@ const nextConfig = {
     defaultLocale: 'en-GB',
   },
   images: {
-    domains: ['catadoptionteam.org']
-  }
+    domains: ['georgewaller.s3.amazonaws.com'],
+  },
 }
 
 module.exports = nextConfig

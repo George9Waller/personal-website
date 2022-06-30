@@ -1,59 +1,46 @@
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Skeleton } from "@mui/material";
 import classNames from "classnames";
 import Image from "next/image";
 import Link from "next/link";
 import { BlogEntryWithImages } from "../../types/db";
 import { selectTranslation } from "../../utils/common";
-import { getCategoryClasses } from "../../utils/projects";
+import { getCategoryClasses, getProjectDate } from "../../utils/projects";
+import { ProjectTags } from "./ProjectTags";
 
 interface Props {
   project: BlogEntryWithImages;
 }
 
 export const ProjectCard = ({ project }: Props) => {
-  console.log(project);
-  const date = new Date(project.date).toLocaleDateString("en", {
-    month: "short",
-    year: "numeric",
-  });
-  console.log(date);
   const coverImage = project.images[0];
   return (
     <div className="indicator">
       <span
         className={classNames(
           "indicator-item",
-          getCategoryClasses(project.category[0], "badge")
+          getCategoryClasses(project.category[0])
         )}
       ></span>
       <div className="card card-compact w-72 bg-base-100 shadow-xl">
-        <figure>
-          <Image
-            src={coverImage.imageUrl}
-            alt={selectTranslation(coverImage.altText)}
-            width={384}
-            height={216}
-          />
-        </figure>
+        {coverImage && (
+          <figure>
+            <Image
+              src={coverImage.imageUrl}
+              alt={selectTranslation(coverImage.altText)}
+              placeholder="blur"
+              blurDataURL={coverImage.imageUrl}
+              width={384}
+              height={216}
+            />
+          </figure>
+        )}
         <div className="card-body">
           <h2 className="card-title pb-0">
             {selectTranslation(project.title)}
           </h2>
-          <h3 className="flex gap-2">
-            <span className="badge badge-accent gap-2">
-              <FontAwesomeIcon icon={faCalendar} />
-              {date}
-            </span>
-            {project.category.map((category, index) => (
-              <div
-                className={getCategoryClasses(category, "badge")}
-                key={index}
-              >
-                {category}
-              </div>
-            ))}
-          </h3>
+          <ProjectTags project={project} />
           <p>{selectTranslation(project.shortDescription)}</p>
           <div className="card-actions justify-end">
             <Link href={`/projects/${project.id}`}>
@@ -65,5 +52,15 @@ export const ProjectCard = ({ project }: Props) => {
     </div>
   );
 };
+
+export const ProjectCardPlaceholder = () => (
+  <div>
+    <Skeleton variant="rectangular" width={288} height={162} />
+    <Skeleton variant="text" />
+    <Skeleton variant="text"/>
+    <Skeleton variant="text" />
+    <Skeleton variant="rectangular" width={62} height={32} className="ml-auto mt-2" />
+  </div>
+)
 
 export default ProjectCard;

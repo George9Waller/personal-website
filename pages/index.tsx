@@ -1,13 +1,12 @@
 import Head from "next/head";
 import Link from "next/link";
-import { Container } from "../components/common/Container";
+import Container from "../components/common/Container";
 import { ReactElement } from "react";
-import { NavLayout } from "../components/layouts/NavLayout";
+import NavLayout from "../components/layouts/NavLayout";
 import { prisma } from "../prisma/db";
 import { InferGetStaticPropsType } from "next";
-import { BlogEntry } from "@prisma/client";
-import { selectTranslation } from "../utils/common";
 import ProjectCard from "../components/projects/ProjectCard";
+import { BlogEntryWithImages } from "../types/db";
 
 const Home = ({ projects }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
@@ -22,7 +21,7 @@ const Home = ({ projects }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
       <main>
         <Container>
-          <h1 className="text-xl">George Waller</h1>
+          <h1 className="text-2xl">George Waller</h1>
           <p>
             I am a software engineer, working in web development but also do
             photography and design focusing mainly on perspective and texture.
@@ -53,9 +52,12 @@ const Home = ({ projects }: InferGetStaticPropsType<typeof getStaticProps>) => {
           </p>
         </Container>
         <Container>
-          {projects.map((project: BlogEntry) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
+          <h1 className="text-xl mb-4">Recent Projects</h1>
+          <div className="flex flex-wrap justify-around gap-8">
+            {projects.map((project: BlogEntryWithImages) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </div>
         </Container>
       </main>
     </div>

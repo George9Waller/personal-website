@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { NavLayout } from "../components/layouts/NavLayout";
+import NavLayout from "../components/layouts/NavLayout";
 import { NextPageWithLayout } from "./_app";
 
 const CV: NextPageWithLayout = () => {

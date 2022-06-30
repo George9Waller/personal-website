@@ -10,7 +10,8 @@ datasource db {
 
 model BlogEntry {
   id                     Int                      @id @default(autoincrement())
-  date                   DateTime                 @db.Date
+  date                   DateTime                 @db.Date @default(now())
+  updated                DateTime                 @updatedAt
   title                  Json
   shortDescription       Json
   content                Json

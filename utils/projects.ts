@@ -2,11 +2,18 @@ enum ProjectCategories {
   PHOTOGRAPHY = "Photography",
 }
 
-export const getCategoryClasses = (category: string, baseClass: string) => {
+export const getCategoryClasses = (category: string) => {
   switch (category) {
     case ProjectCategories.PHOTOGRAPHY:
-      return `${baseClass} ${baseClass}-primary`;
+      return 'badge badge-secondary';
     default:
-      return `${baseClass} ${baseClass}-outline ${baseClass}-secondary`;
+      return 'badge badge-outline badge-primary';
   }
 };
+
+export const getProjectDate = (date: Date) => {
+  return new Date(date).toLocaleDateString("en", {  // FIXME: translate
+    month: "short",
+    year: "numeric",
+  });
+}
