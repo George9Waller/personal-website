@@ -1,13 +1,19 @@
-enum ProjectCategories {
+export enum ProjectCategories {
   PHOTOGRAPHY = "Photography",
+  FINE_ART = "Fine-art",
+  CODING = "Coding",
 }
 
 export const getCategoryClasses = (category: string) => {
   switch (category) {
     case ProjectCategories.PHOTOGRAPHY:
-      return 'badge badge-secondary';
+      return 'bg-pink-200 border-pink-200 text-black hover:bg-pink-100 hover:border-pink-100'
+    case ProjectCategories.FINE_ART:
+      return 'bg-lime-400 border-lime-400 text-black hover:bg-lime-200 hover:border-lime-200'
+    case ProjectCategories.CODING:
+      return 'bg-blue-700 border-blue-700 hover:bg-blue-500 hover:border-blue-500'
     default:
-      return 'badge badge-outline badge-primary';
+      return 'bg-slate-500 border-slate-500 hover:bg-slate-300 hover:border-slate-300';
   }
 };
 
@@ -16,4 +22,12 @@ export const getProjectDate = (date: Date) => {
     month: "short",
     year: "numeric",
   });
+}
+
+export const getCategoryQueryParam = (categories: string[]) => {
+  if (categories.length > 0) {
+    return `categories=${categories.join('&categories=')}`
+  } else {
+    return 'categories=null'
+  }
 }

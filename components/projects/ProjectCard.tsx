@@ -19,7 +19,7 @@ export const ProjectCard = ({ project }: Props) => {
     <div className="indicator">
       <span
         className={classNames(
-          "indicator-item",
+          "indicator-item badge",
           getCategoryClasses(project.category[0])
         )}
       ></span>

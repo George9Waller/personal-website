@@ -29,36 +29,37 @@ const ProjectDetailPage = ({ project }: Props) => {
   };
 
   const getArticleStructuredData = () => {
-    const coverImage = loadedProject?.images.find(image => image.isCover)
-    return loadedProject ? {
-      "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      "headline": selectTranslation(loadedProject.title),
-      "image": coverImage && coverImage.imageUrl,
-      "datePublished": loadedProject.date,
-      "dateModified": loadedProject.updated,
-      "author": [
-        {
-          "@type": "Person",
-          "name": "George Waller",
-          "url": "https://www.georgewaller.com"
+    const coverImage = loadedProject?.images.find((image) => image.isCover);
+    return loadedProject
+      ? {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          headline: selectTranslation(loadedProject.title),
+          image: coverImage && coverImage.imageUrl,
+          datePublished: loadedProject.date,
+          dateModified: loadedProject.updated,
+          author: [
+            {
+              "@type": "Person",
+              name: "George Waller",
+              url: "https://www.georgewaller.com",
+            },
+          ],
+          wordCount: selectTranslation(loadedProject.content).split(" ").length,
         }
-      ],
-      "wordCount": selectTranslation(loadedProject.content).split(' ').length
-    } : {}
-  }
+      : {};
+  };
 
   if (router.isFallback || !project) {
     router.query.id && getProjectDetail(router.query.id!.toString());
   }
 
+  const title = loadedProject ? selectTranslation(loadedProject.title) : ''
+
   return (
     <div>
       <Head>
-        <title>
-          George Waller{" "}
-          {loadedProject && " | " && selectTranslation(loadedProject.title)}
-        </title>
+        <title>George Waller | {title}</title>
         {loadedProject && (
           <>
             <meta
@@ -72,18 +73,18 @@ const ProjectDetailPage = ({ project }: Props) => {
         )}
       </Head>
 
-        <Container>
-          {loadedProject ? (
-            <ProjectDetail project={loadedProject} />
-          ) : (
-            <>
-              <Skeleton variant="rectangular" width={500} height={300} />
-              <Skeleton variant="text" />
-              <Skeleton variant="text" />
-              <Skeleton variant="text" />
-            </>
-          )}
-        </Container>
+      <Container>
+        {loadedProject ? (
+          <ProjectDetail project={loadedProject} />
+        ) : (
+          <>
+            <Skeleton variant="rectangular" width={500} height={300} />
+            <Skeleton variant="text" />
+            <Skeleton variant="text" />
+            <Skeleton variant="text" />
+          </>
+        )}
+      </Container>
     </div>
   );
 };

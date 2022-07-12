@@ -3,7 +3,8 @@ import { BlogEntryWithImages } from '../../../types/db'
 import { prisma } from '../../../prisma/db'
 
 export interface ProjectsListData {
-  projects: BlogEntryWithImages[]
+  projects: BlogEntryWithImages[],
+  totalCount: number;
 }
 
 export default async function handler(
@@ -11,25 +12,34 @@ export default async function handler(
   res: NextApiResponse<ProjectsListData>
 ) {
   const {
-    query: { take, skip }
+    query: { take, skip, categories }
   } = req;
 
-  const projects = await prisma.blogEntry.findMany({
-    take: parseInt(take.toString()),
-    skip: parseInt(skip.toString()),
-    where: {
-      draft: false
-    },
-    orderBy: {
-      date: 'desc'
-    },
-    include: {
-      images: {
-        where: {
-          isCover: true
+  const [projects, totalCount] = await prisma.$transaction([
+    prisma.blogEntry.findMany({
+      take: take ? parseInt(take.toString()) : undefined,
+      skip: skip ? parseInt(skip.toString()) : undefined,
+      where: {
+        draft: false,
+        category: categories ? { hasSome: categories } : undefined
+      },
+      orderBy: {
+        date: 'desc'
+      },
+      include: {
+        images: {
+          where: {
+            isCover: true
+          }
         }
       }
-    }
-  })
-  res.status(200).json({ projects })
+    }),
+    prisma.blogEntry.count({
+      where: {
+        draft: false,
+        category: categories ? { hasSome: categories } : undefined
+      }
+    })
+  ])
+  res.status(200).json({ projects, totalCount })
 }

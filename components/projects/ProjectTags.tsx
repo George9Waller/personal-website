@@ -1,5 +1,6 @@
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classNames from "classnames";
 import { BlogEntryWithImages } from "../../types/db";
 import { getCategoryClasses, getProjectDate } from "../../utils/projects";
 
@@ -15,7 +16,7 @@ export const ProjectTags = ({ project }: Props) => (
     </span>
     {project.category.map((category, index) => (
       <div
-        className={getCategoryClasses(category)}
+        className={classNames("badge", getCategoryClasses(category))}
         key={index}
       >
         {category}

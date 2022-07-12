@@ -7,6 +7,10 @@ import { prisma } from "../prisma/db";
 import { InferGetStaticPropsType } from "next";
 import ProjectCard from "../components/projects/ProjectCard";
 import { BlogEntryWithImages } from "../types/db";
+import { RECENT_ITEMS_COUNT } from "../utils/constants";
+import Heading from "../components/common/Heading";
+import SubHeading from "../components/common/SubHeading";
+import FlexGrid from "../components/common/FlexGrid";
 
 const Home = ({ projects }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
@@ -21,7 +25,7 @@ const Home = ({ projects }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
       <main>
         <Container>
-          <h1 className="text-2xl">George Waller</h1>
+          <Heading>George Waller</Heading>
           <p>
             I am a software engineer, working in web development but also do
             photography and design focusing mainly on perspective and texture.
@@ -52,12 +56,12 @@ const Home = ({ projects }: InferGetStaticPropsType<typeof getStaticProps>) => {
           </p>
         </Container>
         <Container>
-          <h1 className="text-xl mb-4">Recent Projects</h1>
-          <div className="flex flex-wrap justify-around gap-8">
+          <SubHeading className="mb-4">Recent Projects</SubHeading>
+          <FlexGrid>
             {projects.map((project: BlogEntryWithImages) => (
               <ProjectCard key={project.id} project={project} />
             ))}
-          </div>
+          </FlexGrid>
         </Container>
       </main>
     </div>
@@ -72,7 +76,7 @@ export const getStaticProps = async () => {
   const projects = await prisma.blogEntry.findMany({
     where: { draft: false },
     orderBy: { date: "desc" },
-    take: 3,
+    take: RECENT_ITEMS_COUNT,
     include: {
       images: {
         where: {

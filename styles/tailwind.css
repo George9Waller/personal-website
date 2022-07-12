@@ -17,3 +17,22 @@ p {
 .gallery-photo:hover .fa-expand {
   color: hsl(var(--a))
 }
+
+.steps .step::after {
+  height: 7px;
+  width: 7px;
+}
+
+.steps-vertical {
+  grid-auto-rows: auto;
+}
+
+.steps-vertical .step::before {
+  width: 3px;
+  opacity: 40%;
+}
+
+ul {
+  list-style-type: disc;
+  padding-inline-start: 15px;
+}

@@ -1,8 +1,11 @@
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { GITHUB_URL, LINKEDIN_URL } from "../../utils/constants";
 
 export const Footer = () => {
+  const { data: session } = useSession();
   const today = new Date();
   const year = today.getFullYear();
 
@@ -29,6 +32,37 @@ export const Footer = () => {
           <Link href="/projects/coding">
             <a className="link link-hover">Coding</a>
           </Link>
+        </div>
+        <div>
+          <span className="footer-title">Portal</span>
+          {session && (
+            <Link href="/portal">
+              <a className="link link-hover">Enter Portal</a>
+            </Link>
+          )}
+          {session ? (
+            <a
+              className="link link-hover"
+              href="/api/auth/signout"
+              onClick={(e) => {
+                e.preventDefault();
+                signOut();
+              }}
+            >
+              Logout
+            </a>
+          ) : (
+            <a
+              className="link link-hover"
+              href="/api/auth/signin"
+              onClick={(e) => {
+                e.preventDefault();
+                signIn();
+              }}
+            >
+              Login
+            </a>
+          )}
         </div>
         <div>
           <span className="footer-title">Stay up to date</span>
@@ -60,9 +94,14 @@ export const Footer = () => {
         </div>
         <div className="md:place-self-center md:justify-self-end">
           <div className="grid grid-flow-col gap-4">
-            <Link href="https://github.com/George9Waller">
+            <Link href={GITHUB_URL}>
               <a target="_blank">
                 <FontAwesomeIcon icon={faGithub} className="text-2xl link" />
+              </a>
+            </Link>
+            <Link href={LINKEDIN_URL}>
+              <a target="_blank">
+                <FontAwesomeIcon icon={faLinkedin} className="text-2xl link" />
               </a>
             </Link>
           </div>
@@ -72,4 +111,4 @@ export const Footer = () => {
   );
 };
 
-export default Footer
+export default Footer;

@@ -1,4 +1,4 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import NavLayout from "../../components/layouts/NavLayout";
 import { prisma } from "../../prisma/db";
 import Container from "../../components/common/Container";
@@ -13,22 +13,77 @@ import PaginationControls from "../../components/common/PaginationControls";
 import { PAGINATION_COUNT } from "../../utils/constants";
 import { trackPromise, usePromiseTracker } from "react-promise-tracker";
 import Head from "next/head";
+import {
+  getCategoryClasses,
+  getCategoryQueryParam,
+  ProjectCategories,
+} from "../../utils/projects";
+import classNames from "classnames";
+import { useAppContext } from "../../components/context/AppContext";
+import ThirdHeading from "../../components/common/ThirdHeading";
+import SubHeading from "../../components/common/SubHeading";
+import { CircularProgress } from "@mui/material";
 
 const Projects = ({
   projects,
-  totalProjectCount
+  totalProjectCount,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [currentProjects, setCurrentProjects] = useState(projects);
+  const [filteredTotalProjectCount, setFilteredTotalProjectCount] =
+    useState(totalProjectCount);
   const { promiseInProgress } = usePromiseTracker();
+  const { categories, addCategory, removeCategory } = useAppContext();
 
   const getMoreProjects = async () => {
     const res = await trackPromise(
       fetch(
-        `/api/projects/list/?take=${PAGINATION_COUNT}&skip=${currentProjects.length}`
+        `/api/projects/list/?take=${PAGINATION_COUNT}&skip=${
+          currentProjects.length
+        }&${getCategoryQueryParam(categories)}`
       )
     );
-    const newProjects = (await res.json()) as ProjectsListData;
-    setCurrentProjects([...currentProjects, ...newProjects.projects]);
+    const newData = (await res.json()) as ProjectsListData;
+    setCurrentProjects([...currentProjects, ...newData.projects]);
+  };
+
+  const categoryOnClick = (category: ProjectCategories) => {
+    categories.includes(category)
+      ? removeCategory(category)
+      : addCategory(category);
+  };
+
+  useEffect(() => {
+    const getProjects = async () => {
+      const res = await trackPromise(
+        fetch(
+          `/api/projects/list/?take=${PAGINATION_COUNT}&${getCategoryQueryParam(
+            categories
+          )}`
+        )
+      );
+      const newData = (await res.json()) as ProjectsListData;
+      setCurrentProjects(newData.projects);
+      setFilteredTotalProjectCount(newData.totalCount);
+    };
+    setCurrentProjects([]);
+    if (categories.length > 0) {
+      getProjects();
+    } else {
+      setFilteredTotalProjectCount(0);
+    }
+  }, [categories]);
+
+  const getStatus = () => {
+    if (
+      promiseInProgress &&
+      (categories.length === 0 || currentProjects.length == 0)
+    ) {
+      return <CircularProgress />;
+    } else if (categories.length === 0) {
+      return <SubHeading>There are no categories selected</SubHeading>;
+    } else if (currentProjects.length === 0) {
+      return <SubHeading>Nothing here yet, more coming soon...</SubHeading>;
+    }
   };
 
   const carouselStructuredData = {
@@ -55,21 +110,49 @@ const Projects = ({
           {JSON.stringify(carouselStructuredData)}
         </script>
       </Head>
-      <Container>
+      <Container className="mb-0 pb-2w">
+        <p className="text-sm">Visible categories</p>
+        <div className="flex flex-row gap-2 items-center overflow-scroll pb-2">
+          {Object.entries(ProjectCategories).map(([key, category]) => {
+            return (
+              <button
+                key={key}
+                className={classNames(
+                  "btn btn-sm",
+                  getCategoryClasses(category),
+                  !categories.includes(category) && "opacity-50"
+                )}
+                onClick={() => categoryOnClick(category)}
+              >
+                {category}
+              </button>
+            );
+          })}
+        </div>
+      </Container>
+      <Container className="mt-4">
+        <div className="mx-auto">{getStatus()}</div>
         <FlexGrid>
           {currentProjects.map((project: BlogEntryWithImages) => (
             <ProjectCard key={project.id} project={project} />
           ))}
           {promiseInProgress &&
-            [...Array(PAGINATION_COUNT)].map((e) => (
-              <ProjectCardPlaceholder key={e} />
-            ))}
+            [
+              ...Array(
+                Math.min(
+                  PAGINATION_COUNT,
+                  filteredTotalProjectCount - currentProjects.length
+                )
+              ),
+            ].map((e) => <ProjectCardPlaceholder key={e} />)}
         </FlexGrid>
-        <PaginationControls
-          currentCount={currentProjects.length}
-          maxCount={totalProjectCount}
-          onClick={getMoreProjects}
-        />
+        {filteredTotalProjectCount !== 0 && (
+          <PaginationControls
+            currentCount={currentProjects.length}
+            maxCount={filteredTotalProjectCount}
+            onClick={getMoreProjects}
+          />
+        )}
       </Container>
     </>
   );
