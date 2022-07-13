@@ -8,11 +8,11 @@ type NavLayoutProps = {
 
 export const NavLayout = ({ children }: NavLayoutProps) => {
   return (
-    <>
+    <div className="flex flex-col h-screen justify-between">
       <NavBar />
-      <main>{children}</main>
+      <main className="mb-auto">{children}</main>
       <Footer />
-    </>
+    </div>
   );
 };
 

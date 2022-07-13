@@ -12,6 +12,9 @@ const config = {
     lastmod: config.autoLastmod ? new Date().toISOString() : undefined,
     alternateRefs: config.alternateRefs ?? [],
   }),
+  robotsTxtOptions: {
+    policies: [{ userAgent: '*', disallow: '/portal/' }]
+  },
 };
 
 module.exports = config;

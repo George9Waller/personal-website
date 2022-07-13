@@ -1,4 +1,4 @@
-import { faLanguage, faPalette } from "@fortawesome/free-solid-svg-icons";
+import { faPalette } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 import Link from "next/link";
@@ -11,14 +11,14 @@ interface NavLinkProps {
 
 const getNavButtonClasses = (path: string, pathName: string) => {
   let selectedClassNames = "btn-ghost";
-  if ((path !== '/' && pathName.includes(path)) || (path === '/' && pathName === '/')) {
-    selectedClassNames = "btn-primary btn-outline"
+  if (
+    (path !== "/" && pathName.includes(path)) ||
+    (path === "/" && pathName === "/")
+  ) {
+    selectedClassNames = "btn-primary btn-outline";
   }
 
-  return classNames(
-    "btn",
-    selectedClassNames
-  );
+  return classNames("btn", selectedClassNames);
 };
 
 const NavLinks = ({ pathName }: NavLinkProps) => {
@@ -98,35 +98,9 @@ export const NavBar = () => {
             </label>
             <ul
               tabIndex={0}
-              className="dropdown-content bg-base-200 text-base-content rounded-t-box rounded-b-box top-px max-h-96 h-[70vh] w-52 overflow-y-auto shadow-2xl mt-16"
+              className="dropdown-content bg-base-200 text-base-content rounded-t-box rounded-b-box top-px max-h-96 h-auto w-60 overflow-y-auto shadow-2xl mt-16 pl-0"
             >
               <ThemeSwitch />
-            </ul>
-          </div>
-
-          <div className="dropdown">
-            <label tabIndex={0} className="btn btn-ghost">
-              <FontAwesomeIcon icon={faLanguage} />
-              <svg
-                className="fill-current"
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-              >
-                <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
-              </svg>
-            </label>
-            <ul
-              tabIndex={0}
-              className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-32"
-            >
-              <li>
-                <a>Submenu 1</a>
-              </li>
-              <li>
-                <a>Submenu 2</a>
-              </li>
             </ul>
           </div>
           <Link href="/contact-me">
@@ -138,4 +112,4 @@ export const NavBar = () => {
   );
 };
 
-export default NavBar
+export default NavBar;

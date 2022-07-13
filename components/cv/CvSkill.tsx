@@ -9,7 +9,7 @@ type CvSkillProps = {
 };
 
 export const CvSkill = ({ icon, name }: CvSkillProps) => {
-  const classes = "text-2xl flex-none flex items-center content-center rounded-lg bg-opacity-20 bg-gray-200 hover:bg-opacity-40 transition duration-500 ease-in-out px-2 py-1"
+  const classes = classNames("flex-none flex items-center content-center rounded-lg bg-opacity-20 bg-gray-200 hover:bg-opacity-40 transition duration-500 ease-in-out px-2 py-1", icon && "text-2xl")
   if (icon) {
     return (
       <div className="tooltip" data-tip={name}>

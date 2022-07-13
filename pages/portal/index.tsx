@@ -1,23 +1,66 @@
 import { useSession } from "next-auth/react";
-import { ReactElement } from "react";
+import Head from "next/head";
+import { ReactElement, useEffect, useState } from "react";
+import { trackPromise, usePromiseTracker } from "react-promise-tracker";
 import Container from "../../components/common/Container";
+import Loading from "../../components/common/Loading";
+import SubHeading from "../../components/common/SubHeading";
 import NavLayout from "../../components/layouts/NavLayout";
+import PortalCard from "../../components/portal/PortalCard";
+import { PortalApp, ProjectsApp } from "../../utils/portal";
+import { MeData } from "../api/user/me";
 import { NextPageWithLayout } from "./../_app";
 
 const Portal: NextPageWithLayout = () => {
-  const { data } = useSession();
-  console.log(data)
+  const { promiseInProgress } = usePromiseTracker();
+  const [{ isAdmin }, setMeData] = useState<MeData>({
+    isAdmin: false,
+  });
+
+  const apps = [...(isAdmin ? [ProjectsApp] : [])];
+
+  const getUser = async () => {
+    const res = await trackPromise(fetch("api/user/me"));
+    const newData = (await res.json()) as MeData;
+    setMeData(newData);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
   return (
-    <Container>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
-        {}
-      </div>
-    </Container>
-  )
-}
+    <>
+      <Head>
+        <title>George Waller | Portal</title>
+        <meta
+          name="description"
+          content="A selection of web apps are available to selected users, visit this page to see what you have access to"
+        />
+      </Head>
+      <Container>
+        {promiseInProgress && <Loading />}
+        {!promiseInProgress && apps.length === 0 && (
+          <div className="mx-auto">
+            <SubHeading>
+              There are no apps available for you right now
+            </SubHeading>
+          </div>
+        )}
+        {apps.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
+            {apps.map((app: PortalApp, index: number) => (
+              <PortalCard key={index} app={app} />
+            ))}
+          </div>
+        )}
+      </Container>
+    </>
+  );
+};
 
 Portal.getLayout = function getLayout(page: ReactElement) {
-  return <NavLayout>{ page }</NavLayout>
-}
+  return <NavLayout>{page}</NavLayout>;
+};
 
-export default Portal
+export default Portal;

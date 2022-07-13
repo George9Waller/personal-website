@@ -1,7 +1,5 @@
 import { IconDefinition } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import classNames from "classnames";
-import SubHeading from "../common/SubHeading";
 
 type CvStatProps = {
   children: React.ReactNode;

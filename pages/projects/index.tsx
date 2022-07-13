@@ -23,6 +23,7 @@ import { useAppContext } from "../../components/context/AppContext";
 import ThirdHeading from "../../components/common/ThirdHeading";
 import SubHeading from "../../components/common/SubHeading";
 import { CircularProgress } from "@mui/material";
+import Loading from "../../components/common/Loading";
 
 const Projects = ({
   projects,
@@ -78,7 +79,7 @@ const Projects = ({
       promiseInProgress &&
       (categories.length === 0 || currentProjects.length == 0)
     ) {
-      return <CircularProgress />;
+      return <Loading />;
     } else if (categories.length === 0) {
       return <SubHeading>There are no categories selected</SubHeading>;
     } else if (currentProjects.length === 0) {

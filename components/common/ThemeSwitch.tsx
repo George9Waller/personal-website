@@ -62,26 +62,10 @@ export const ThemeSwitch = () => {
   return (
     <div className="grid grid-cols-1 gap-3 p-3">
       <ThemeDetail theme="light" />
-      <ThemeDetail theme="dark" />
-      <ThemeDetail theme="cupcake" />
-      <ThemeDetail theme="bumblebee" />
-      <ThemeDetail theme="emerald" />
-      <ThemeDetail theme="corporate" />
-      <ThemeDetail theme="synthwave" />
-      <ThemeDetail theme="retro" />
-      <ThemeDetail theme="cyberpunk" />
-      <ThemeDetail theme="garden" />
-      <ThemeDetail theme="forest" />
-      <ThemeDetail theme="aqua" />
-      <ThemeDetail theme="lofi" />
-      <ThemeDetail theme="pastel" />
-      <ThemeDetail theme="fantasy" />
-      <ThemeDetail theme="dracula" />
       <ThemeDetail theme="cmyk" />
-      <ThemeDetail theme="acid" />
-      <ThemeDetail theme="night" />
-      <ThemeDetail theme="coffee" />
-      <ThemeDetail theme="winter" />
+      <ThemeDetail theme="lofi" />
+      <ThemeDetail theme="dark" />
+      <ThemeDetail theme="high-contrast" />
     </div>
   );
 };

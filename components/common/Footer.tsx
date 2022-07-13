@@ -41,27 +41,29 @@ export const Footer = () => {
             </Link>
           )}
           {session ? (
-            <a
-              className="link link-hover"
-              href="/api/auth/signout"
-              onClick={(e) => {
-                e.preventDefault();
-                signOut();
-              }}
-            >
-              Logout
-            </a>
+            <Link href="/api/auth/signout">
+              <a
+                className="link link-hover"
+                onClick={(e) => {
+                  e.preventDefault();
+                  signOut();
+                }}
+              >
+                Logout
+              </a>
+            </Link>
           ) : (
-            <a
-              className="link link-hover"
-              href="/api/auth/signin"
-              onClick={(e) => {
-                e.preventDefault();
-                signIn();
-              }}
-            >
-              Login
-            </a>
+            <Link href="/api/auth/signin">
+              <a
+                className="link link-hover"
+                onClick={(e) => {
+                  e.preventDefault();
+                  signIn();
+                }}
+              >
+                Login
+              </a>
+            </Link>
           )}
         </div>
         <div>
@@ -69,7 +71,7 @@ export const Footer = () => {
           <div className="form-control w-80">
             <label className="label">
               <span className="label-text">
-                Enter your email address to receive updates whenever I post
+                Enter your email address to receive updates when I post
                 something new
               </span>
             </label>
@@ -97,11 +99,13 @@ export const Footer = () => {
             <Link href={GITHUB_URL}>
               <a target="_blank">
                 <FontAwesomeIcon icon={faGithub} className="text-2xl link" />
+                <p className="sr-only">Go to my GitHub page</p>
               </a>
             </Link>
             <Link href={LINKEDIN_URL}>
               <a target="_blank">
                 <FontAwesomeIcon icon={faLinkedin} className="text-2xl link" />
+                <p className="sr-only">Go to my LinkedIn page</p>
               </a>
             </Link>
           </div>

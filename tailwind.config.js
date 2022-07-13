@@ -970,4 +970,18 @@ module.exports = {
     'disabled',
   ],
   plugins: [require("daisyui")],
+  daisyui: {
+    themes: ['light', 'cmyk', 'lofi', 'dark', {
+      'high-contrast': {
+        primary: '#1d4289',
+        "primary-content": "#ffffff",
+        secondary: '#003b49',
+        "secondary-content": "#ffffff",
+        accent: '#5d3754',
+        "accent-content": '#ffffff',
+        neutral: '#d0d3d4',
+        "base-100": '#ffffff'
+      }
+    }]
+  }
 }
