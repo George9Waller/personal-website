@@ -3,6 +3,7 @@ import { prisma } from '../../../prisma/db'
 import { unstable_getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]';
 import { User } from '@prisma/client';
+import { withSentry } from '@sentry/nextjs';
 
 export interface MeData {
   isAdmin: Boolean;
@@ -12,7 +13,7 @@ export interface ErrorData {
   message: string;
 }
 
-export default async function handler(
+export async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Partial<User> | ErrorData>
 ) {
@@ -33,3 +34,5 @@ export default async function handler(
   })
   res.status(200).json({ isAdmin: user?.isAdmin })
 }
+
+export default withSentry(handler);

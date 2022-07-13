@@ -1,13 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { BlogEntryWithImages } from '../../../types/db'
 import { prisma } from '../../../prisma/db'
+import { withSentry } from '@sentry/nextjs';
 
 export interface ProjectsListData {
   projects: BlogEntryWithImages[],
   totalCount: number;
 }
 
-export default async function handler(
+export async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ProjectsListData>
 ) {
@@ -43,3 +44,5 @@ export default async function handler(
   ])
   res.status(200).json({ projects, totalCount })
 }
+
+export default withSentry(handler);
