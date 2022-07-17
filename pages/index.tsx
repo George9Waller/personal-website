@@ -23,7 +23,7 @@ const Home = ({ projects }: InferGetStaticPropsType<typeof getStaticProps>) => {
         />
       </Head>
 
-      <main>
+      <div>
         <Container>
           <Heading>George Waller</Heading>
           <p>
@@ -63,7 +63,7 @@ const Home = ({ projects }: InferGetStaticPropsType<typeof getStaticProps>) => {
             ))}
           </FlexGrid>
         </Container>
-      </main>
+      </div>
     </div>
   );
 };

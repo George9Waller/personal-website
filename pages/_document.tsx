@@ -13,7 +13,7 @@ export default function Document() {
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
       </Head>
-      <body className="bg-base-300">
+      <body>
         <Main />
         <NextScript />
       </body>

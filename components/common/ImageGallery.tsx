@@ -13,6 +13,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useScreen, useEventListener } from "usehooks-ts";
 import classNames from "classnames";
+import { sortImagesByTitle } from "../../utils/projects";
 
 interface Props {
   images: BlogImage[];
@@ -69,7 +70,7 @@ export const ImageGallery = ({ images }: Props) => {
   return (
     <div className="pt-8">
       <div className="grid grid-cols-3 gap-4">
-        {images.map((image, index) => (
+        {sortImagesByTitle(images).map((image, index) => (
           <GalleryPhoto
             key={image.id}
             image={image}

@@ -38,6 +38,7 @@ export async function handler(
     prisma.blogEntry.count({
       where: {
         draft: false,
+        archieved: false,
         category: categories ? { hasSome: categories } : undefined
       }
     })

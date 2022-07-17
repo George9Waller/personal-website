@@ -1,3 +1,6 @@
+import { BlogImage } from "@prisma/client";
+import { selectTranslation } from "./common";
+
 export enum ProjectCategories {
   PHOTOGRAPHY = "Photography",
   FINE_ART = "Fine-art",
@@ -31,3 +34,6 @@ export const getCategoryQueryParam = (categories: string[]) => {
     return 'categories=null'
   }
 }
+
+export const sortImagesByTitle = (images: BlogImage[]) =>
+  images.sort((a, b) => (selectTranslation(a.title) > selectTranslation(b.title)) ? 1 : -1)

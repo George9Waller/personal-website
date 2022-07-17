@@ -6,7 +6,7 @@ const SentryWebpackPlugin = require('@sentry/webpack-plugin')
 const nextConfig = withSourceMaps({
   reactStrictMode: true,
   images: {
-    domains: ['georgewaller.s3.amazonaws.com'],
+    domains: ['georgewaller.s3.amazonaws.com', 'georgewaller.s3.eu-west-2.amazonaws.com'],
   },
   webpack: (config, options) => {
     if (process.env.SENTRY_DSN && process.env.SENTRY_ORG && process.env.SENTRY_PROJECT && process.env.NODE_ENV === 'production') {

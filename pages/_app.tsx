@@ -8,6 +8,8 @@ import { ThemeProvider } from "next-themes";
 import Script from "next/script";
 import { SessionProvider } from "next-auth/react";
 import AppContextProvider from "../components/context/AppContext";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 config.autoAddCss = false;
 
 export type NextPageWithLayout = NextPage & {
@@ -30,6 +32,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <SessionProvider>
         <ThemeProvider>
           <AppContextProvider>
+            <ToastContainer />
             {getLayout(<Component {...pageProps} />)}
           </AppContextProvider>
         </ThemeProvider>

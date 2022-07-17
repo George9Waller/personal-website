@@ -1,4 +1,3 @@
-import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { ReactElement, useEffect, useState } from "react";
 import { trackPromise, usePromiseTracker } from "react-promise-tracker";

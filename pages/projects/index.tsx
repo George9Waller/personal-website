@@ -1,4 +1,4 @@
-import { ReactElement, useContext, useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import NavLayout from "../../components/layouts/NavLayout";
 import { prisma } from "../../prisma/db";
 import Container from "../../components/common/Container";
@@ -20,9 +20,7 @@ import {
 } from "../../utils/projects";
 import classNames from "classnames";
 import { useAppContext } from "../../components/context/AppContext";
-import ThirdHeading from "../../components/common/ThirdHeading";
 import SubHeading from "../../components/common/SubHeading";
-import { CircularProgress } from "@mui/material";
 import Loading from "../../components/common/Loading";
 
 const Projects = ({

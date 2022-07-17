@@ -10,7 +10,7 @@ export const NavLayout = ({ children }: NavLayoutProps) => {
   return (
     <div className="flex flex-col h-screen justify-between">
       <NavBar />
-      <main className="mb-auto">{children}</main>
+      <main className="mb-auto grow">{children}</main>
       <Footer />
     </div>
   );
