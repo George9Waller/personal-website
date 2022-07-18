@@ -970,6 +970,7 @@ module.exports = {
     'disabled',
   ],
   plugins: [require("daisyui")],
+  // If editing themes here remember to update mui themes returned in getMuiThemeOptions in ./utils/common.ts
   daisyui: {
     themes: ['light', 'cmyk', 'lofi', 'dark', {
       'high-contrast': {

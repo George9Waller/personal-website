@@ -4,35 +4,35 @@ import { unstable_getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]';
 import { User } from '@prisma/client';
 import { withSentry } from '@sentry/nextjs';
+import { createRouter, } from 'next-connect';
+import { DEFAULT_ROUTER_HANDLER_OPTIONS } from '../../../utils/constants';
 
 export interface MeData {
   isAdmin: Boolean;
 }
 
 export interface ErrorData {
-  message: string;
+  error: string;
 }
 
-export async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Partial<User> | ErrorData>
-) {
-  const session = await unstable_getServerSession(req, res, authOptions)
-
+const router = createRouter<NextApiRequest, NextApiResponse<Partial<User> | ErrorData>>();
+router.get(async (req, res) => {
+  const session = await unstable_getServerSession(req, res, authOptions);
   if (!session) {
-    res.status(401).json({ message: "You must be logged in." });
-    return;
+    return res.status(400).json({ error: 'You must be logged in' })
   }
-
-  const user = await prisma.user.findUnique({
+  await prisma.user.findUnique({
     where: {
       id: session.user?.id
     },
     select: {
       isAdmin: true
     }
+  }).then((user) => {
+    return res.json({ isAdmin: user?.isAdmin })
+  }).catch(() => {
+    throw new Error("An error occurred fetching user details")
   })
-  res.status(200).json({ isAdmin: user?.isAdmin })
-}
+})
 
-export default withSentry(handler);
+export default withSentry(router.handler(DEFAULT_ROUTER_HANDLER_OPTIONS));

@@ -71,6 +71,7 @@ export const BlogImageEditModal = ({
           render: "An error occurred saving changes",
           type: "error",
           isLoading: false,
+          autoClose: 5000,
         });
       });
   };

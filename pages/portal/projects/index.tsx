@@ -73,6 +73,7 @@ export const ProjectsAdmin = () => {
           render: "Project deleted successfully",
           type: "success",
           isLoading: false,
+          autoClose: 5000,
         });
       })
       .catch(() => {
@@ -81,6 +82,7 @@ export const ProjectsAdmin = () => {
           render: "An error occurred deleting the project",
           type: "error",
           isLoading: false,
+          autoClose: 5000,
         });
       });
   };
@@ -146,6 +148,7 @@ export const ProjectsAdmin = () => {
         )}
         <ConfirmDeleteModal
           open={projectToDelete !== -1}
+          title="Delete project"
           itemDescription={`the project "${maybeSelectTranslation(
             projects.find((project) => project.id === projectToDelete)?.title
           )}"`}

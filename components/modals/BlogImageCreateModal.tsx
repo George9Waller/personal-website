@@ -97,6 +97,7 @@ export const BlogImageCreateModal = ({
                 render: "Successfully created",
                 type: "success",
                 isLoading: false,
+                autoClose: 5000,
               });
               response.data.image && setCreatedObject(response.data.image);
               (
@@ -113,6 +114,7 @@ export const BlogImageCreateModal = ({
           render: "An error occurred creating this image",
           type: "error",
           isLoading: false,
+          autoClose: 5000,
         });
       });
   };

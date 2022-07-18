@@ -2,8 +2,8 @@ import useSWR from "swr";
 import { MeData } from "../pages/api/user/me";
 import { fetcher } from "./common";
 
-export const useSWRLoading = (url: string) => {
-  const { data, error } = useSWR(url, fetcher);
+export const useSWRLoading = (url: string, isReady: boolean) => {
+  const { data, error } = useSWR(isReady ? url : null, fetcher);
   return {
     data,
     isLoading: !error && !data,

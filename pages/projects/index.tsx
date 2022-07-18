@@ -118,7 +118,7 @@ const Projects = ({
                 key={key}
                 className={classNames(
                   "btn btn-sm",
-                  getCategoryClasses(category),
+                  getCategoryClasses(category, true),
                   !categories.includes(category) && "opacity-50"
                 )}
                 onClick={() => categoryOnClick(category)}

@@ -54,3 +54,63 @@ ul {
 [data-theme="high-contrast"] .footer-title {
   color: #111;
 }
+
+/* Styles for ReactMarkdown rendering */
+.rendered-markdown * {
+  margin-bottom: 1em;
+}
+
+.rendered-markdown h1 {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+
+.rendered-markdown h2 {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.rendered-markdown h3 {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+.rendered-markdown h4 {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.rendered-markdown h5 {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.rendered-markdown h6 {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.rendered-markdown a {
+  color: hsl(var(--s))
+}
+
+.rendered-markdown a:hover {
+  text-decoration: underline;
+}
+
+.rendered-markdown pre {
+  background: hsl(var(--b2));
+  border: 1px solid hsl(var(--b1));
+  border-left: 3px solid hsl(var(--p));
+  color: hsl(var(--bc));
+  page-break-inside: avoid;
+  font-family: monospace;
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 100%;
+  overflow: auto;
+  padding: 1em 1.5em;
+  display: block;
+  word-wrap: break-word;
+  border-radius: 4px;
+}

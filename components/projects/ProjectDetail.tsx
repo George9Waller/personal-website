@@ -23,7 +23,7 @@ const ProjectDetail = ({ project }: Props) => {
         <ProjectTags project={project} />
       </div>
       <div className="card-body px-0">
-        <ReactMarkdown>{selectTranslation(project.content)}</ReactMarkdown>
+        <ReactMarkdown className="rendered-markdown">{selectTranslation(project.content)}</ReactMarkdown>
         <ImageGallery images={project.images} />
       </div>
     </div>

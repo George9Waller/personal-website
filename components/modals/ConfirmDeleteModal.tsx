@@ -9,6 +9,7 @@ import {
 interface Props {
   open: boolean;
   itemDescription: string;
+  title: string;
   onClose: () => void;
   onDelete: () => void;
 }
@@ -16,6 +17,7 @@ interface Props {
 export const ConfirmDeleteModal = ({
   open,
   itemDescription,
+  title,
   onClose,
   onDelete,
 }: Props) => (
@@ -25,7 +27,7 @@ export const ConfirmDeleteModal = ({
     aria-labelledby="modal-title"
     aria-describedby="modal-description"
   >
-    <DialogTitle id="modal-title">Delete project</DialogTitle>
+    <DialogTitle id="modal-title">{title}</DialogTitle>
     <DialogContent>
       <DialogContentText id="modal-description">
         Are you sure you want to delete {itemDescription} This action cannot be

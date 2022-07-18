@@ -1,22 +1,14 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import Head from "next/head";
 import Container from "../../../components/common/Container";
-import FlexGrid from "../../../components/common/FlexGrid";
 import NavLayout from "../../../components/layouts/NavLayout";
 import {
-  fetcher,
   maybeSelectTranslation,
   selectTranslation,
 } from "../../../utils/common";
-import { trackPromise, usePromiseTracker } from "react-promise-tracker";
+import { usePromiseTracker } from "react-promise-tracker";
 import Loading from "../../../components/common/Loading";
-import { MeData } from "../../api/user/me";
 import { useRouter } from "next/router";
-import {
-  AdminProjectsListData,
-  ProjectAdminDetails,
-} from "../../api/portal/projects/list";
-import { checkUser } from "../../../utils/portal";
 import { useSWRLoading, useUser } from "../../../utils/hooks";
 import Error from "../../../components/common/Error";
 import { BlogEntryWithImages, LanguageOptionsJson } from "../../../types/db";
@@ -24,7 +16,6 @@ import {
   Checkbox,
   FormControlLabel,
   FormGroup,
-  TextField,
 } from "@mui/material";
 import LanguageInputs from "../../../components/forms/LanguageInputs";
 import MultipleSelectCheckboxes from "../../../components/common/MultipleSelectCheckboxes";
@@ -32,7 +23,6 @@ import { ProjectCategories, sortImagesByTitle } from "../../../utils/projects";
 import axios from "axios";
 import { BlogEntryUpdateData } from "../../api/portal/projects/[id]";
 import { toast } from "react-toastify";
-import { useSession } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import ConfirmDeleteModal from "../../../components/modals/ConfirmDeleteModal";
@@ -63,7 +53,8 @@ export const ProjectsAdminEdit = () => {
   !userIsLoading && !user.isAdmin && router.replace("/portal/");
 
   const { data, isLoading, isError }: ResponseData = useSWRLoading(
-    router.query && `/api/projects/${router.query["id"]}`
+    router.query && `/api/projects/${router.query["id"]}`,
+    Boolean(router.query["id"])
   );
 
   useEffect(() => {
@@ -104,11 +95,35 @@ export const ProjectsAdminEdit = () => {
       });
   };
 
-  const session = useSession();
-  console.log(session);
+  const handleDelete = () => {
+    const id = toast.loading("Deleting image");
+    axios
+      .delete(`/api/portal/projects/images/${imageToDelete?.id}`)
+      .then(() => {
+        setImages(images.filter((image) => image.id !== imageToDelete?.id));
+        closeImageDeleteModal();
+        return toast.update(id, {
+          render: "Image deleted successfully",
+          type: "success",
+          isLoading: false,
+          autoClose: 5000,
+        });
+      })
+      .catch(() => {
+        closeImageDeleteModal();
+        return toast.update(id, {
+          render: "An error occurred deleting the image",
+          type: "error",
+          isLoading: false,
+          autoClose: 5000,
+        });
+      });
+  };
+
+  const closeImageDeleteModal = () => setImageToDelete(undefined);
 
   const getContent = () => {
-    if (promiseInProgress) {
+    if (promiseInProgress || isLoading) {
       return <Loading />;
     } else if (isError) {
       return <Error />;
@@ -180,15 +195,23 @@ export const ProjectsAdminEdit = () => {
                   </div>
                 </div>
               ))}
-              <div className="flex flex-row items-center justify-center"><button className="btn btn-accent btn-sm" onClick={() => setCreateImageOpen(true)}>Create new image</button></div>
+            <div className="flex flex-row items-center justify-center">
+              <button
+                className="btn btn-accent btn-sm"
+                onClick={() => setCreateImageOpen(true)}
+              >
+                Create new image
+              </button>
+            </div>
           </div>
           <ConfirmDeleteModal
             open={Boolean(imageToDelete)}
+            title="Delete image"
             itemDescription={`the image "${maybeSelectTranslation(
               imageToDelete?.title
             )}"`}
-            onClose={() => setImageToDelete(undefined)}
-            onDelete={() => console.log("delete")}
+            onClose={closeImageDeleteModal}
+            onDelete={handleDelete}
           />
           <BlogImageEditModal
             open={Boolean(imageToEdit)}
@@ -207,7 +230,9 @@ export const ProjectsAdminEdit = () => {
             open={createImageOpen}
             blogEntryId={project.id}
             onClose={() => setCreateImageOpen(false)}
-            setCreatedObject={(image: BlogImage) => setImages([...images, image])}
+            setCreatedObject={(image: BlogImage) =>
+              setImages([...images, image])
+            }
           />
         </>
       );

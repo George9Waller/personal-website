@@ -9,7 +9,8 @@ import Script from "next/script";
 import { SessionProvider } from "next-auth/react";
 import AppContextProvider from "../components/context/AppContext";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
+import MuiThemeWrapper from "../components/common/MuiThemeWrapper";
 config.autoAddCss = false;
 
 export type NextPageWithLayout = NextPage & {
@@ -31,10 +32,12 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <Script async type="text/javascript" src="/googleAnalytics.js" />
       <SessionProvider>
         <ThemeProvider>
-          <AppContextProvider>
-            <ToastContainer />
-            {getLayout(<Component {...pageProps} />)}
-          </AppContextProvider>
+          <MuiThemeWrapper>
+            <AppContextProvider>
+              <ToastContainer />
+              {getLayout(<Component {...pageProps} />)}
+            </AppContextProvider>
+          </MuiThemeWrapper>
         </ThemeProvider>
       </SessionProvider>
     </>
