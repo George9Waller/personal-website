@@ -38,6 +38,7 @@ import { InferGetStaticPropsType } from "next";
 import { BlogEntryWithImages } from "../../types/db";
 import ProjectCard from "../../components/projects/ProjectCard";
 import Head from "next/head";
+import ContactMethods from "../../components/common/ContactMethods";
 
 const CV = ({ projects }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
@@ -236,20 +237,7 @@ const CV = ({ projects }: InferGetStaticPropsType<typeof getStaticProps>) => {
                   className="link-hover"
                 />
               </CvStat>
-              <CvStat icon={faPhone}>
-                <ExternalLink
-                  href="tel:+447894846744"
-                  displayText="+44 7894846744"
-                  className="link-hover"
-                />
-              </CvStat>
-              <CvStat icon={faAt}>
-                <ExternalLink
-                  href="mailto:george@georgewaller.com"
-                  displayText="george@georgewaller.com"
-                  className="link-hover"
-                />
-              </CvStat>
+              <ContactMethods />
               <CvStat icon={faGithub}>
                 <ExternalLink
                   href={GITHUB_URL}
@@ -311,7 +299,7 @@ CV.getLayout = function getLayout(page: ReactElement) {
 
 export const getStaticProps = async () => {
   const projects = await prisma.blogEntry.findMany({
-    where: { draft: false, category: { has: ProjectCategories.CODING } },
+    where: { draft: false, archieved: false, category: { has: ProjectCategories.CODING } },
     orderBy: { date: "desc" },
     take: RECENT_ITEMS_COUNT,
     include: {

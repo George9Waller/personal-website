@@ -1,17 +1,16 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement } from "react";
 import NavLayout from "../../components/layouts/NavLayout";
 import { prisma } from "../../prisma/db";
 import Container from "../../components/common/Container";
 import FlexGrid from "../../components/common/FlexGrid";
 import { InferGetStaticPropsType } from "next";
 import { BlogEntryWithImages } from "../../types/db";
-import ProjectCard, {
-  ProjectCardPlaceholder,
-} from "../../components/projects/ProjectCard";
+import ProjectCard from "../../components/projects/ProjectCard";
 import { ProjectsListData } from "../api/projects/list";
 import PaginationControls from "../../components/common/PaginationControls";
 import { PAGINATION_COUNT } from "../../utils/constants";
-import { trackPromise, usePromiseTracker } from "react-promise-tracker";
+import { usePromiseTracker } from "react-promise-tracker";
+import useSWRInfinite from "swr/infinite";
 import Head from "next/head";
 import {
   getCategoryClasses,
@@ -22,73 +21,49 @@ import classNames from "classnames";
 import { useAppContext } from "../../components/context/AppContext";
 import SubHeading from "../../components/common/SubHeading";
 import Loading from "../../components/common/Loading";
+import { fetcher, getPaginationUrl } from "../../utils/common";
 
 const Projects = ({
   projects,
-  totalProjectCount,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const [currentProjects, setCurrentProjects] = useState(projects);
-  const [filteredTotalProjectCount, setFilteredTotalProjectCount] =
-    useState(totalProjectCount);
   const { promiseInProgress } = usePromiseTracker();
   const { categories, addCategory, removeCategory } = useAppContext();
-
-  const getMoreProjects = async () => {
-    const res = await trackPromise(
-      fetch(
-        `/api/projects/list/?take=${PAGINATION_COUNT}&skip=${
-          currentProjects.length
-        }&${getCategoryQueryParam(categories)}`
-      )
-    );
-    const newData = (await res.json()) as ProjectsListData;
-    setCurrentProjects([...currentProjects, ...newData.projects]);
-  };
 
   const categoryOnClick = (category: ProjectCategories) => {
     categories.includes(category)
       ? removeCategory(category)
       : addCategory(category);
+    mutate();
   };
 
-  useEffect(() => {
-    const getProjects = async () => {
-      const res = await trackPromise(
-        fetch(
-          `/api/projects/list/?take=${PAGINATION_COUNT}&${getCategoryQueryParam(
-            categories
-          )}`
-        )
-      );
-      const newData = (await res.json()) as ProjectsListData;
-      setCurrentProjects(newData.projects);
-      setFilteredTotalProjectCount(newData.totalCount);
-    };
-    setCurrentProjects([]);
-    if (categories.length > 0) {
-      getProjects();
-    } else {
-      setFilteredTotalProjectCount(0);
-    }
-  }, [categories]);
-
   const getStatus = () => {
-    if (
-      promiseInProgress &&
-      (categories.length === 0 || currentProjects.length == 0)
-    ) {
-      return <Loading />;
-    } else if (categories.length === 0) {
+    if (categories.length === 0) {
       return <SubHeading>There are no categories selected</SubHeading>;
-    } else if (currentProjects.length === 0) {
+    } else if (data?.length === 0) {
       return <SubHeading>Nothing here yet, more coming soon...</SubHeading>;
     }
   };
 
+  const getKey = (pageIndex: number, previousPageData: ProjectsListData) => {
+    if (previousPageData && !previousPageData.projects.length) return null;
+    return `${getPaginationUrl(
+      "/api/projects/list/",
+      pageIndex,
+      true
+    )}&${getCategoryQueryParam(categories)}`;
+  };
+
+  const { data, size, setSize, mutate } = useSWRInfinite(getKey, fetcher, {
+    revalidateAll: true,
+  });
+
+  let currentCount = 0;
+  data?.forEach((page) => (currentCount += page.projects.length));
+
   const carouselStructuredData = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    itemListElement: currentProjects.map(
+    itemListElement: projects.map(
       (project: BlogEntryWithImages, index: number) => ({
         "@type": "ListItem",
         position: index + 1,
@@ -132,24 +107,21 @@ const Projects = ({
       <Container className="mt-4">
         <div className="mx-auto">{getStatus()}</div>
         <FlexGrid>
-          {currentProjects.map((project: BlogEntryWithImages) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
-          {promiseInProgress &&
-            [
-              ...Array(
-                Math.min(
-                  PAGINATION_COUNT,
-                  filteredTotalProjectCount - currentProjects.length
-                )
-              ),
-            ].map((e) => <ProjectCardPlaceholder key={e} />)}
+          {data ? (
+            data.map((page, index) => {
+              return page.projects.map((project: BlogEntryWithImages) => (
+                <ProjectCard key={project.id} project={project} />
+              ));
+            })
+          ) : (
+            <Loading />
+          )}
         </FlexGrid>
-        {filteredTotalProjectCount !== 0 && (
+        {currentCount !== 0 && (
           <PaginationControls
-            currentCount={currentProjects.length}
-            maxCount={filteredTotalProjectCount}
-            onClick={getMoreProjects}
+            currentCount={currentCount}
+            maxCount={data && data[0].totalCount}
+            onClick={() => setSize(size + 1)}
           />
         )}
       </Container>
@@ -158,33 +130,26 @@ const Projects = ({
 };
 
 export const getStaticProps = async () => {
-  const [projects, count] = await prisma.$transaction([
-    prisma.blogEntry.findMany({
-      take: PAGINATION_COUNT,
-      where: {
-        draft: false,
-      },
-      orderBy: {
-        date: "desc",
-      },
-      include: {
-        images: {
-          where: {
-            isCover: true,
-          },
+  const projects = await prisma.blogEntry.findMany({
+    take: PAGINATION_COUNT,
+    where: {
+      draft: false,
+      archieved: false,
+    },
+    orderBy: {
+      date: "desc",
+    },
+    include: {
+      images: {
+        where: {
+          isCover: true,
         },
       },
-    }),
-    prisma.blogEntry.count({
-      where: {
-        draft: false,
-      },
-    }),
-  ]);
+    },
+  });
   return {
     props: {
       projects: JSON.parse(JSON.stringify(projects)),
-      totalProjectCount: count,
     },
     revalidate: 60,
   };

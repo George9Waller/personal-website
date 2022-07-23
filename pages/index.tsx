@@ -74,7 +74,7 @@ Home.getLayout = function getLayout(page: ReactElement) {
 
 export const getStaticProps = async () => {
   const projects = await prisma.blogEntry.findMany({
-    where: { draft: false },
+    where: { draft: false, archieved: false },
     orderBy: { date: "desc" },
     take: RECENT_ITEMS_COUNT,
     include: {

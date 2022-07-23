@@ -22,6 +22,7 @@ export async function handler(
       skip: skip ? parseInt(skip.toString()) : undefined,
       where: {
         draft: false,
+        archieved: false,
         category: categories ? { hasSome: categories } : undefined
       },
       orderBy: {

@@ -3,6 +3,7 @@ import { Prisma } from "@prisma/client";
 import axios from "axios";
 import { trackPromise } from "react-promise-tracker";
 import _ from "underscore";
+import { PAGINATION_COUNT } from "./constants";
 
 export const selectTranslation = (
   translations: Prisma.JsonValue,
@@ -28,6 +29,15 @@ export const constructTranslations = (en?: string, fr?: string) => {
     "en-GB": en || "",
     fr: fr || "",
   };
+};
+
+export const getPaginationUrl = (base: string, pageNumber?: number, zeroIndexed?: boolean) => {
+  const firstPage = zeroIndexed ? 0 : 1;
+  return `${base}?take=${PAGINATION_COUNT}${
+    pageNumber && pageNumber > firstPage
+      ? `&skip=${(pageNumber - firstPage) * PAGINATION_COUNT}`
+      : ""
+  }`;
 };
 
 export const fetcher = (url: string) => axios.get(url).then((res) => res.data);

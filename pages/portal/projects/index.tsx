@@ -4,6 +4,7 @@ import Container from "../../../components/common/Container";
 import FlexGrid from "../../../components/common/FlexGrid";
 import NavLayout from "../../../components/layouts/NavLayout";
 import {
+  getPaginationUrl,
   maybeSelectTranslation,
   selectTranslation,
 } from "../../../utils/common";
@@ -29,23 +30,28 @@ import { checkUser } from "../../../utils/portal";
 import { toast } from "react-toastify";
 import axios from "axios";
 import ConfirmDeleteModal from "../../../components/modals/ConfirmDeleteModal";
+import PagePagination from "../../../components/pagination/PagePagination";
+import { useSWRLoading } from "../../../utils/hooks";
+import { useSWRConfig } from "swr";
+import { BlogEntryWithImages } from "../../../types/db";
+import { PAGINATION_COUNT } from "../../../utils/constants";
+import Error from "../../../components/common/Error";
 
 export const ProjectsAdmin = () => {
+  const baseUrl = "/api/portal/projects/list/";
   const router = useRouter();
-  const [projects, setProjects] = useState<ProjectAdminDetails[]>([]);
+  const { mutate } = useSWRConfig();
+  const [dataUrl, setDataUrl] = useState(
+    getPaginationUrl(baseUrl)
+  );
   const [projectToDelete, setProjectToDelete] = useState(-1);
-  const { promiseInProgress } = usePromiseTracker();
+
+  const { data, isLoading, isError } = useSWRLoading(dataUrl, true);
 
   useEffect(() => {
-    const getProjects = async () => {
-      const res = await trackPromise(fetch("/api/portal/projects/list"));
-      const newData = (await res.json()) as AdminProjectsListData;
-      setProjects(newData.projects);
-    };
     checkUser("isAdmin", () => {
       router.replace("/portal/");
     });
-    getProjects();
   }, [router]);
 
   const handleCreateNewProject = () => {
@@ -65,9 +71,7 @@ export const ProjectsAdmin = () => {
     axios
       .delete(`/api/portal/projects/${projectToDelete}`)
       .then(() => {
-        setProjects(
-          projects.filter((project) => project.id !== projectToDelete)
-        );
+        mutate(dataUrl);
         closeModal();
         return toast.update(id, {
           render: "Project deleted successfully",
@@ -95,62 +99,73 @@ export const ProjectsAdmin = () => {
         <title>George Waller | Projects Admin</title>
       </Head>
       <Container>
-        {promiseInProgress ? (
-          <Loading />
-        ) : (
-          <FlexGrid>
-            <div className="flex flex-row-reverse w-full">
-              <button
-                className="btn btn-sm btn-success"
-                onClick={handleCreateNewProject}
+        <FlexGrid>
+          <div className="flex flex-row-reverse w-full">
+            <button
+              className="btn btn-sm btn-success"
+              onClick={handleCreateNewProject}
+            >
+              Create new project
+            </button>
+          </div>
+          {isError && <Error />}
+
+          <PagePagination<ProjectAdminDetails>
+            items={data?.projects}
+            getPage={(page) =>
+              setDataUrl(
+                getPaginationUrl(
+                  baseUrl,
+                  page
+                )
+              )
+            }
+            totalPageNumber={Math.ceil(data?.totalCount / PAGINATION_COUNT)}
+            renderChild={(project) => (
+              <div
+                key={project.id}
+                className="w-full flex flex-row justify-between items-center gap-2 bg-base-300 p-4 rounded"
               >
-                Create new project
-              </button>
-            </div>
-            {projects.length > 0 &&
-              projects.map((project: ProjectAdminDetails) => (
-                <div
-                  key={project.id}
-                  className="w-full flex flex-row justify-between items-center gap-2 bg-base-300 p-4 rounded"
-                >
-                  <div>
-                    <div className="flex flex-row items-center gap-2">
-                      {project.draft && (
-                        <div className="badge badge-accent badge-sm">draft</div>
-                      )}
-                      <p>{selectTranslation(project.title)}</p>
-                    </div>
-                    <small>{getProjectDate(project.date)}</small>
+                <div>
+                  <div className="flex flex-row items-center gap-2">
+                    {project.draft && (
+                      <div className="badge badge-accent badge-sm">draft</div>
+                    )}
+                    <p>{selectTranslation(project.title)}</p>
                   </div>
-                  <div className="flex flex-row gap-2">
-                    <Link href={`/projects/${project.id}`}>
-                      <a className="btn btn-primary">
-                        <FontAwesomeIcon icon={faEye} />
-                      </a>
-                    </Link>
-                    <Link href={`/portal/projects/${project.id}`}>
-                      <a className="btn btn-secondary">
-                        <FontAwesomeIcon icon={faPencil} />
-                      </a>
-                    </Link>
-                    <button
-                      className="btn btn-error"
-                      onClick={() => {
-                        setProjectToDelete(project.id);
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faTrash} />
-                    </button>
-                  </div>
+                  <small>{getProjectDate(project.date)}</small>
                 </div>
-              ))}
-          </FlexGrid>
-        )}
+                <div className="flex flex-row gap-2">
+                  <Link href={`/projects/${project.id}`}>
+                    <a className="btn btn-primary">
+                      <FontAwesomeIcon icon={faEye} />
+                    </a>
+                  </Link>
+                  <Link href={`/portal/projects/${project.id}`}>
+                    <a className="btn btn-secondary">
+                      <FontAwesomeIcon icon={faPencil} />
+                    </a>
+                  </Link>
+                  <button
+                    className="btn btn-error"
+                    onClick={() => {
+                      setProjectToDelete(project.id);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                </div>
+              </div>
+            )}
+          />
+        </FlexGrid>
         <ConfirmDeleteModal
           open={projectToDelete !== -1}
           title="Delete project"
           itemDescription={`the project "${maybeSelectTranslation(
-            projects.find((project) => project.id === projectToDelete)?.title
+            data?.projects.find(
+              (project: BlogEntryWithImages) => project.id === projectToDelete
+            )?.title
           )}"`}
           onClose={closeModal}
           onDelete={handleDelete}
