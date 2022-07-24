@@ -1,16 +1,13 @@
-name: CI
+name: css-sitemap-updater
 
-on:
-  pull_request
-
-env:
-  NODE_VERSION: 16
-  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+on pull_request:
+  branches:
+    - master
 
 jobs:
-  ci:
-    name: CI
+  css-sitemap-updater:
     runs-on: ubuntu-latest
+
     steps:
       - name: Install NodeJS
         uses: actions/setup-node@v2
@@ -23,5 +20,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
-        run: npm run ci:build
+      - name: compile css
+        run: npm run build:css
+
+      - name: build sitemap
+        run: npm next-sitemap
