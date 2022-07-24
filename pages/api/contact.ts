@@ -1,6 +1,7 @@
 import { withSentry } from "@sentry/nextjs";
 import nodemailer from 'nodemailer'
 import { NextApiRequest, NextApiResponse } from "next";
+import { emailDefaults, FROM_EMAIL } from "../../utils/emails";
 
 export interface ContactResponse {
   error?: string;
@@ -19,22 +20,13 @@ export async function handler(
 ) {
   if (req.method === "POST") {
     const { name, email, subject, message } = req.body;
-    const transporter = nodemailer.createTransport({
-      port: 465,
-      host: 'smtppro.zoho.eu',
-      auth: {
-        user: process.env.EMAIL_SEND_ACCOUNT,
-        pass: process.env.EMAIL_SEND_ACCOUNT_PASS
-      },
-      secure: true
-    })
+    const transporter = nodemailer.createTransport(emailDefaults)
     const mailData = {
-      from: 'george@georgewaller.com',
+      from: FROM_EMAIL,
       to: ['george@georgewaller.com', 'george.waller3@gmail.com'],
       subject: subject,
       text: `Email: ${email}\nName: ${name}\n\n${message}`
     }
-    // console.log(mailData, transporter)
     transporter.sendMail(mailData, (err, info) => {
       console.log(err, info)
       if (err) {

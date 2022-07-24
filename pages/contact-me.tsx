@@ -1,5 +1,6 @@
 import { TextField } from "@mui/material";
 import axios from "axios";
+import Head from "next/head";
 import React, { ReactElement } from "react";
 import { toast } from "react-toastify";
 import ContactMethods from "../components/common/ContactMethods";
@@ -37,42 +38,47 @@ const ContactMe: NextPageWithLayout = () => {
   };
 
   return (
-    <Container>
-      <div className=" mx-auto">
-        <div className="flex flex-col gap-4">
-          <Heading className="text-center">Contact Me</Heading>
-          <ThirdHeading>
-            You can contact me via the following options or using the form below
-          </ThirdHeading>
-          <div className="bg-secondary bg-opacity-20 p-4 rounded flex flex-col gap-4">
-            <ContactMethods />
+    <>
+      <Head>
+        <meta
+          name="description"
+          content="If you want to reach out to me here are my details and a contact form where you can leave a message via email"
+        />
+        <title>George Waller | Contact Me</title>
+      </Head>
+      <Container>
+        <div className=" mx-auto">
+          <div className="flex flex-col gap-4">
+            <Heading className="text-center">Contact Me</Heading>
+            <ThirdHeading>
+              You can contact me via the following options or using the form
+              below
+            </ThirdHeading>
+            <div className="bg-secondary bg-opacity-20 p-4 rounded flex flex-col gap-4">
+              <ContactMethods />
+            </div>
+            <form
+              className="bg-accent bg-opacity-20 p-4 rounded flex flex-col gap-4"
+              onSubmit={onSubmit}
+            >
+              <ThirdHeading>Contact Form</ThirdHeading>
+              <TextField name="name" label="Your name" required />
+              <TextField
+                name="email"
+                label="Your email address"
+                type="email"
+                required
+              />
+              <TextField name="subject" label="Subject" type="text" required />
+              <TextField name="message" label="Message" multiline required />
+              <button className="btn w-fit mx-auto" type="submit">
+                Submit
+              </button>
+            </form>
           </div>
-          <form
-            className="bg-accent bg-opacity-20 p-4 rounded flex flex-col gap-4"
-            onSubmit={onSubmit}
-          >
-            <ThirdHeading>Contact Form</ThirdHeading>
-            <TextField name="name" label="Your name" required />
-            <TextField
-              name="email"
-              label="Your email address"
-              type="email"
-              required
-            />
-            <TextField name="subject" label="Subject" type="text" required />
-            <TextField
-              name="message"
-              label="Message"
-              multiline
-              required
-            />
-            <button className="btn w-fit mx-auto" type="submit">
-              Submit
-            </button>
-          </form>
         </div>
-      </div>
-    </Container>
+      </Container>
+    </>
   );
 };
 

@@ -77,3 +77,9 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+model NewsletterSubscriber {
+  id          String    @id @default(cuid())
+  email       String    @unique
+  emailVerified Boolean @default(false)
+}
