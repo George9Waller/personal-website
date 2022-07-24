@@ -30,7 +30,6 @@
     "@sentry/webpack-plugin": "^1.18.9",
     "@types/nodemailer": "^6.4.4",
     "@types/underscore": "^1.11.4",
-    "@zeit/next-source-maps": "^0.0.3",
     "autoprefixer": "^10.4.7",
     "aws-sdk": "^2.1176.0",
     "axios": "^0.27.2",
