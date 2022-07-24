@@ -26,6 +26,11 @@ const nextConfig = withSourceMaps({
           ignore: ["node_modules"],
           urlPrefix: "~/_next",
           configFile: "sentry.properties",
+          setCommits: {
+            repo: "George9Waller/personal-website",
+            auto: true,
+          },
+          authToken: process.env.SENTRY_AUTH_TOKEN,
         })
       );
     }

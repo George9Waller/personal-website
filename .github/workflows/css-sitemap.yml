@@ -25,4 +25,8 @@ jobs:
         run: npm run build:css
 
       - name: build sitemap
-        run: npm next-sitemap
+        run: npm run postbuild
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Commit latest css build and sitemap
