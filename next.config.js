@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { withSentryConfig } = require("@sentry/nextjs");
-const withSourceMaps = require("@zeit/next-source-maps");
 const SentryWebpackPlugin = require("@sentry/webpack-plugin");
 /* eslint-enable @typescript-eslint/no-var-requires */
 
 /** @type {import('next').NextConfig} */
-const nextConfig = withSourceMaps({
+const nextConfig = {
+  productionBrowserSourceMaps: true,
   reactStrictMode: true,
   images: {
     domains: [
@@ -36,7 +36,7 @@ const nextConfig = withSourceMaps({
     }
     return config;
   },
-});
+};
 
 const sentryWebpackPluginOptions = {
   // Additional config options for the Sentry Webpack plugin. Keep in mind that
