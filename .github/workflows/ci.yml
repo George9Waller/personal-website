@@ -41,7 +41,7 @@ jobs:
         run: npm ci
 
       - name: migrate db
-        run: npm run db:push
+        run: npx prisma db push
 
       - name: Build
         run: npm run ci:build
