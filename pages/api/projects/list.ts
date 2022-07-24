@@ -1,10 +1,10 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-import { BlogEntryWithImages } from '../../../types/db'
-import { prisma } from '../../../prisma/db'
-import { withSentry } from '@sentry/nextjs';
+import type { NextApiRequest, NextApiResponse } from "next";
+import { BlogEntryWithImages } from "../../../types/db";
+import { prisma } from "../../../prisma/db";
+import { withSentry } from "@sentry/nextjs";
 
 export interface ProjectsListData {
-  projects: BlogEntryWithImages[],
+  projects: BlogEntryWithImages[];
   totalCount: number;
 }
 
@@ -13,7 +13,7 @@ export async function handler(
   res: NextApiResponse<ProjectsListData>
 ) {
   const {
-    query: { take, skip, categories }
+    query: { take, skip, categories },
   } = req;
 
   const [projects, totalCount] = await prisma.$transaction([
@@ -23,28 +23,28 @@ export async function handler(
       where: {
         draft: false,
         archieved: false,
-        category: categories ? { hasSome: categories } : undefined
+        category: categories ? { hasSome: categories } : undefined,
       },
       orderBy: {
-        date: 'desc'
+        date: "desc",
       },
       include: {
         images: {
           where: {
-            isCover: true
-          }
-        }
-      }
+            isCover: true,
+          },
+        },
+      },
     }),
     prisma.blogEntry.count({
       where: {
         draft: false,
         archieved: false,
-        category: categories ? { hasSome: categories } : undefined
-      }
-    })
-  ])
-  res.status(200).json({ projects, totalCount })
+        category: categories ? { hasSome: categories } : undefined,
+      },
+    }),
+  ]);
+  res.status(200).json({ projects, totalCount });
 }
 
 export default withSentry(handler);

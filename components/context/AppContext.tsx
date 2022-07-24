@@ -9,9 +9,13 @@ interface IAppContext {
 }
 
 const appContextDefaultValues: IAppContext = {
-  categories: Object.entries(ProjectCategories).map(([_key, category]) => category),
+  categories: Object.entries(ProjectCategories).map(
+    ([_key, category]) => category
+  ),
+  /* eslint-disable @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars */
   addCategory: (name) => {},
   removeCategory: (name) => {},
+  /* eslint-enable @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars */
 };
 
 const AppContext = createContext<IAppContext>(appContextDefaultValues);

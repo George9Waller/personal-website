@@ -20,7 +20,7 @@ export const VerifyNewsletter = () => {
   useEffect(() => {
     router.query["id"] &&
       trackPromise(
-        axios.get<{}, { data: VerifyNewsletterSubscriptionResponse }>(
+        axios.get<unknown, { data: VerifyNewsletterSubscriptionResponse }>(
           `/api/newsletter/verify/${router.query["id"]}/`
         )
       ).then((response) => {
@@ -38,15 +38,21 @@ export const VerifyNewsletter = () => {
           <Loading />
         ) : (
           <>
-              {subscription?.emailVerified ? (
-                <div className="flex flex-col gap-2">
-                  <p className="badge badge-lg badge-success">Email successfully verified</p>
-                  <Link href="/newsletter/">
-                    <a className="btn btn-primary btn-sm w-fit">Update preferences</a>
-                  </Link>
-                </div>
+            {subscription?.emailVerified ? (
+              <div className="flex flex-col gap-2">
+                <p className="badge badge-lg badge-success">
+                  Email successfully verified
+                </p>
+                <Link href="/newsletter/">
+                  <a className="btn btn-primary btn-sm w-fit">
+                    Update preferences
+                  </a>
+                </Link>
+              </div>
             ) : (
-              <p className="badge badge-error">Email was unable to be verified</p>
+              <p className="badge badge-error">
+                Email was unable to be verified
+              </p>
             )}
           </>
         )}

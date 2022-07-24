@@ -1,6 +1,6 @@
 import { Modal } from "@mui/material";
 import { BlogImage } from "@prisma/client";
-import React, { MouseEventHandler, useState } from "react";
+import React, { useState } from "react";
 import Carousel from "react-material-ui-carousel";
 import { selectTranslation } from "../../utils/common";
 import Image from "next/image";
@@ -43,13 +43,11 @@ export const ImageGallery = ({ images }: Props) => {
     next,
     className,
     style,
-    prev,
   }: {
-    onClick: any;
+    onClick: any; // eslint-disable-line @typescript-eslint/no-explicit-any
     className: string;
     style: React.CSSProperties;
     next: boolean;
-    prev: boolean;
   }) => {
     return (
       <div className="h-full flex items-center">

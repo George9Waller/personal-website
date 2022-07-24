@@ -20,8 +20,8 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
     query: { id },
   } = req;
 
-  if (req.method === 'PATCH') {
-    await checkUserPermission(req, res, (user) => (user.isAdmin))
+  if (req.method === "PATCH") {
+    await checkUserPermission(req, res, (user) => user.isAdmin);
 
     const body = req.body as BlogEntryUpdateData;
     prisma.blogEntry
@@ -49,21 +49,24 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
       .catch(() => {
         return res.status(400).send({ error: "an error occurred" });
       });
-  } else if (req.method === 'DELETE') {
-    await checkUserPermission(req, res, (user) => (user.isAdmin));
+  } else if (req.method === "DELETE") {
+    await checkUserPermission(req, res, (user) => user.isAdmin);
 
-    prisma.blogEntry.update({
-      where: {
-        id: parseInt(id.toString())
-      },
-      data: {
-        archieved: true
-      }
-    }).then(() => {
-      return res.status(200).send({})
-    }).catch(() => {
-      return res.status(400).send({ error: 'an error occurred' })
-    })
+    prisma.blogEntry
+      .update({
+        where: {
+          id: parseInt(id.toString()),
+        },
+        data: {
+          archieved: true,
+        },
+      })
+      .then(() => {
+        return res.status(200).send({});
+      })
+      .catch(() => {
+        return res.status(400).send({ error: "an error occurred" });
+      });
   } else {
     return res.status(405).send({ error: "method not permitted" });
   }

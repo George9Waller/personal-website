@@ -43,37 +43,37 @@ export const BlogImageEditModal = ({
       "alt-fr": { value: string };
       cover: { checked: boolean };
     };
-    console.log("called", image?.id);
-    axios
-      .patch<{}, { data: BlogImageUpdateResponse}>(
-        `/api/portal/projects/images/${image!.id}`,
-        {
-          "title-en": target["title-en"].value,
-          "title-fr": target["title-fr"].value,
-          "alt-en": target["alt-en"].value,
-          "alt-fr": target["alt-fr"].value,
-          cover: target.cover.checked,
-        } as BlogImageUpdateData
-      )
-      .then((response) => {
-        toast.update(id, {
-          render: "Successfully saved changes",
-          type: "success",
-          isLoading: false,
-          autoClose: 5000
+
+    image &&
+      axios
+        .patch<unknown, { data: BlogImageUpdateResponse }>(
+          `/api/portal/projects/images/${image.id}`,
+          {
+            "title-en": target["title-en"].value,
+            "title-fr": target["title-fr"].value,
+            "alt-en": target["alt-en"].value,
+            "alt-fr": target["alt-fr"].value,
+            cover: target.cover.checked,
+          } as BlogImageUpdateData
+        )
+        .then((response) => {
+          toast.update(id, {
+            render: "Successfully saved changes",
+            type: "success",
+            isLoading: false,
+            autoClose: 5000,
+          });
+          response.data.image && setUpdatedObject(response.data.image);
+          onClose();
+        })
+        .catch(() => {
+          toast.update(id, {
+            render: "An error occurred saving changes",
+            type: "error",
+            isLoading: false,
+            autoClose: 5000,
+          });
         });
-        console.log(response)
-        response.data.image && setUpdatedObject(response.data.image);
-        onClose();
-      })
-      .catch(() => {
-        toast.update(id, {
-          render: "An error occurred saving changes",
-          type: "error",
-          isLoading: false,
-          autoClose: 5000,
-        });
-      });
   };
 
   return (

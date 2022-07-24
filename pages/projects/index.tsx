@@ -9,7 +9,6 @@ import ProjectCard from "../../components/projects/ProjectCard";
 import { ProjectsListData } from "../api/projects/list";
 import PaginationControls from "../../components/common/PaginationControls";
 import { PAGINATION_COUNT } from "../../utils/constants";
-import { usePromiseTracker } from "react-promise-tracker";
 import useSWRInfinite from "swr/infinite";
 import Head from "next/head";
 import {
@@ -26,7 +25,6 @@ import { fetcher, getPaginationUrl } from "../../utils/common";
 const Projects = ({
   projects,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const { promiseInProgress } = usePromiseTracker();
   const { categories, addCategory, removeCategory } = useAppContext();
 
   const categoryOnClick = (category: ProjectCategories) => {
@@ -108,7 +106,7 @@ const Projects = ({
         <div className="mx-auto">{getStatus()}</div>
         <FlexGrid>
           {data ? (
-            data.map((page, index) => {
+            data.map((page) => {
               return page.projects.map((project: BlogEntryWithImages) => (
                 <ProjectCard key={project.id} project={project} />
               ));

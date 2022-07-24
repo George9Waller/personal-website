@@ -20,10 +20,10 @@ export async function handler(
       id: id.toString(),
     },
     data: {
-      emailVerified: true
-    }
+      emailVerified: true,
+    },
   });
-  subscription ? res.status(200).send({ subscription }) : res.status(400)
+  subscription ? res.status(200).send({ subscription }) : res.status(400);
 }
 
 export default withSentry(handler);

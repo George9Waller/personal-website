@@ -24,7 +24,7 @@ export async function handler(
   req: NextApiRequest,
   res: NextApiResponse<UploadFileUrlResponse>
 ) {
-  const awsBaseUrl = `https://${process.env.AWS_STORAGE_BUCKET_NAME}.s3.${process.env.AWS_UPLOAD_REGION}.amazonaws.com/`
+  const awsBaseUrl = `https://${process.env.AWS_STORAGE_BUCKET_NAME}.s3.${process.env.AWS_UPLOAD_REGION}.amazonaws.com/`;
   if (req.method === "POST") {
     await checkUserPermission(req, res, (user) => user.isAdmin);
     const { name, type } = req.body;

@@ -1,9 +1,12 @@
 import { NewsletterSubscriber } from "@prisma/client";
 import { withSentry } from "@sentry/nextjs";
 import { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from '../../../prisma/db'
-import nodemailer from 'nodemailer';
-import { emailDefaults, getNewsletterVerificationEmailData } from "../../../utils/emails";
+import { prisma } from "../../../prisma/db";
+import nodemailer from "nodemailer";
+import {
+  emailDefaults,
+  getNewsletterVerificationEmailData,
+} from "../../../utils/emails";
 
 export interface NewsletterResponse {
   error?: string;
@@ -26,17 +29,24 @@ export async function handler(
       },
       update: {},
       create: {
-        email
+        email,
       },
     });
-    const transporter = nodemailer.createTransport(emailDefaults)
-    transporter.sendMail(getNewsletterVerificationEmailData(email, subscription.id), (err, info) => {
-      if (err) {
-        return res.status(400).send({ error: 'There was an error sending the verification email' })
-      } else {
-        return res.status(200).send({})
+    const transporter = nodemailer.createTransport(emailDefaults);
+    transporter.sendMail(
+      getNewsletterVerificationEmailData(email, subscription.id),
+      (err, _info) => {
+        if (err) {
+          return res
+            .status(400)
+            .send({
+              error: "There was an error sending the verification email",
+            });
+        } else {
+          return res.status(200).send({});
+        }
       }
-    })
+    );
   } else {
     return res.status(400).send({ error: "Method not allowed" });
   }

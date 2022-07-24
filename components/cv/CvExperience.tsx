@@ -1,8 +1,5 @@
 import { IconDefinition } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Step, StepContent, StepLabel, Stepper } from "@mui/material";
-import CircleIcon from "@mui/icons-material/Circle";
-import Link from "next/link";
 import { getProjectDate } from "../../utils/projects";
 import ExternalLink from "../common/ExternalLink";
 import ThirdHeading from "../common/ThirdHeading";
@@ -30,13 +27,19 @@ type CvExperienceProps = {
 };
 
 const getDateRange = (fromDate: Date, toDate?: Date) =>
-  `${getProjectDate(fromDate)} - ${toDate ? getProjectDate(toDate) : 'present'}`
+  `${getProjectDate(fromDate)} - ${
+    toDate ? getProjectDate(toDate) : "present"
+  }`;
 
 const experienceEntry = (role: Role) => (
   <div className="my-2 text-left">
-    <ThirdHeading>{role.title}<div className="ml-2 badge badge-sm badge-accent">{getDateRange(role.fromDate, role.toDate)}</div></ThirdHeading>
+    <ThirdHeading>
+      {role.title}
+      <div className="ml-2 badge badge-sm badge-accent">
+        {getDateRange(role.fromDate, role.toDate)}
+      </div>
+    </ThirdHeading>
     <div className="opacity-80 text-sm">{role.children}</div>
-    
   </div>
 );
 
@@ -52,16 +55,16 @@ export const CvExperience = (props: CvExperienceProps) => (
           {props.roles.length === 1 ? props.roles[0].title : props.title}
         </span>
       </ThirdHeading>
-      {props.description && (
-        <p>{props.description}</p>
-      )}
-      {props.roles.length === 1 ? props.roles[0].children : (
-          <ul className="steps steps-vertical">
-            {props.roles.map((role, index) => (
-              <li key={index} data-content="" className="step step-primary">
-                {experienceEntry(role)}
-              </li>
-            ))}
+      {props.description && <p>{props.description}</p>}
+      {props.roles.length === 1 ? (
+        props.roles[0].children
+      ) : (
+        <ul className="steps steps-vertical">
+          {props.roles.map((role, index) => (
+            <li key={index} data-content="" className="step step-primary">
+              {experienceEntry(role)}
+            </li>
+          ))}
         </ul>
       )}
       {props.link && (

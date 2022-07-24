@@ -7,18 +7,33 @@ type PaginationControlsProps = {
   onClick: () => void;
 };
 
-export const PaginationControls = ({ currentCount, maxCount, onClick }: PaginationControlsProps) => {
-  const {promiseInProgress} = usePromiseTracker()
+export const PaginationControls = ({
+  currentCount,
+  maxCount,
+  onClick,
+}: PaginationControlsProps) => {
+  const { promiseInProgress } = usePromiseTracker();
   return (
     <div className="max-w-screen-sm mx-auto grid grid-cols-1 gap-2 mt-4">
-      
       {currentCount < maxCount && (
-        <a className={classNames('btn', promiseInProgress && 'loading')} onClick={onClick}>Load more</a>
+        <a
+          className={classNames("btn", promiseInProgress && "loading")}
+          onClick={onClick}
+        >
+          Load more
+        </a>
       )}
-      <progress className="progress w-56 mt-4" value={currentCount} max={maxCount}></progress>
-      <p className="text-xs text-center"><span className="font-bold">{currentCount}</span> of <span className="font-bold">{maxCount}</span></p>
+      <progress
+        className="progress w-56 mt-4"
+        value={currentCount}
+        max={maxCount}
+      ></progress>
+      <p className="text-xs text-center">
+        <span className="font-bold">{currentCount}</span> of{" "}
+        <span className="font-bold">{maxCount}</span>
+      </p>
     </div>
-  )
-}
+  );
+};
 
-export default PaginationControls
+export default PaginationControls;

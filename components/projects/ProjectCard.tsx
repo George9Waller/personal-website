@@ -1,12 +1,10 @@
-import { faCalendar } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Skeleton } from "@mui/material";
 import classNames from "classnames";
 import Image from "next/image";
 import Link from "next/link";
 import { BlogEntryWithImages } from "../../types/db";
 import { selectTranslation } from "../../utils/common";
-import { getCategoryClasses, getProjectDate } from "../../utils/projects";
+import { getCategoryClasses } from "../../utils/projects";
 import { ProjectTags } from "./ProjectTags";
 
 interface Props {
@@ -57,10 +55,15 @@ export const ProjectCardPlaceholder = () => (
   <div>
     <Skeleton variant="rectangular" width={288} height={162} />
     <Skeleton variant="text" />
-    <Skeleton variant="text"/>
     <Skeleton variant="text" />
-    <Skeleton variant="rectangular" width={62} height={32} className="ml-auto mt-2" />
+    <Skeleton variant="text" />
+    <Skeleton
+      variant="rectangular"
+      width={62}
+      height={32}
+      className="ml-auto mt-2"
+    />
   </div>
-)
+);
 
 export default ProjectCard;

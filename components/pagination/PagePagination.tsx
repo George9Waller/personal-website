@@ -19,7 +19,7 @@ function PagePagination<ItemType>(props: {
   const decreasePage = () => {
     props.getPage(pageNumber - 1);
     setPageNumber(pageNumber - 1);
-  }
+  };
 
   return (
     <>

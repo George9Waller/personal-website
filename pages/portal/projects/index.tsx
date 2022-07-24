@@ -8,24 +8,12 @@ import {
   maybeSelectTranslation,
   selectTranslation,
 } from "../../../utils/common";
-import { trackPromise, usePromiseTracker } from "react-promise-tracker";
-import Loading from "../../../components/common/Loading";
 import { useRouter } from "next/router";
-import {
-  AdminProjectsListData,
-  ProjectAdminDetails,
-} from "../../api/portal/projects/list";
+import { ProjectAdminDetails } from "../../api/portal/projects/list";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { getProjectDate } from "../../../utils/projects";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from "@mui/material";
 import { checkUser } from "../../../utils/portal";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -41,12 +29,10 @@ export const ProjectsAdmin = () => {
   const baseUrl = "/api/portal/projects/list/";
   const router = useRouter();
   const { mutate } = useSWRConfig();
-  const [dataUrl, setDataUrl] = useState(
-    getPaginationUrl(baseUrl)
-  );
+  const [dataUrl, setDataUrl] = useState(getPaginationUrl(baseUrl));
   const [projectToDelete, setProjectToDelete] = useState(-1);
 
-  const { data, isLoading, isError } = useSWRLoading(dataUrl, true);
+  const { data, isError } = useSWRLoading(dataUrl, true);
 
   useEffect(() => {
     checkUser("isAdmin", () => {
@@ -112,14 +98,7 @@ export const ProjectsAdmin = () => {
 
           <PagePagination<ProjectAdminDetails>
             items={data?.projects}
-            getPage={(page) =>
-              setDataUrl(
-                getPaginationUrl(
-                  baseUrl,
-                  page
-                )
-              )
-            }
+            getPage={(page) => setDataUrl(getPaginationUrl(baseUrl, page))}
             totalPageNumber={Math.ceil(data?.totalCount / PAGINATION_COUNT)}
             renderChild={(project) => (
               <div

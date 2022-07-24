@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { withSentryConfig } = require('@sentry/nextjs');
 const withSourceMaps = require('@zeit/next-source-maps');
 const SentryWebpackPlugin = require('@sentry/webpack-plugin')
+/* eslint-enable @typescript-eslint/no-var-requires */
 
 /** @type {import('next').NextConfig} */
 const nextConfig = withSourceMaps({
@@ -8,7 +10,7 @@ const nextConfig = withSourceMaps({
   images: {
     domains: ['georgewaller.s3.amazonaws.com', 'georgewaller.s3.eu-west-2.amazonaws.com'],
   },
-  webpack: (config, options) => {
+  webpack: (config, _options) => {
     if (process.env.SENTRY_DSN && process.env.SENTRY_ORG && process.env.SENTRY_PROJECT && process.env.NODE_ENV === 'production') {
       config.plugins.push(
         new SentryWebpackPlugin({

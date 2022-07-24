@@ -34,7 +34,7 @@ const ContactMe: NextPageWithLayout = () => {
           success: "Your message has been successfully sent",
         }
       )
-      .then((response) => target.reset());
+      .then(() => target.reset());
   };
 
   return (

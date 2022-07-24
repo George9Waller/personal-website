@@ -16,4 +16,4 @@ export const NavLayout = ({ children }: NavLayoutProps) => {
   );
 };
 
-export default NavLayout
+export default NavLayout;

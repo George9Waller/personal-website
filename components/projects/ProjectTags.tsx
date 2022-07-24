@@ -23,4 +23,4 @@ export const ProjectTags = ({ project }: Props) => (
       </div>
     ))}
   </h3>
-)
+);

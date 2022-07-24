@@ -80,10 +80,10 @@ export const getStaticProps = async () => {
     include: {
       images: {
         where: {
-          isCover: true
-        }
-      }
-    }
+          isCover: true,
+        },
+      },
+    },
   });
 
   return {

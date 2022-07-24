@@ -6,12 +6,10 @@ import {
   faPython,
 } from "@fortawesome/free-brands-svg-icons";
 import {
-  faAt,
   faLanguage,
   faLocationDot,
   faMortarBoard,
   faPersonBiking,
-  faPhone,
   faTerminal,
 } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
@@ -299,7 +297,11 @@ CV.getLayout = function getLayout(page: ReactElement) {
 
 export const getStaticProps = async () => {
   const projects = await prisma.blogEntry.findMany({
-    where: { draft: false, archieved: false, category: { has: ProjectCategories.CODING } },
+    where: {
+      draft: false,
+      archieved: false,
+      category: { has: ProjectCategories.CODING },
+    },
     orderBy: { date: "desc" },
     take: RECENT_ITEMS_COUNT,
     include: {

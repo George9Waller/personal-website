@@ -10,8 +10,7 @@ interface Props {
 export const MuiThemeWrapper = ({ children }: Props) => {
   const { theme } = useTheme();
   const muiTheme = useMemo(
-    () =>
-      createTheme(getMuiThemeOptions(theme)),
+    () => createTheme(getMuiThemeOptions(theme)),
     [theme]
   );
 

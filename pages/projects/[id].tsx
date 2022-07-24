@@ -1,14 +1,11 @@
 import Head from "next/head";
-import Link from "next/link";
 import Container from "../../components/common/Container";
 import { ReactElement, useState } from "react";
 import NavLayout from "../../components/layouts/NavLayout";
 import { prisma } from "../../prisma/db";
-import { InferGetStaticPropsType } from "next";
-import ProjectCard from "../../components/projects/ProjectCard";
 import { BlogEntryWithImages } from "../../types/db";
 import { selectTranslation } from "../../utils/common";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { trackPromise } from "react-promise-tracker";
 import { ProjectDetailData } from "../api/projects/[id]";
 import { Skeleton } from "@mui/material";
@@ -50,11 +47,11 @@ const ProjectDetailPage = ({ project }: Props) => {
       : {};
   };
 
-  if (router.isFallback || !project) {
-    router.query.id && getProjectDetail(router.query.id!.toString());
+  if ((router.isFallback || !project) && router.query.id) {
+    router.query.id && getProjectDetail(router.query.id.toString());
   }
 
-  const title = loadedProject ? selectTranslation(loadedProject.title) : ''
+  const title = loadedProject ? selectTranslation(loadedProject.title) : "";
 
   return (
     <div>

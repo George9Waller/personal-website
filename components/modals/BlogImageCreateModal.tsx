@@ -48,66 +48,68 @@ export const BlogImageCreateModal = ({
     if (!target.file.files || !target.file.files.length) {
       return;
     } else {
-      file = target.file.files[0]
+      file = target.file.files[0];
     }
     const fullFileName = `media/${blogEntryId}/${file.name}`;
     let awsBaseUrl: string | undefined;
 
     axios
-      .post<{}, { data: UploadFileUrlResponse }>(
+      .post<unknown, { data: UploadFileUrlResponse }>(
         "/api/portal/aws/upload-file",
         { name: fullFileName, type: file.type }
       )
       .then((response) => {
         awsBaseUrl = response.data.awsBaseUrl;
-        axios.put(response.data.url || '', file, {
-          headers: {
-            "Content-type": file?.type || '',
-            "Access-Control-Allow-Origin": "*"
-          }
-        }).then((response) => {
-          let width = 500;
-          let height = 500;
-          if (target.file.files?.length) {
-            const image = new Image();
-            image.src = window.URL.createObjectURL(target.file.files[0]);
-            image.onload = () => {
-              width = image.width;
-              height = image.height;
-            };
-          }
+        axios
+          .put(response.data.url || "", file, {
+            headers: {
+              "Content-type": file?.type || "",
+              "Access-Control-Allow-Origin": "*",
+            },
+          })
+          .then(() => {
+            let width = 500;
+            let height = 500;
+            if (target.file.files?.length) {
+              const image = new Image();
+              image.src = window.URL.createObjectURL(target.file.files[0]);
+              image.onload = () => {
+                width = image.width;
+                height = image.height;
+              };
+            }
 
-          axios
-            .post<{}, { data: BlogImageCreateResponse }>(
-              "/api/portal/projects/images/create",
-              {
-                blogEntryId,
-                "title-en": target["title-en"].value,
-                "title-fr": target["title-fr"].value,
-                "alt-en": target["alt-en"].value,
-                "alt-fr": target["alt-fr"].value,
-                cover: target.cover.checked,
-                s3ImageUrl: `${awsBaseUrl}${fullFileName}`,
-                width,
-                height,
-              } as BlogImageCreateData
-            )
-            .then((response) => {
-              toast.update(id, {
-                render: "Successfully created",
-                type: "success",
-                isLoading: false,
-                autoClose: 5000,
+            axios
+              .post<unknown, { data: BlogImageCreateResponse }>(
+                "/api/portal/projects/images/create",
+                {
+                  blogEntryId,
+                  "title-en": target["title-en"].value,
+                  "title-fr": target["title-fr"].value,
+                  "alt-en": target["alt-en"].value,
+                  "alt-fr": target["alt-fr"].value,
+                  cover: target.cover.checked,
+                  s3ImageUrl: `${awsBaseUrl}${fullFileName}`,
+                  width,
+                  height,
+                } as BlogImageCreateData
+              )
+              .then((response) => {
+                toast.update(id, {
+                  render: "Successfully created",
+                  type: "success",
+                  isLoading: false,
+                  autoClose: 5000,
+                });
+                response.data.image && setCreatedObject(response.data.image);
+                (
+                  document.getElementById(
+                    "blog-image-create-form"
+                  ) as HTMLFormElement
+                ).reset();
+                onClose();
               });
-              response.data.image && setCreatedObject(response.data.image);
-              (
-                document.getElementById(
-                  "blog-image-create-form"
-                ) as HTMLFormElement
-              ).reset();
-              onClose();
-            });
-        });
+          });
       })
       .catch(() => {
         toast.update(id, {
@@ -124,7 +126,7 @@ export const BlogImageCreateModal = ({
       open={open}
       onClose={onClose}
       maxWidth="xl"
-      PaperProps={{ style: { minWidth: '80%'}}}
+      PaperProps={{ style: { minWidth: "80%" } }}
       aria-labelledby="create-blog-image-modal-title"
     >
       <DialogTitle id="create-blog-image-modal-title">

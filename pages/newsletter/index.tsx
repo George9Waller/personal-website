@@ -31,7 +31,7 @@ const Newsletter: NextPageWithLayout = () => {
     setEmail(target.email.value);
     toast
       .promise(
-        axios.post<{}, { data: NewsletterResponse }>("/api/newsletter", {
+        axios.post<unknown, { data: NewsletterResponse }>("/api/newsletter", {
           email: target.email.value,
         }),
         {
@@ -42,7 +42,6 @@ const Newsletter: NextPageWithLayout = () => {
       )
       .then((response) => {
         setEmailChecked(true);
-        console.log(response.data.subscription);
         setSubscription(response.data.subscription);
       });
   };
@@ -61,14 +60,14 @@ const Newsletter: NextPageWithLayout = () => {
   };
 
   const handleUnsubscribe = () => {
-    toast.promise(
-      axios.post("/api/newsletter/unsubscribe", { email }), {
+    toast
+      .promise(axios.post("/api/newsletter/unsubscribe", { email }), {
         pending: "Deleting records of your subscription",
         success: "You are no longer subscribed to receive updates",
-        error: "There was an error deleting your records"
-      }
-    ).then(() => setSubscription(undefined))
-  }
+        error: "There was an error deleting your records",
+      })
+      .then(() => setSubscription(undefined));
+  };
 
   const getActions = () => {
     if (verificationSent) {
@@ -86,7 +85,12 @@ const Newsletter: NextPageWithLayout = () => {
           return (
             <>
               You can update your preferences at any time from this page.
-              <button className="btn btn-error" onClick={() => handleUnsubscribe()}>Unsubscribe</button>
+              <button
+                className="btn btn-error"
+                onClick={() => handleUnsubscribe()}
+              >
+                Unsubscribe
+              </button>
             </>
           );
         } else {
@@ -142,33 +146,40 @@ const Newsletter: NextPageWithLayout = () => {
     }
   };
 
-  return (<>
-    <Head>
-      <meta name="description" content="You can sign up to my newsletter mailing list to receive updates when I post new content" />
-      <title>George Waller | Newsletter</title>
-    </Head>
-    <Container>
-      <div className=" mx-auto">
-        <div className="flex flex-col gap-4 items-center">
-          {session.status === "loading" ? (
-            <Loading />
-          ) : (
-            <>
-              <Heading className="text-center">Newsletter preferences</Heading>
-              {getActions()}
-              {showReVerify && (
-                <button
-                  className="btn btn-sm btn-secondary w-fit"
-                  onClick={() => handleSubscribe()}
-                >
-                  Resend verification email
-                </button>
-              )}
-            </>
-          )}
+  return (
+    <>
+      <Head>
+        <meta
+          name="description"
+          content="You can sign up to my newsletter mailing list to receive updates when I post new content"
+        />
+        <title>George Waller | Newsletter</title>
+      </Head>
+      <Container>
+        <div className=" mx-auto">
+          <div className="flex flex-col gap-4 items-center">
+            {session.status === "loading" ? (
+              <Loading />
+            ) : (
+              <>
+                <Heading className="text-center">
+                  Newsletter preferences
+                </Heading>
+                {getActions()}
+                {showReVerify && (
+                  <button
+                    className="btn btn-sm btn-secondary w-fit"
+                    onClick={() => handleSubscribe()}
+                  >
+                    Resend verification email
+                  </button>
+                )}
+              </>
+            )}
+          </div>
         </div>
-      </div>
-    </Container></>
+      </Container>
+    </>
   );
 };
 

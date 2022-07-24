@@ -8,12 +8,15 @@ export interface PortalApp {
 }
 
 export const ProjectsApp: PortalApp = {
-  title: 'Projects',
-  colour: 'bg-pink-100',
-  href: '/portal/projects/',
-}
+  title: "Projects",
+  colour: "bg-pink-100",
+  href: "/portal/projects/",
+};
 
-export const checkUser = async (field: keyof MeData, invalidFunc: () => void) => {
+export const checkUser = async (
+  field: keyof MeData,
+  invalidFunc: () => void
+) => {
   const res = await trackPromise(fetch("/api/user/me"));
   const userData = (await res.json()) as MeData;
   !userData[field] && invalidFunc();

@@ -11,7 +11,7 @@ export const useSWRLoading = (url: string, isReady: boolean) => {
   };
 };
 
-export const useUser = (): { user: MeData, userIsLoading: boolean } => {
-  const { data, error } = useSWR('/api/user/me', fetcher);
-  return { user: data, userIsLoading: !data }
-}
+export const useUser = (): { user: MeData; userIsLoading: boolean } => {
+  const { data } = useSWR("/api/user/me", fetcher);
+  return { user: data, userIsLoading: !data };
+};

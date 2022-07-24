@@ -1,7 +1,6 @@
-import { NewsletterSubscriber } from "@prisma/client";
 import { withSentry } from "@sentry/nextjs";
 import { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from '../../../prisma/db'
+import { prisma } from "../../../prisma/db";
 
 export interface NewsletterResponse {
   error?: string;
@@ -17,12 +16,12 @@ export async function handler(
 ) {
   if (req.method === "POST") {
     const { email } = req.body;
-    const subscription = await prisma.newsletterSubscriber.delete({
+    await prisma.newsletterSubscriber.delete({
       where: {
-        email: email
-      }
+        email: email,
+      },
     });
-    return res.status(200).send({})
+    return res.status(200).send({});
   } else {
     return res.status(400).send({ error: "Method not allowed" });
   }

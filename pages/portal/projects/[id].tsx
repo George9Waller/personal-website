@@ -11,12 +11,8 @@ import Loading from "../../../components/common/Loading";
 import { useRouter } from "next/router";
 import { useSWRLoading, useUser } from "../../../utils/hooks";
 import Error from "../../../components/common/Error";
-import { BlogEntryWithImages, LanguageOptionsJson } from "../../../types/db";
-import {
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-} from "@mui/material";
+import { BlogEntryWithImages } from "../../../types/db";
+import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 import LanguageInputs from "../../../components/forms/LanguageInputs";
 import MultipleSelectCheckboxes from "../../../components/common/MultipleSelectCheckboxes";
 import { ProjectCategories, sortImagesByTitle } from "../../../utils/projects";

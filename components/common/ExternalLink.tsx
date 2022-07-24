@@ -9,9 +9,20 @@ type ExternalLinkProps = {
   className?: string;
 };
 
-export const ExternalLink = ({ href, displayText, className }: ExternalLinkProps) => (
+export const ExternalLink = ({
+  href,
+  displayText,
+  className,
+}: ExternalLinkProps) => (
   <Link href={href}>
-    <a target="_blank" rel="noreferrer" className={classNames("link block", className)}>{displayText}<FontAwesomeIcon icon={faExternalLink} className="ml-1"/></a>
+    <a
+      target="_blank"
+      rel="noreferrer"
+      className={classNames("link block", className)}
+    >
+      {displayText}
+      <FontAwesomeIcon icon={faExternalLink} className="ml-1" />
+    </a>
   </Link>
 );
 

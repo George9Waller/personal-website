@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../../../prisma/db";
 import { withSentry } from "@sentry/nextjs";
 import { constructTranslations } from "../../../../../utils/common";
-import { checkUserPermission, getUser } from "../../../../../utils/api";
+import { checkUserPermission } from "../../../../../utils/api";
 import { BlogImage } from "@prisma/client";
 
 export interface BlogImageCreateData {
@@ -22,8 +22,10 @@ export interface BlogImageCreateResponse {
   error?: string;
 }
 
-export async function handler(req: NextApiRequest, res: NextApiResponse<BlogImageCreateResponse>) {
-
+export async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<BlogImageCreateResponse>
+) {
   if (req.method === "POST") {
     await checkUserPermission(req, res, (user) => user.isAdmin);
 
@@ -37,11 +39,10 @@ export async function handler(req: NextApiRequest, res: NextApiResponse<BlogImag
         width: body.width,
         height: body.height,
         isCover: body.cover,
-        blogEntryId: body.blogEntryId
-      }
-    })
-    return res.status(201).json({ image })
-
+        blogEntryId: body.blogEntryId,
+      },
+    });
+    return res.status(201).json({ image });
   } else {
     return res.status(405).send({ error: "method not permitted" });
   }

@@ -1,5 +1,5 @@
 import { withSentry } from "@sentry/nextjs";
-import nodemailer from 'nodemailer'
+import nodemailer from "nodemailer";
 import { NextApiRequest, NextApiResponse } from "next";
 import { emailDefaults, FROM_EMAIL } from "../../utils/emails";
 
@@ -20,21 +20,22 @@ export async function handler(
 ) {
   if (req.method === "POST") {
     const { name, email, subject, message } = req.body;
-    const transporter = nodemailer.createTransport(emailDefaults)
+    const transporter = nodemailer.createTransport(emailDefaults);
     const mailData = {
       from: FROM_EMAIL,
-      to: ['george@georgewaller.com', 'george.waller3@gmail.com'],
+      to: ["george@georgewaller.com", "george.waller3@gmail.com"],
       subject: subject,
-      text: `Email: ${email}\nName: ${name}\n\n${message}`
-    }
-    transporter.sendMail(mailData, (err, info) => {
-      console.log(err, info)
+      text: `Email: ${email}\nName: ${name}\n\n${message}`,
+    };
+    transporter.sendMail(mailData, (err, _info) => {
       if (err) {
-        res.status(400).send({ error: "An error occurred sending the message" })
+        res
+          .status(400)
+          .send({ error: "An error occurred sending the message" });
       } else {
-        res.status(200).send({})
+        res.status(200).send({});
       }
-    })
+    });
   } else {
     return res.status(400).send({ error: "Method not allowed" });
   }

@@ -1,7 +1,6 @@
 import { ThemeOptions } from "@mui/material";
 import { Prisma } from "@prisma/client";
 import axios from "axios";
-import { trackPromise } from "react-promise-tracker";
 import _ from "underscore";
 import { PAGINATION_COUNT } from "./constants";
 
@@ -31,7 +30,11 @@ export const constructTranslations = (en?: string, fr?: string) => {
   };
 };
 
-export const getPaginationUrl = (base: string, pageNumber?: number, zeroIndexed?: boolean) => {
+export const getPaginationUrl = (
+  base: string,
+  pageNumber?: number,
+  zeroIndexed?: boolean
+) => {
   const firstPage = zeroIndexed ? 0 : 1;
   return `${base}?take=${PAGINATION_COUNT}${
     pageNumber && pageNumber > firstPage

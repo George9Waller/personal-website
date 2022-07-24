@@ -7,4 +7,4 @@ export type BlogEntryWithImages = Prisma.BlogEntryGetPayload<{
 export interface LanguageOptionsJson {
   "en-GB": string;
   fr: string;
-};
+}
