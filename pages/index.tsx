@@ -47,7 +47,7 @@ const Home = ({ projects }: InferGetStaticPropsType<typeof getStaticProps>) => {
             For further information, print inquires and photographic work please
             contact me via the{" "}
             <Link href="/contact-me">
-              <span className="btn btn-xs">Contact Me</span>
+              <a className="btn btn-xs">Contact Me</a>
             </Link>{" "}
             page or my email:{" "}
             <Link href="mailto:george@georgewaller.com">
@@ -57,7 +57,7 @@ const Home = ({ projects }: InferGetStaticPropsType<typeof getStaticProps>) => {
         </Container>
         <Container>
           <SubHeading className="mb-4">Recent Projects</SubHeading>
-          <FlexGrid>
+          <FlexGrid className="recent-projects">
             {projects.map((project: BlogEntryWithImages) => (
               <ProjectCard key={project.id} project={project} />
             ))}

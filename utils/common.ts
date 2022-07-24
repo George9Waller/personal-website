@@ -23,6 +23,7 @@ export const maybeSelectTranslation = (
   }
 };
 
+// Remember to reflect any updates in ./prisma/seed.mjs
 export const constructTranslations = (en?: string, fr?: string) => {
   return {
     "en-GB": en || "",

@@ -2,6 +2,7 @@ import { BlogImage } from "@prisma/client";
 import classNames from "classnames";
 import { selectTranslation } from "./common";
 
+// Remember to reflect any updates in ./prisma/seed.mjs
 export enum ProjectCategories {
   PHOTOGRAPHY = "Photography",
   FINE_ART = "Fine-art",

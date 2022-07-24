@@ -14,7 +14,7 @@ interface Props {
 export const ProjectCard = ({ project }: Props) => {
   const coverImage = project.images[0];
   return (
-    <div className="indicator">
+    <div className="indicator project-card">
       <span
         className={classNames(
           "indicator-item badge",

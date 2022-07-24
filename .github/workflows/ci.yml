@@ -6,6 +6,7 @@ on:
 env:
   NODE_VERSION: 16
   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+  NEXT_PUBLIC_SITE_URL: http://localhost:3000
 
 jobs:
   ci:
@@ -39,12 +40,10 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+        run: npx playwright install --with-deps
 
       - name: migrate db
         run: npx prisma db push
-
-      - name: Build
-        run: npm run ci:build
 
       - name: Test
         run: npm run test:remote
