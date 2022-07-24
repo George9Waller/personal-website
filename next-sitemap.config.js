@@ -13,7 +13,7 @@ const config = {
     alternateRefs: config.alternateRefs ?? [],
   }),
   robotsTxtOptions: {
-    policies: [{ userAgent: '*', disallow: '/portal/*' }]
+    policies: [{ userAgent: "*", disallow: "/portal/*" }],
   },
 };
 

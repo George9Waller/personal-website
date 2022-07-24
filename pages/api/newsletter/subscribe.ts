@@ -37,11 +37,9 @@ export async function handler(
       getNewsletterVerificationEmailData(email, subscription.id),
       (err, _info) => {
         if (err) {
-          return res
-            .status(400)
-            .send({
-              error: "There was an error sending the verification email",
-            });
+          return res.status(400).send({
+            error: "There was an error sending the verification email",
+          });
         } else {
           return res.status(200).send({});
         }

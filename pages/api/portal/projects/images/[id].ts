@@ -76,12 +76,9 @@ export async function handler(
       },
       (err, _data) => {
         if (err) {
-          return res
-            .status(400)
-            .send({
-              error:
-                "there was an error deleting the corresponding image in s3",
-            });
+          return res.status(400).send({
+            error: "there was an error deleting the corresponding image in s3",
+          });
         }
       }
     );

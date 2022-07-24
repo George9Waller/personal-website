@@ -11,7 +11,8 @@
     "build:css": "postcss styles/tailwind.css -o styles/main.css",
     "build:watch": "postcss styles/tailwind.css -o styles/main.css --watch",
     "prod:build": "NODE_ENV=production && npm run build:css && npm run build",
-    "prettier": "prettier -c '**/*.{ts,tsx,js,jsx,css,less,json}'"
+    "prettier": "prettier -c '**/*.{ts,tsx,js,jsx,css,less,json}'",
+    "prettier:write": "prettier -w '**/*.{ts,tsx,js,jsx,css,less,json}'"
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",
