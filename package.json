@@ -25,7 +25,7 @@
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "test:local": "npm run docker:up && npm run prismamigrate:test && npm run pretest && npm run test:playwright && npm run docker:down",
-    "test:remote": "npm run pretest && npm  && npm run test:playwright"
+    "test:remote": "npm run pretest && npm run build:test && npm run test:playwright"
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",

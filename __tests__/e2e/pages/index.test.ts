@@ -1,5 +1,11 @@
 import { test, expect } from "@playwright/test";
 
+test("page metadata", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator("title")).toHaveCount(1);
+  await expect(page.locator("meta[name='description']")).toHaveCount(1);
+});
+
 test("should load page content", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("h1")).toContainText("George Waller");
