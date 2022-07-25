@@ -18,29 +18,17 @@ const config: PlaywrightTestConfig = {
       use: { ...devices["Desktop Chrome"] },
     },
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] }
+      name: "firefox",
+      use: { ...devices["Desktop Firefox"] },
     },
     {
-      name: 'safari',
-      use: { ...devices['Desktop Safari'] }
+      name: "safari",
+      use: { ...devices["Desktop Safari"] },
     },
     {
-      name: 'edge',
-      use: { ...devices['Desktop Edge'] }
+      name: "mobile",
+      use: { ...devices["Pixel 5"] },
     },
-    {
-      name: 'android',
-      use: { ...devices['Pixel 5'] }
-    },
-    {
-      name: "iphone",
-      use: { ...devices["iPhone 13"] },
-    },
-    {
-      name: 'ipad',
-      use: { ...devices['iPad (gen 7)'] }
-    }
   ],
 };
 export default config;
