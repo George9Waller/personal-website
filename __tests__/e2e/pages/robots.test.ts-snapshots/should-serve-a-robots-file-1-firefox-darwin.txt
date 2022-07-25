@@ -1,0 +1,10 @@
+<html><head><link rel="stylesheet" href="resource://content-accessible/plaintext.css"></head><body><pre># *
+User-agent: *
+Disallow: /portal/*
+
+# Host
+Host: http://localhost:3000
+
+# Sitemaps
+Sitemap: http://localhost:3000/sitemap.xml
+</pre></body></html>
