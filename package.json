@@ -17,6 +17,7 @@
     "ci:build": "npm run build:css && npm run build",
     "prettier": "prettier -c '**/*.{ts,tsx,js,jsx,css,less,json}'",
     "prettier:write": "prettier -w '**/*.{ts,tsx,js,jsx,css,less,json}'",
+    "prismamigrate:dev": "dotenv -e .env.local -- npx prisma migrate dev",
     "prismamigrate:test": "dotenv -e .env.test -- npx prisma migrate deploy",
     "pretest": "dotenv -e .env.test -- npx prisma db seed && npm run build:test",
     "build:test": "dotenv -e .env.test -- next build",

@@ -16,6 +16,7 @@ const main = async () => {
   }
 
   try {
+    await prisma.user.deleteMany({});
     await prisma.blogImage.deleteMany({});
     await prisma.blogEntry.deleteMany({});
     await prisma.blogEntry.create({
@@ -90,7 +91,28 @@ const main = async () => {
         },
       ],
     });
+    await prisma.user.createMany({
+      data: [
+        {
+          id: '1',
+          isAdmin: true,
+          name: 'Adam Admin',
+          email: 'adam@admin.invalid',
+          emailVerified: new Date('2022-07-25'),
+          image: null,
+        },
+        {
+          id: '2',
+          isAdmin: false,
+          name: 'Ursula User',
+          email: 'ursula@user.invalid',
+          emailVerified: new Date('2022-07-25'),
+          image: null,
+        }
+      ]
+    })
   } catch (e) {
+    console.log(e); // eslint-disable-line no-console
     process.exit(1);
   } finally {
     prisma.$disconnect();

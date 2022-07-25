@@ -26,11 +26,8 @@ export const Footer = () => {
         </div>
         <div>
           <span className="footer-title">Projects</span>
-          <Link href="/projects/photography">
-            <a className="link link-hover">Photography</a>
-          </Link>
-          <Link href="/projects/coding">
-            <a className="link link-hover">Coding</a>
+          <Link href="/projects">
+            <a className="link link-hover">All Projects</a>
           </Link>
         </div>
         <div>
@@ -65,6 +62,9 @@ export const Footer = () => {
               </a>
             </Link>
           )}
+          <Link href="https://stats.uptimerobot.com/V9mM0t28rR">
+            <a className="link link-hover">Status</a>
+          </Link>
         </div>
         <div>
           <span className="footer-title">Stay up to date</span>
