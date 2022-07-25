@@ -5,7 +5,7 @@ const config: PlaywrightTestConfig = {
     url: process.env.NEXT_PUBLIC_SITE_URL,
   },
   use: {
-    headless: false,
+    headless: true,
     viewport: { width: 1280, height: 720 },
     ignoreHTTPSErrors: true,
     video: "on-first-retry",
