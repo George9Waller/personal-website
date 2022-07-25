@@ -28,18 +28,29 @@ export const ImageGallery = ({ images }: Props) => {
     setShowLightbox(true);
   };
 
+  const nextImage = () => {
+    if (showLightbox && currentImage < images.length - 1) {
+      setCurrentImage(currentImage + 1);
+    }
+  };
+
+  const previousImage = () => {
+    if (showLightbox && currentImage > 0) {
+      return setCurrentImage(currentImage - 1);
+    }
+  };
+
   const onKeyDown = (event: KeyboardEvent) => {
     if (showLightbox) {
-      if (event.keyCode === 37 && currentImage > 0) {
-        return setCurrentImage(currentImage - 1);
-      } else if (event.keyCode === 39 && currentImage < images.length - 1) {
-        return setCurrentImage(currentImage + 1);
+      if (event.keyCode === 37) {
+        previousImage();
+      } else if (event.keyCode === 39) {
+        nextImage();
       }
     }
   };
 
   const getCarouselButtons = ({
-    onClick,
     next,
     className,
     style,
@@ -54,7 +65,9 @@ export const ImageGallery = ({ images }: Props) => {
         <button
           className={classNames("btn btn-primary", className)}
           style={style}
-          onClick={onClick}
+          onClick={() => {
+            next ? nextImage() : previousImage();
+          }}
         >
           <FontAwesomeIcon icon={next ? faAngleRight : faAngleLeft} />
         </button>

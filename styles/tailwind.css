@@ -114,3 +114,17 @@ ul {
   word-wrap: break-word;
   border-radius: 4px;
 }
+
+.rendered-markdown blockquote {
+  background: hsl(var(--b2));
+  border: 1px solid hsl(var(--b1));
+  border-left: 3px solid hsl(var(--s));
+  color: hsl(var(--bc));
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 100%;
+  overflow: auto;
+  padding: 1em 1.5em;
+  display: block;
+  border-radius: 4px;
+}

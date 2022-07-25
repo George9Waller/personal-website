@@ -13,6 +13,12 @@ export const ProjectsApp: PortalApp = {
   href: "/portal/projects/",
 };
 
+export const NewsletterApp: PortalApp = {
+  title: "Newsletter",
+  colour: "bg-accent-100",
+  href: "/newsletter",
+};
+
 export const checkUser = async (
   field: keyof MeData,
   invalidFunc: () => void

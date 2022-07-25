@@ -15,15 +15,34 @@ const main = async () => {
     CODING: "Coding",
   }
 
+  const sampleData = `
+  # Hello
+  This is an example blog post
+  ## With multiple levels of headings
+  ### Even smaller ones
+  Maybe you want to [link](https://www.google.com) to another site.
+  
+  > Block quotes are allowed too
+  - As well as dash
+  * and bullet point lists
+  
+  \`\`\`python
+    def do_something():
+      print('Function just does nothing')
+  \`\`\`
+  
+  `;
+
   try {
     await prisma.user.deleteMany({});
     await prisma.blogImage.deleteMany({});
     await prisma.blogEntry.deleteMany({});
+    await prisma.newsletterSubscriber.deleteMany({});
     await prisma.blogEntry.create({
       data: {
         title: constructTranslations("A"),
         shortDescription: constructTranslations("A short"),
-        content: constructTranslations("A content"),
+        content: constructTranslations(sampleData),
         draft: false,
         archieved: false,
         category: [ProjectCategories.FINE_ART],
@@ -46,6 +65,22 @@ const main = async () => {
                 width: 500,
                 isCover: true,
                 title: constructTranslations("Image b"),
+              },
+              {
+                imageUrl: "https://placekitten.com/500/300",
+                altText: constructTranslations("A kitten 3"),
+                height: 300,
+                width: 500,
+                isCover: false,
+                title: constructTranslations("Image c"),
+              },
+              {
+                imageUrl: "https://placekitten.com/500/300",
+                altText: constructTranslations("A kitten 4"),
+                height: 300,
+                width: 500,
+                isCover: false,
+                title: constructTranslations("Image d"),
               },
             ],
           },
@@ -89,6 +124,51 @@ const main = async () => {
           archieved: false,
           date: new Date("2022-05-20"),
         },
+        {
+          title: constructTranslations("F"),
+          shortDescription: constructTranslations("F short"),
+          content: constructTranslations("F content"),
+          draft: false,
+          archieved: false,
+          category: [ProjectCategories.FINE_ART],
+          date: new Date("2022-04-20"),
+        },
+        {
+          title: constructTranslations("G"),
+          shortDescription: constructTranslations("G short"),
+          content: constructTranslations("G content"),
+          draft: false,
+          archieved: false,
+          category: [ProjectCategories.CODING],
+          date: new Date("2022-03-20"),
+        },
+        {
+          title: constructTranslations("H"),
+          shortDescription: constructTranslations("H short"),
+          content: constructTranslations("H content"),
+          draft: false,
+          archieved: false,
+          category: [ProjectCategories.FINE_ART, ProjectCategories.CODING],
+          date: new Date("2022-02-20"),
+        },
+        {
+          title: constructTranslations("I"),
+          shortDescription: constructTranslations("I short"),
+          content: constructTranslations("I content"),
+          draft: false,
+          archieved: false,
+          category: [ProjectCategories.FINE_ART, ProjectCategories.PHOTOGRAPHY],
+          date: new Date("2022-01-20"),
+        },
+        {
+          title: constructTranslations("J"),
+          shortDescription: constructTranslations("J short"),
+          content: constructTranslations("J content"),
+          draft: false,
+          archieved: false,
+          category: [ProjectCategories.PHOTOGRAPHY],
+          date: new Date("2021-12-20"),
+        },
       ],
     });
     await prisma.user.createMany({
@@ -108,6 +188,18 @@ const main = async () => {
           email: 'ursula@user.invalid',
           emailVerified: new Date('2022-07-25'),
           image: null,
+        }
+      ]
+    })
+    await prisma.newsletterSubscriber.createMany({
+      data: [
+        {
+          email: 'verified@email.invalid',
+          emailVerified: true
+        },
+        {
+          email: 'unverified@email.invalid',
+          emailVerified: false
         }
       ]
     })
