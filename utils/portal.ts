@@ -15,7 +15,7 @@ export const ProjectsApp: PortalApp = {
 
 export const NewsletterApp: PortalApp = {
   title: "Newsletter",
-  colour: "bg-accent-100",
+  colour: "bg-green-100",
   href: "/newsletter",
 };
 

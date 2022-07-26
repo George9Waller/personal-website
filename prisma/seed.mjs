@@ -166,7 +166,7 @@ const main = async () => {
           content: constructTranslations("J content"),
           draft: false,
           archieved: false,
-          category: [ProjectCategories.PHOTOGRAPHY],
+          category: [ProjectCategories.PHOTOGRAPHY, ProjectCategories.CODING],
           date: new Date("2021-12-20"),
         },
       ],

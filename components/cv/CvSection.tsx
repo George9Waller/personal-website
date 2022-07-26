@@ -8,7 +8,7 @@ type CvSectionProps = {
 };
 
 export const CvSection = ({ children, title, className }: CvSectionProps) => (
-  <div className={classNames("mt-4", className)}>
+  <div className={classNames("mt-4 cv-section", className)}>
     <SubHeading className="border-l-8 border-secondary mb-5">
       <span className="ml-4">{title}</span>
     </SubHeading>

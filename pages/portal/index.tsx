@@ -6,7 +6,7 @@ import Loading from "../../components/common/Loading";
 import SubHeading from "../../components/common/SubHeading";
 import NavLayout from "../../components/layouts/NavLayout";
 import PortalCard from "../../components/portal/PortalCard";
-import { PortalApp, ProjectsApp } from "../../utils/portal";
+import { NewsletterApp, PortalApp, ProjectsApp } from "../../utils/portal";
 import { MeData } from "../api/user/me";
 import { NextPageWithLayout } from "./../_app";
 
@@ -16,7 +16,7 @@ const Portal: NextPageWithLayout = () => {
     isAdmin: false,
   });
 
-  const apps = [...(isAdmin ? [ProjectsApp] : [])];
+  const apps = [NewsletterApp, ...(isAdmin ? [ProjectsApp] : [])];
 
   const getUser = async () => {
     const res = await trackPromise(fetch("api/user/me"));
@@ -38,20 +38,21 @@ const Portal: NextPageWithLayout = () => {
         />
       </Head>
       <Container>
-        {promiseInProgress && <Loading />}
-        {!promiseInProgress && apps.length === 0 && (
+        {promiseInProgress ? <Loading /> : (
+          <>
+          {apps.length === 0 ? (
           <div className="mx-auto">
             <SubHeading>
               There are no apps available for you right now
             </SubHeading>
           </div>
-        )}
-        {apps.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {apps.map((app: PortalApp, index: number) => (
               <PortalCard key={index} app={app} />
             ))}
           </div>
+        )}</>
         )}
       </Container>
     </>

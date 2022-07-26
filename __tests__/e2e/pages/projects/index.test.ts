@@ -49,13 +49,16 @@ test.describe("ProjectsList", () => {
     await page.locator("button:has-text('Photography')").click();
     await page.locator("button:has-text('Fine-art')").click();
 
-    await expect(page.locator(".project-card")).toHaveCount(2);
+    await expect(page.locator(".project-card")).toHaveCount(3);
     await expect(
       page.locator(":nth-match(.project-card, 1) .card-title")
     ).toHaveText("G");
     await expect(
       page.locator(":nth-match(.project-card, 2) .card-title")
     ).toHaveText("H");
+    await expect(
+      page.locator(":nth-match(.project-card, 3) .card-title")
+    ).toHaveText("J");
   });
 
   test("Filters to multiple categories", async ({ page }) => {

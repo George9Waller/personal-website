@@ -47,7 +47,7 @@ const CV = ({ projects }: InferGetStaticPropsType<typeof getStaticProps>) => {
       </Head>
       <Container>
         <div className="grid grid-cols-3 gap-6">
-          <div className="col-span-3 lg:col-span-2">
+          <div className="col-span-3 lg:col-span-2 cv-content">
             <Heading className="">George Waller</Heading>
             <SubHeading className="mt-2 font-thin text-primary">
               Web Developer
@@ -216,8 +216,8 @@ const CV = ({ projects }: InferGetStaticPropsType<typeof getStaticProps>) => {
               </FlexGrid>
             </CvSection>
           </div>
-          <div className="col-span-3 lg:col-span-1 rounded grid grid-cols-3 lg:grid-cols-1 gap-8 items-center auto-rows-max justify-center bg-gradient-to-r lg:bg-gradient-to-b from-green-400 to-blue-500 px-4 p-4 lg:py-12 text-gray-100">
-            <div className="avatar mx-auto">
+          <div className="col-span-3 lg:col-span-1 rounded grid grid-cols-1 md:grid-cols-3 lg:grid-cols-1 gap-8 items-center auto-rows-max justify-center bg-gradient-to-r lg:bg-gradient-to-b from-green-400 to-blue-500 px-4 p-4 lg:py-12 text-gray-100 cv-sidebar">
+            <div className="avatar mx-auto sidebar-section">
               <div className="w-48 rounded">
                 <Image
                   src="https://georgewaller.s3.amazonaws.com/media/IMG_20211008_000309_08611.jpg"
@@ -227,7 +227,7 @@ const CV = ({ projects }: InferGetStaticPropsType<typeof getStaticProps>) => {
                 />
               </div>
             </div>
-            <div className="grid grid-cols-1 gap-2 mx-auto">
+            <div className="grid grid-cols-1 gap-2 mx-auto sidebar-section">
               <CvStat icon={faLocationDot}>
                 <ExternalLink
                   href="https://goo.gl/maps/UcSYxgsGvgzCpvef8"
@@ -257,7 +257,7 @@ const CV = ({ projects }: InferGetStaticPropsType<typeof getStaticProps>) => {
                 </div>
               </CvStat>
             </div>
-            <div className="mx-auto">
+            <div className="mx-auto sidebar-section">
               <SubHeading className="text-center mb-2">Skills</SubHeading>
               <div className="flex flex-wrap gap-2 justify-evenly">
                 <CvSkill icon={faPython} name="Python" />
@@ -279,7 +279,7 @@ const CV = ({ projects }: InferGetStaticPropsType<typeof getStaticProps>) => {
           </div>
         </div>
         <Divider />
-        <CvSection title="Recent coding projects">
+        <CvSection title="Recent coding projects" className="recent-projects">
           <FlexGrid>
             {projects.map((project: BlogEntryWithImages) => (
               <ProjectCard key={project.id} project={project} />
