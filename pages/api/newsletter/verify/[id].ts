@@ -15,15 +15,19 @@ export async function handler(
     query: { id },
   } = req;
 
-  const subscription = await prisma.newsletterSubscriber.update({
-    where: {
-      id: id.toString(),
-    },
-    data: {
-      emailVerified: true,
-    },
-  });
-  subscription ? res.status(200).send({ subscription }) : res.status(400);
+  try {
+    const subscription = await prisma.newsletterSubscriber.update({
+      where: {
+        id: id.toString(),
+      },
+      data: {
+        emailVerified: true,
+      },
+    });
+    res.status(200).send({ subscription });
+  } catch (error) {
+    res.status(400);
+  }
 }
 
 export default withSentry(handler);

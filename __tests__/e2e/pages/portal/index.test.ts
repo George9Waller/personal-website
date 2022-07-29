@@ -22,9 +22,9 @@ test.describe("Portal normal-user", () => {
 
   test("should present newsletter", async ({ page }) => {
     await expect(page.locator(".container .grid div")).toHaveCount(1);
-    await expect(page.locator(":nth-match(.container .grid div, 1) h2")).toHaveText(
-      "Newsletter"
-    );
+    await expect(
+      page.locator(":nth-match(.container .grid div, 1) h2")
+    ).toHaveText("Newsletter");
   });
 });
 
@@ -40,11 +40,11 @@ test.describe("Portal admin-user", () => {
 
   test("should present projects and newsletter", async ({ page }) => {
     await expect(page.locator(".container .grid div")).toHaveCount(2);
-    await expect(page.locator(":nth-match(.container .grid div, 1) h2")).toHaveText(
-      "Newsletter"
-    );
-    await expect(page.locator(":nth-match(.container .grid div, 2) h2")).toHaveText(
-      "Projects"
-    );
+    await expect(
+      page.locator(":nth-match(.container .grid div, 1) h2")
+    ).toHaveText("Newsletter");
+    await expect(
+      page.locator(":nth-match(.container .grid div, 2) h2")
+    ).toHaveText("Projects");
   });
 });

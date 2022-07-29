@@ -38,21 +38,24 @@ const Portal: NextPageWithLayout = () => {
         />
       </Head>
       <Container>
-        {promiseInProgress ? <Loading /> : (
-          <>
-          {apps.length === 0 ? (
-          <div className="mx-auto">
-            <SubHeading>
-              There are no apps available for you right now
-            </SubHeading>
-          </div>
+        {promiseInProgress ? (
+          <Loading />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {apps.map((app: PortalApp, index: number) => (
-              <PortalCard key={index} app={app} />
-            ))}
-          </div>
-        )}</>
+          <>
+            {apps.length === 0 ? (
+              <div className="mx-auto">
+                <SubHeading>
+                  There are no apps available for you right now
+                </SubHeading>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {apps.map((app: PortalApp, index: number) => (
+                  <PortalCard key={index} app={app} />
+                ))}
+              </div>
+            )}
+          </>
         )}
       </Container>
     </>

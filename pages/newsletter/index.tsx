@@ -84,7 +84,7 @@ const Newsletter: NextPageWithLayout = () => {
         if (subscription.emailVerified) {
           return (
             <>
-              You can update your preferences at any time from this page.
+              <p>You can update your preferences at any time from this page</p>
               <button
                 className="btn btn-error"
                 onClick={() => handleUnsubscribe()}
@@ -97,17 +97,17 @@ const Newsletter: NextPageWithLayout = () => {
           !showReVerify && setShowReVerify(true);
           return (
             <div className="flex flex-col gap-2 items-center">
-              <span>
-                Your email still needs verifying please check your inbox
-              </span>
+              <p>Your email still needs verifying please check your inbox</p>
             </div>
           );
         }
       } else {
         return (
           <>
-            You are not subscribed yet, you can update your preferences at any
-            time from this page
+            <p>
+              You are not subscribed yet, you can update your preferences at any
+              time from this page
+            </p>
             <button
               className="btn btn-primary"
               onClick={() => handleSubscribe()}

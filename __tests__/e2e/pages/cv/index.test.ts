@@ -74,7 +74,9 @@ test.describe("CV", () => {
       3
     );
     await expect(
-      page.locator(":nth-match(.cv-sidebar div.sidebar-section, 1) img[alt='Headshot of George Waller']")
+      page.locator(
+        ":nth-match(.cv-sidebar div.sidebar-section, 1) img[alt='Headshot of George Waller']"
+      )
     ).toHaveCount(1);
 
     const contactLinks = await page.locator(
