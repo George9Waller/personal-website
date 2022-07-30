@@ -49,7 +49,6 @@ const credentialsProvider = CredentialsProvider({
 });
 
 export const authOptions: NextAuthOptions = {
-  secret: process.env.SECRET_KEY,
   adapter: PrismaAdapter(prisma),
   session: {
     strategy: "jwt",
