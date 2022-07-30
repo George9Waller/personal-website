@@ -25,6 +25,8 @@
     "prettier:write": "prettier -w '**/*.{ts,tsx,js,jsx,css,less,json}'",
     "prismamigrate:dev": "dotenv -e .env.local -- npx prisma migrate dev",
     "prismamigrate:test": "dotenv -e .env.test -- npx prisma migrate deploy",
+    "prismastudio:main": "dotenv -e .env.local -- npx prisma studio",
+    "prismastudio:test": "dotenv -e .env.test -- npx prisma studio",
     "pretest": "dotenv -e .env.test -- npx prisma db seed",
     "build:test": "dotenv -e .env.test -- next build",
     "test:playwright": "dotenv -e .env.test -- playwright test",

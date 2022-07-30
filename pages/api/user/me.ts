@@ -34,7 +34,9 @@ export async function handler(
         return res.json({ isAdmin: user?.isAdmin });
       })
       .catch(() => {
-        throw new Error("An error occurred fetching user details");
+        return res
+          .status(400)
+          .send({ error: "An error occurred fetching user details" });
       });
   } else {
     return res.status(400).send({ error: "Method not allowed" });
