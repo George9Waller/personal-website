@@ -31,7 +31,7 @@ export default function Document() {
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
       </Head>
-      <body style={{ overflow: 'hidden' }}>
+      <body style={{ overflow: "hidden" }}>
         <Main />
         <NextScript />
       </body>

@@ -18,7 +18,7 @@ const nextConfig = {
       process.env.SENTRY_ORG &&
       process.env.SENTRY_PROJECT &&
       process.env.NODE_ENV === "production" &&
-      process.env.APP_ENV !== 'test'
+      process.env.APP_ENV !== "test"
     ) {
       const setCommits =
         process.env.NODE_ENV === "production"

@@ -24,7 +24,7 @@ type AppPropsWithLayout = AppProps & {
 export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
   return (
-    <div style={{ overflowX: 'hidden'}}>
+    <div style={{ overflowX: "hidden" }}>
       <Script
         async
         src="https://www.googletagmanager.com/gtag/js?id=G-J9SNYSBDED"
