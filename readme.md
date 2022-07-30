@@ -1,34 +1,63 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+[![Uptime Robot status](https://img.shields.io/uptimerobot/status/m779426128-6b6e81ed8dc987db17d4cad2.svg)](https://stats.uptimerobot.com/V9mM0t28rR)
+![Lint](https://github.com/George9Waller/personal-website/actions/workflows/lint.yml/badge.svg)
+![CI tests](https://github.com/George9Waller/personal-website/actions/workflows/ci.yml/badge.svg)
 
-## Getting Started
+# Intro
+This is the repo for my website hosted at [georgewaller.com](https://georgewaller.com).
 
-First, run the development server:
+It is built on the following stack
+- [Nextjs](https://nextjs.org/) (written in TypeScript)
+- [Prisma](https://www.prisma.io/) DB orm (postgres db hosted on [heroku](https://www.heroku.com/home)
+- static files (images) stored in [aws s3](https://aws.amazon.com/s3/)
+- authtentication provided by [next auth](https://next-auth.js.org/)
+- [sentry](https://sentry.io/welcome/) for error detection
+- [uptime robot](https://uptimerobot.com/) for site downtime detection
+- testing using [playwright](https://playwright.dev/)
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+# Dev
+- to run tests locally docker is used
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Github actions
+2 actions are run on every PR against master:
+1. Lint using `npm run lint`
+2. CI which builds the project and runs all playwright tests
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Flows
+### Local dev
+For live server refresh: `npm run dev`
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+To build the project then run the server: `npm run build` then `npm run start:dev`
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### Local Test
+1. Build: `npm run docker:up` then `npm run build:test` (this step avoids building the project on every test run)
+2. Run tests: `npm run test:local`
+3. Docker down: docker will be closed automatically if all tests pass, alternativly use `npm run docker:down`
 
-## Learn More
+### Lint
+To test run `npm run lint`
 
-To learn more about Next.js, take a look at the following resources:
+To fix run `npm run prettier:write`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Env variables
+| name | Description |
+|--------|-------------|
+| APP_ENV | set to `TEST` when testing to turn off sentry releases and enable test behaviour for authentication |
+| AWS_ACCESS_KEY_ID | aws access key id |
+| AWS_SECRET_ACCESS_KEY | aws access key secret |
+| AWS_STORAGE_BUCKET_NAME | name of the storage bucket |
+| AWS_UPLOAD_REGION | the region of the aws bucket e.g. `eu-west-2` |
+| DATABASE_URL | url for postgres db |
+| SHADOW_DATABASE_URL | url for a shadow db used by prisma when generating migrations |
+| EMAIL_SEND_ACCOUNT | username for the email send account |
+| EMAIL_SEND_ACCOUNT_PASS | password for the email send account |
+| GOOGLE_CLIENT_ID | client id for google auth provider, see https://next-auth.js.org/providers/google for more details |
+| GOOGLE_CLIENT_SECRET | google client secret |
+| NEXTAUTH_URL | the url of the hosted site e.g. `http://localhost:8080` |
+| NEXT_PUBLIC_SITE_URL | the url of the hosted site e.g. `http://localhost:8080` |
+| SECRET_KEY | a secret string used for next auth |
+| SENTRY_AUTH_TOKEN | token for sentry cli auth https://docs.sentry.io/api/auth/ |
+| SENTRY_DSN | the dsn for your sentry account |
+| SENTRY_IGNORE_API_RESOLUTION_ERROR | set to 1 - disables api resolving without returning a response, this is an existing bug with the project |
+| SENTRY_ORG | your org name on sentry |
+| SENTRY_PROJECT | the name of your sentry project |
