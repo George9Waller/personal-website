@@ -15,19 +15,21 @@ export async function handler(
     query: { id },
   } = req;
 
-  try {
-    const subscription = await prisma.newsletterSubscriber.update({
+  await prisma.newsletterSubscriber
+    .update({
       where: {
         id: id.toString(),
       },
       data: {
         emailVerified: true,
       },
+    })
+    .then((subscription) => {
+      res.status(200).send({ subscription });
+    })
+    .catch(() => {
+      res.status(400).send({});
     });
-    res.status(200).send({ subscription });
-  } catch (error) {
-    res.status(400);
-  }
 }
 
 export default withSentry(handler);

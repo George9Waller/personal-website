@@ -1,4 +1,6 @@
 import { test, expect, Page } from "@playwright/test";
+import { v4 as uuidv4 } from "uuid";
+import { prisma } from "../../../../prisma/db";
 
 export const subscribeRoute = (page: Page) =>
   page.route("**/api/newsletter/subscribe", (route) => {
@@ -41,7 +43,15 @@ test.describe("Newsletter Page", () => {
   });
 
   test("Verify email sent", async ({ page }) => {
-    await page.locator("input[name='email']").fill("unverified@email.invalid");
+    const email = `${uuidv4()}@email.invalid`;
+    await prisma.newsletterSubscriber.create({
+      data: {
+        email,
+        emailVerified: false,
+      },
+    });
+
+    await page.locator("input[name='email']").fill(email);
     await page.locator("button[type='submit']").click();
 
     await expect(page.locator(".container p")).toHaveText(
@@ -57,7 +67,15 @@ test.describe("Newsletter Page", () => {
   });
 
   test("activate subscription", async ({ page }) => {
-    await page.locator("input[name='email']").fill("verified@email.invalid");
+    const email = `${uuidv4()}@email.invalid`;
+    await prisma.newsletterSubscriber.create({
+      data: {
+        email,
+        emailVerified: true,
+      },
+    });
+
+    await page.locator("input[name='email']").fill(email);
     await page.locator("button[type='submit']").click();
 
     await expect(page.locator(".container p")).toHaveText(

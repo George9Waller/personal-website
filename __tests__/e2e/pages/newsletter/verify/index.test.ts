@@ -1,28 +1,20 @@
-import { test, expect, Page } from "@playwright/test";
+import { test, expect } from "@playwright/test";
+import { v4 as uuidv4 } from "uuid";
 import { prisma } from "../../../../../prisma/db";
 
-export const verifyRoute = (page: Page) =>
-  page.route("**/api/newsletter/verify/*", (route) => {
-    route.fulfill({});
-  });
-
-export const verifyRouteBadRequest = (page: Page) =>
-  page.route("**/api/newsletter/verify/**", (route) => {
-    route.fulfill({
-      status: 400,
-    });
-  });
-
 test.describe("VerifyNewsletter", () => {
-  test.beforeEach(async ({ page }) => {
-    await verifyRoute(page);
-  });
-
-  test("verify un-verified", async ({ page }) => {
-    const unverifiedSubscription = await prisma.newsletterSubscriber.findFirst({
-      where: { emailVerified: false },
+  test("verify verified", async ({ page }) => {
+    const email = `${uuidv4()}@email.invalid`;
+    const subscriber = await prisma.newsletterSubscriber.create({
+      data: {
+        email,
+        emailVerified: true,
+      },
     });
-    await page.goto(`/newsletter/verify/${unverifiedSubscription?.id}`);
+
+    await page.goto(`/newsletter/verify/${subscriber?.id}`);
+    await page.goto("/");
+    await page.goto(`/newsletter/verify/${subscriber?.id}`);
 
     await expect(page.locator(".container p.badge-success")).toHaveText(
       "Email successfully verified"
@@ -30,12 +22,19 @@ test.describe("VerifyNewsletter", () => {
     await page.locator("a:has-text('Update preferences')").click();
     await expect(page).toHaveURL("/newsletter");
   });
+});
 
-  test("verify verified", async ({ page }) => {
-    const unverifiedSubscription = await prisma.newsletterSubscriber.findFirst({
-      where: { emailVerified: true },
+test.describe("VerifyNewsletter", () => {
+  test("verify un-verified", async ({ page }) => {
+    const email = `${uuidv4()}@email.invalid`;
+    const subscriber = await prisma.newsletterSubscriber.create({
+      data: {
+        email,
+        emailVerified: false,
+      },
     });
-    await page.goto(`/newsletter/verify/${unverifiedSubscription?.id}`);
+
+    await page.goto(`/newsletter/verify/${subscriber?.id}`);
 
     await expect(page.locator(".container p.badge-success")).toHaveText(
       "Email successfully verified"
@@ -46,10 +45,6 @@ test.describe("VerifyNewsletter", () => {
 });
 
 test.describe("VerifyNewsletter bad request", () => {
-  test.beforeEach(async ({ page }) => {
-    await verifyRouteBadRequest(page);
-  });
-
   test("verify bad request", async ({ page }) => {
     await page.goto("/newsletter/verify/abc123");
     await expect(page.locator(".container p.badge-error")).toHaveText(
