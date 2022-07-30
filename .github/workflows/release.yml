@@ -1,0 +1,22 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  createSentryRelease:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Create sentry.io release
+        uses: tclindner/sentry-releases-action@v1.0.0
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: george-waller
+          SENTRY_PROJECT: georgewallercom
+        with:
+          tagName: ${{ github.sha }}
+          environment: prod

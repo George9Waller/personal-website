@@ -18,6 +18,7 @@ export async function handler(
 ) {
   if (req.method === "GET") {
     const session = await unstable_getServerSession(req, res, authOptions);
+    console.log(session)
     if (!session) {
       return res.status(400).json({ error: "You must be logged in" });
     }
