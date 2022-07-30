@@ -1,1 +1,0 @@
-web: gunicorn georgewaller.wsgi
