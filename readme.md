@@ -14,6 +14,9 @@ It is built on the following stack
 - [uptime robot](https://uptimerobot.com/) for site downtime detection
 - testing using [playwright](https://playwright.dev/)
 
+# Roadmap
+The roadmap for future development is managed in a GitHub project board: https://github.com/users/George9Waller/projects/1
+
 # Dev
 - to run tests locally docker is used
 
