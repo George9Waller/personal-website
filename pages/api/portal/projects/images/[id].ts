@@ -20,9 +20,9 @@ export interface BlogImageUpdateResponse {
 }
 
 const s3Client = new S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.AWS_UPLOAD_REGION,
+  accessKeyId: process.env.GW_AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.GW_AWS_SECRET_ACCESS_KEY,
+  region: process.env.GW_AWS_UPLOAD_REGION,
 });
 
 export async function handler(
@@ -71,7 +71,7 @@ export async function handler(
 
     await s3Client.deleteObject(
       {
-        Bucket: process.env.AWS_STORAGE_BUCKET_NAME || "",
+        Bucket: process.env.GW_AWS_STORAGE_BUCKET_NAME || "",
         Key: image?.imageUrl.split("/").slice(3).join("/") || "",
       },
       (err, _data) => {

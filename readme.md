@@ -3,7 +3,7 @@
 ![CI tests](https://github.com/George9Waller/personal-website/actions/workflows/ci.yml/badge.svg)
 
 # Intro
-This is the repo for my website hosted at [georgewaller.com](https://georgewaller.com).
+This is the repo for my website hosted at [georgewaller.com](https://georgewaller.com) on [Vercel](https://vercel.com/).
 
 It is built on the following stack
 - [Nextjs](https://nextjs.org/) (written in TypeScript)
@@ -46,10 +46,10 @@ To fix run `npm run prettier:write`
 | name | Description |
 |--------|-------------|
 | APP_ENV | set to `TEST` when testing to turn off sentry releases and enable test behaviour for authentication |
-| AWS_ACCESS_KEY_ID | aws access key id |
-| AWS_SECRET_ACCESS_KEY | aws access key secret |
-| AWS_STORAGE_BUCKET_NAME | name of the storage bucket |
-| AWS_UPLOAD_REGION | the region of the aws bucket e.g. `eu-west-2` |
+| GW_AWS_ACCESS_KEY_ID | aws access key id |
+| GW_AWS_SECRET_ACCESS_KEY | aws access key secret |
+| GW_AWS_STORAGE_BUCKET_NAME | name of the storage bucket |
+| GW_AWS_UPLOAD_REGION | the region of the aws bucket e.g. `eu-west-2` |
 | DATABASE_URL | url for postgres db |
 | SHADOW_DATABASE_URL | url for a shadow db used by prisma when generating migrations |
 | EMAIL_SEND_ACCOUNT | username for the email send account |
@@ -57,8 +57,9 @@ To fix run `npm run prettier:write`
 | GOOGLE_CLIENT_ID | client id for google auth provider, see https://next-auth.js.org/providers/google for more details |
 | GOOGLE_CLIENT_SECRET | google client secret |
 | NEXTAUTH_URL | the url of the hosted site e.g. `http://localhost:8080` |
+| NEXTAUTH_SECRET | a secret string used by nextauth for jwt |
 | NEXT_PUBLIC_SITE_URL | the url of the hosted site e.g. `http://localhost:8080` |
-| SECRET_KEY | a secret string used for next auth |
+| SECRET_KEY | a secret string |
 | SENTRY_AUTH_TOKEN | token for sentry cli auth https://docs.sentry.io/api/auth/ |
 | SENTRY_DSN | the dsn for your sentry account |
 | SENTRY_IGNORE_API_RESOLUTION_ERROR | set to 1 - disables api resolving without returning a response, this is an existing bug with the project |
