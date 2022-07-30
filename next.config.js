@@ -19,16 +19,20 @@ const nextConfig = {
       process.env.SENTRY_PROJECT &&
       process.env.NODE_ENV === "production"
     ) {
+      const setCommits =
+        process.env.NODE_ENV === "production"
+          ? null
+          : {
+              repo: "George9Waller/personal-website",
+              auto: true,
+            };
       config.plugins.push(
         new SentryWebpackPlugin({
           include: ".next",
           ignore: ["node_modules"],
           urlPrefix: "~/_next",
           configFile: "sentry.properties",
-          setCommits: {
-            repo: "George9Waller/personal-website",
-            auto: true,
-          },
+          setCommits: setCommits,
           authToken: process.env.SENTRY_AUTH_TOKEN,
         })
       );
