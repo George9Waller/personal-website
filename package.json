@@ -5,6 +5,9 @@
   "prisma": {
     "seed": "node prisma/seed.mjs"
   },
+  "engines": {
+    "node": "16.15.x"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
