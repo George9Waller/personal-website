@@ -56,20 +56,6 @@ export const authOptions: NextAuthOptions = {
   providers: ([googleProvider] as Provider[]).concat(
     process.env.APP_ENV === "test" ? [credentialsProvider] : []
   ),
-  callbacks: {
-    session: async ({ session, token }) => {
-      if (session?.user) {
-        session.user.id = token.uid;
-      }
-      return session;
-    },
-    jwt: async ({ user, token }) => {
-      if (user) {
-        token.uid = user.id;
-      }
-      return token;
-    },
-  },
 };
 
 export default NextAuth(authOptions);
