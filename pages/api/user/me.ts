@@ -26,9 +26,6 @@ export async function handler(
         where: {
           id: session.user?.id,
         },
-        select: {
-          isAdmin: true,
-        },
       })
       .then((user) => {
         return res.json({ isAdmin: user?.isAdmin });
