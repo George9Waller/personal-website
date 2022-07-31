@@ -31,6 +31,7 @@ export const ProjectCard = ({ project }: Props) => {
               blurDataURL={coverImage.imageUrl}
               width={384}
               height={216}
+              objectFit="cover"
             />
           </figure>
         )}

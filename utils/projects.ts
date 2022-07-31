@@ -23,7 +23,7 @@ export const getCategoryClasses = (category: string, hover?: boolean) => {
       );
     case ProjectCategories.CODING:
       return classNames(
-        "bg-blue-700 border-blue-700",
+        "bg-blue-700 border-blue-700 text-white",
         hover && "hover:bg-blue-500 hover:border-blue-500"
       );
     default:

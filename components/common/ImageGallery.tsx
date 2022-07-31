@@ -170,6 +170,7 @@ const GalleryPhoto = ({ image, openLightbox }: LightboxPhotoProps) => {
           width={image.width}
           height={image.height}
           alt={selectTranslation(image.altText)}
+          objectFit="contain"
         />
         <div className="text-neutral-content py-1 px-3 flex justify-between items-center">
           <p>{selectTranslation(image.title)}</p>
