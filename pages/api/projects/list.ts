@@ -27,6 +27,7 @@ export async function handler(
       },
       orderBy: {
         date: "desc",
+        id: "desc",
       },
       include: {
         images: {
