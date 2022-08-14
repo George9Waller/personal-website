@@ -25,9 +25,14 @@ export async function handler(
         archieved: false,
         category: categories ? { hasSome: categories } : undefined,
       },
-      orderBy: {
-        date: "desc",
-      },
+      orderBy: [
+        {
+          date: "desc",
+        },
+        {
+          id: "desc",
+        },
+      ],
       include: {
         images: {
           where: {
