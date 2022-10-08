@@ -80,5 +80,5 @@ test.describe("ProjectsList", () => {
     await page.locator("button:has-text('Fine-art')").click();
 
     await expect(page.locator(".project-card")).toHaveCount(6);
-  })
+  });
 });
