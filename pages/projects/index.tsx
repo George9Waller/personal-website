@@ -11,26 +11,36 @@ import PaginationControls from "../../components/common/PaginationControls";
 import { PAGINATION_COUNT } from "../../utils/constants";
 import useSWRInfinite from "swr/infinite";
 import Head from "next/head";
-import {
-  getCategoryClasses,
-  getCategoryQueryParam,
-  ProjectCategories,
-} from "../../utils/projects";
-import classNames from "classnames";
+import { getCategoryQueryParam, ProjectCategories } from "../../utils/projects";
 import { useAppContext } from "../../components/context/AppContext";
 import SubHeading from "../../components/common/SubHeading";
 import Loading from "../../components/common/Loading";
 import { fetcher, getPaginationUrl } from "../../utils/common";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { CategoryOption } from "../../components/projects/CategoryOption";
 
 const Projects = ({
   projects,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const { categories, addCategory, removeCategory } = useAppContext();
+  const {
+    categories,
+    addCategory,
+    removeCategory,
+    addSingularCategory,
+    addAllCategories,
+  } = useAppContext();
 
   const categoryOnClick = (category: ProjectCategories) => {
-    categories.includes(category)
-      ? removeCategory(category)
-      : addCategory(category);
+    if (categories.length >= Object.keys(ProjectCategories).length) {
+      addSingularCategory(category);
+    } else if (categories.length === 1 && categories.includes(category)) {
+      addAllCategories();
+    } else {
+      categories.includes(category)
+        ? removeCategory(category)
+        : addCategory(category);
+    }
     mutate();
   };
 
@@ -70,6 +80,13 @@ const Projects = ({
     ),
   };
 
+  const visibleCategories = Object.entries(ProjectCategories).filter(
+    ([_key, category]) => categories.includes(category)
+  );
+  const hiddenCategories = Object.entries(ProjectCategories).filter(
+    ([_key, category]) => !categories.includes(category)
+  );
+
   return (
     <>
       <Head>
@@ -83,23 +100,32 @@ const Projects = ({
         </script>
       </Head>
       <Container className="mb-0 pb-2w">
-        <p className="text-sm">Visible categories</p>
-        <div className="flex flex-row gap-2 items-center overflow-scroll pb-2">
-          {Object.entries(ProjectCategories).map(([key, category]) => {
-            return (
-              <button
-                key={key}
-                className={classNames(
-                  "btn btn-sm",
-                  getCategoryClasses(category, true),
-                  !categories.includes(category) && "opacity-50"
-                )}
-                onClick={() => categoryOnClick(category)}
-              >
-                {category}
-              </button>
-            );
-          })}
+        <div className="flex flex-row gap-2 items-center overflow-x-scroll py-2">
+          {visibleCategories.length > 0 && (
+            <>
+              <FontAwesomeIcon icon={faEye} />
+              {visibleCategories.map(([key, category]) => (
+                <CategoryOption
+                  key={key}
+                  category={category}
+                  onClick={categoryOnClick}
+                />
+              ))}
+            </>
+          )}
+          {hiddenCategories.length > 0 && (
+            <>
+              <FontAwesomeIcon icon={faEyeSlash} />
+              {hiddenCategories.map(([key, category]) => (
+                <CategoryOption
+                  key={key}
+                  category={category}
+                  onClick={categoryOnClick}
+                  dark
+                />
+              ))}
+            </>
+          )}
         </div>
       </Container>
       <Container className="mt-4">

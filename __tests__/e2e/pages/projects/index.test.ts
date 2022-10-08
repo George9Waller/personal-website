@@ -45,10 +45,24 @@ test.describe("ProjectsList", () => {
     await expect(page.locator(".project-card")).toHaveCount(7);
   });
 
-  test("Filters to a category", async ({ page }) => {
+  test("Filters to a multiple categories", async ({ page }) => {
     await page.locator("button:has-text('Photography')").click();
-    await page.locator("button:has-text('Fine-art')").click();
+    await page.locator("button:has-text('Coding')").click();
 
+    await expect(page.locator(".project-card")).toHaveCount(5);
+    await expect(
+      page.locator(":nth-match(.project-card, 1) .card-title")
+    ).toHaveText("B");
+    await expect(
+      page.locator(":nth-match(.project-card, 2) .card-title")
+    ).toHaveText("G");
+    await expect(
+      page.locator(":nth-match(.project-card, 3) .card-title")
+    ).toHaveText("H");
+  });
+
+  test("Filters to a single category when all shown", async ({ page }) => {
+    await page.locator("button:has-text('Coding')").click();
     await expect(page.locator(".project-card")).toHaveCount(3);
     await expect(
       page.locator(":nth-match(.project-card, 1) .card-title")
@@ -61,14 +75,10 @@ test.describe("ProjectsList", () => {
     ).toHaveText("J");
   });
 
-  test("Filters to multiple categories", async ({ page }) => {
+  test("Filters to all categories when all hidden", async ({ page }) => {
     await page.locator("button:has-text('Fine-art')").click();
-    await expect(page.locator(".project-card")).toHaveCount(5);
-    await expect(
-      page.locator(":nth-match(.project-card, 1) .card-title")
-    ).toHaveText("B");
-    await expect(
-      page.locator(":nth-match(.project-card, 2) .card-title")
-    ).toHaveText("G");
-  });
+    await page.locator("button:has-text('Fine-art')").click();
+
+    await expect(page.locator(".project-card")).toHaveCount(6);
+  })
 });

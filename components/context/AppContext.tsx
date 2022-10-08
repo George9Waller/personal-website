@@ -6,6 +6,8 @@ interface IAppContext {
   categories: string[];
   addCategory: (name: ProjectCategories) => void;
   removeCategory: (name: ProjectCategories) => void;
+  addSingularCategory: (name: ProjectCategories) => void;
+  addAllCategories: () => void;
 }
 
 const appContextDefaultValues: IAppContext = {
@@ -15,6 +17,8 @@ const appContextDefaultValues: IAppContext = {
   /* eslint-disable @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars */
   addCategory: (name) => {},
   removeCategory: (name) => {},
+  addSingularCategory: (name) => {},
+  addAllCategories: () => {},
   /* eslint-enable @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars */
 };
 
@@ -37,10 +41,20 @@ export const AppContextProvider = ({ children }: Props) => {
   const removeCategory = (name: ProjectCategories) =>
     setCategories(categories.filter((value: string) => value !== name));
 
+  const addSingularCategory = (name: ProjectCategories) =>
+    setCategories([name]);
+
+  const addAllCategories = () =>
+    setCategories(
+      Object.entries(ProjectCategories).map(([_key, category]) => category)
+    );
+
   const value = {
     categories,
     addCategory,
     removeCategory,
+    addSingularCategory,
+    addAllCategories,
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
