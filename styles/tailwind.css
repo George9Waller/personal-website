@@ -51,6 +51,32 @@ ul {
   padding-inline-start: 15px;
 }
 
+.border-20 {
+  border-width: 20px;
+}
+
+.prints-banner {
+  transition-duration: 1s;
+}
+
+.mount {
+  transition-delay: 0s;
+  transition-duration: 1s;
+}
+
+.frame {
+  transition-duration: 1s;
+}
+
+.prints-banner:hover .frame {
+  border-color: hsl(var(--s));
+}
+
+.prints-banner:hover .mount {
+  border-color: hsl(var(--a));
+  transition-delay: 0.1s;
+}
+
 [data-theme="high-contrast"] .footer-title {
   color: #111;
 }

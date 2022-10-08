@@ -4,6 +4,8 @@ import { selectTranslation } from "../../utils/common";
 import { ProjectTags } from "./ProjectTags";
 import ReactMarkdown from "react-markdown";
 import ImageGallery from "../common/ImageGallery";
+import { ProjectCategories } from "../../utils/projects";
+import { PrintsAvailableBanner } from "./PrintsAvailableBanner";
 
 interface Props {
   project: BlogEntryWithImages;
@@ -31,6 +33,9 @@ const ProjectDetail = ({ project }: Props) => {
         <ReactMarkdown className="rendered-markdown">
           {selectTranslation(project.content)}
         </ReactMarkdown>
+        {project.category.includes(ProjectCategories.FINE_ART) && (
+          <PrintsAvailableBanner />
+        )}
         <ImageGallery images={project.images} />
       </div>
     </div>
