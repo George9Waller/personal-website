@@ -46,6 +46,12 @@ export const getPaginationUrl = (
 
 export const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
+export const arrayToHex = (rgb: number[]) => {
+  const hexArray = rgb.map((num) => num.toString(16));
+  const hex = hexArray.join("");
+  return `#${hex}`;
+};
+
 export const getMuiThemeOptions = (theme: string | undefined) => {
   // If editing themes returned here make sure they match the themes in daisyUi / tailwind in ./tailwind.config.js
   switch (theme) {

@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { BlogImage } from "@prisma/client";
 import axios from "axios";
+import { FastAverageColor } from "fast-average-color";
 import Image from "next/image";
 import { FormEvent } from "react";
 import { toast } from "react-toastify";
@@ -16,7 +17,7 @@ import {
   BlogImageUpdateData,
   BlogImageUpdateResponse,
 } from "../../pages/api/portal/projects/images/[id]";
-import { maybeSelectTranslation } from "../../utils/common";
+import { arrayToHex, maybeSelectTranslation } from "../../utils/common";
 import Loading from "../common/Loading";
 import LanguageInputs from "../forms/LanguageInputs";
 
@@ -44,37 +45,45 @@ export const BlogImageEditModal = ({
       cover: { checked: boolean };
     };
 
-    image &&
-      axios
-        .patch<unknown, { data: BlogImageUpdateResponse }>(
-          `/api/portal/projects/images/${image.id}`,
-          {
-            "title-en": target["title-en"].value,
-            "title-fr": target["title-fr"].value,
-            "alt-en": target["alt-en"].value,
-            "alt-fr": target["alt-fr"].value,
-            cover: target.cover.checked,
-          } as BlogImageUpdateData
-        )
-        .then((response) => {
-          toast.update(id, {
-            render: "Successfully saved changes",
-            type: "success",
-            isLoading: false,
-            autoClose: 5000,
+    if (image) {
+      const fac = new FastAverageColor();
+      const preview = document.getElementById("preview") as HTMLImageElement;
+      fac.getColorAsync(preview).then((result) => {
+        axios
+          .patch<unknown, { data: BlogImageUpdateResponse }>(
+            `/api/portal/projects/images/${image.id}`,
+            {
+              "title-en": target["title-en"].value,
+              "title-fr": target["title-fr"].value,
+              "alt-en": target["alt-en"].value,
+              "alt-fr": target["alt-fr"].value,
+              cover: target.cover.checked,
+              colour: result.value.slice(0, 3),
+            } as BlogImageUpdateData
+          )
+          .then((response) => {
+            toast.update(id, {
+              render: "Successfully saved changes",
+              type: "success",
+              isLoading: false,
+              autoClose: 5000,
+            });
+            response.data.image && setUpdatedObject(response.data.image);
+            onClose();
+          })
+          .catch(() => {
+            toast.update(id, {
+              render: "An error occurred saving changes",
+              type: "error",
+              isLoading: false,
+              autoClose: 5000,
+            });
           });
-          response.data.image && setUpdatedObject(response.data.image);
-          onClose();
-        })
-        .catch(() => {
-          toast.update(id, {
-            render: "An error occurred saving changes",
-            type: "error",
-            isLoading: false,
-            autoClose: 5000,
-          });
-        });
+      });
+    }
   };
+
+  const dominantColour = arrayToHex(image?.colour || []);
 
   return (
     <Dialog
@@ -94,6 +103,8 @@ export const BlogImageEditModal = ({
                 height={image.height}
                 width={image.width}
                 alt={maybeSelectTranslation(image.altText)}
+                objectFit="contain"
+                id="preview"
               />
 
               <LanguageInputs sourceJSON={image.title} fieldKey="title" />
@@ -108,6 +119,13 @@ export const BlogImageEditModal = ({
               </FormGroup>
             </DialogContent>
             <DialogActions>
+              <div
+                className=" mr-4 px-1 h-auto modal-action"
+                style={{ backgroundColor: dominantColour }}
+              >
+                {dominantColour}
+              </div>
+              <p className="mr-4 modal-action">Views: {image.views}</p>
               <button
                 className="btn btn-secondary modal-action"
                 onClick={onClose}

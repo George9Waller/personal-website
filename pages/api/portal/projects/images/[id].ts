@@ -12,6 +12,7 @@ export interface BlogImageUpdateData {
   "alt-en": string;
   "alt-fr": string;
   cover: boolean;
+  colour: number[];
 }
 
 export interface BlogImageUpdateResponse {
@@ -40,12 +41,13 @@ export async function handler(
     prisma.blogImage
       .update({
         where: {
-          id: parseInt(id.toString()),
+          id: parseInt(id?.toString() || ""),
         },
         data: {
           title: constructTranslations(body["title-en"], body["title-fr"]),
           altText: constructTranslations(body["alt-en"], body["alt-fr"]),
           isCover: body.cover,
+          colour: body.colour,
         },
       })
       .then((image) => {
@@ -59,7 +61,7 @@ export async function handler(
 
     const imageSelector = {
       where: {
-        id: parseInt(id.toString()),
+        id: parseInt(id?.toString() || ""),
       },
     };
 

@@ -15,6 +15,7 @@ export interface BlogImageCreateData {
   s3ImageUrl: string;
   width: number;
   height: number;
+  colour: number[];
 }
 
 export interface BlogImageCreateResponse {
@@ -40,6 +41,7 @@ export async function handler(
         height: body.height,
         isCover: body.cover,
         blogEntryId: body.blogEntryId,
+        colour: body.colour,
       },
     });
     return res.status(201).json({ image });

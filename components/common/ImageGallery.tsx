@@ -14,6 +14,7 @@ import {
 import { useScreen, useEventListener } from "usehooks-ts";
 import classNames from "classnames";
 import { sortImagesByTitle } from "../../utils/projects";
+import axios from "axios";
 
 interface Props {
   images: BlogImage[];
@@ -21,22 +22,42 @@ interface Props {
 
 export const ImageGallery = ({ images }: Props) => {
   const [currentImage, setCurrentImage] = useState(0);
+  const [currentImageTimeout, setCurrentImageTimeout] = useState<
+    NodeJS.Timeout | undefined
+  >(undefined);
   const [showLightbox, setShowLightbox] = useState(false);
+
+  const rateImage = async (index: number) => {
+    const image = images[index];
+    await axios.get(`/api/projects/view/image/${image.id}`);
+  };
+
+  const closeLightbox = () => {
+    setShowLightbox(false);
+    currentImageTimeout && clearTimeout(currentImageTimeout);
+  };
 
   const openLightbox = (index: number) => {
     setCurrentImage(index);
     setShowLightbox(true);
+    return setCurrentImageTimeout(setTimeout(rateImage, 3000, index));
   };
 
   const nextImage = () => {
+    currentImageTimeout && clearTimeout(currentImageTimeout);
     if (showLightbox && currentImage < images.length - 1) {
-      setCurrentImage(currentImage + 1);
+      const index = currentImage + 1;
+      setCurrentImage(index);
+      return setCurrentImageTimeout(setTimeout(rateImage, 3000, index));
     }
   };
 
   const previousImage = () => {
+    currentImageTimeout && clearTimeout(currentImageTimeout);
     if (showLightbox && currentImage > 0) {
-      return setCurrentImage(currentImage - 1);
+      const index = currentImage - 1;
+      setCurrentImage(index);
+      return setCurrentImageTimeout(setTimeout(rateImage, 3000, index));
     }
   };
 
@@ -91,7 +112,7 @@ export const ImageGallery = ({ images }: Props) => {
       </div>
       <Modal
         open={showLightbox}
-        onClose={() => setShowLightbox(false)}
+        onClose={() => closeLightbox()}
         keepMounted
         className="bg-neutral"
       >
@@ -108,7 +129,7 @@ export const ImageGallery = ({ images }: Props) => {
                 <Header
                   currentIndex={currentImage}
                   images={images}
-                  close={() => setShowLightbox(false)}
+                  close={() => closeLightbox()}
                 />
                 <div
                   className="relative"
