@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleLeft,
   faAngleRight,
+  faArrowRight,
   faClose,
   faExpand,
 } from "@fortawesome/free-solid-svg-icons";
@@ -15,12 +16,15 @@ import { useScreen, useEventListener } from "usehooks-ts";
 import classNames from "classnames";
 import { sortImagesByTitle } from "../../utils/projects";
 import axios from "axios";
+import Link from "next/link";
 
 interface Props {
   images: BlogImage[];
+  sortByTitle?: boolean;
+  linkToProject?: boolean;
 }
 
-export const ImageGallery = ({ images }: Props) => {
+export const ImageGallery = ({ images, sortByTitle, linkToProject }: Props) => {
   const [currentImage, setCurrentImage] = useState(0);
   const [currentImageTimeout, setCurrentImageTimeout] = useState<
     NodeJS.Timeout | undefined
@@ -99,14 +103,17 @@ export const ImageGallery = ({ images }: Props) => {
   const screen = useScreen();
   useEventListener("keydown", onKeyDown);
 
+  const sortedImages = sortByTitle ? sortImagesByTitle(images) : images;
+
   return (
     <div className="pt-8">
       <div className="grid grid-cols-3 gap-4">
-        {sortImagesByTitle(images).map((image, index) => (
+        {sortedImages.map((image, index) => (
           <GalleryPhoto
             key={image.id}
             image={image}
             openLightbox={() => openLightbox(index)}
+            linkToProject={linkToProject}
           />
         ))}
       </div>
@@ -177,25 +184,48 @@ const Header = ({ currentIndex, images, close }: HeaderProps) => (
 interface LightboxPhotoProps {
   image: BlogImage;
   openLightbox: () => void;
+  linkToProject?: boolean;
 }
 
-const GalleryPhoto = ({ image, openLightbox }: LightboxPhotoProps) => {
+const GalleryPhoto = ({
+  image,
+  openLightbox,
+  linkToProject,
+}: LightboxPhotoProps) => {
   return (
     <div className="gallery-photo flex flex-col justify-center">
-      <div
-        className="bg-neutral flex flex-col justify-between"
-        onClick={openLightbox}
-      >
-        <Image
-          src={image.imageUrl}
-          width={image.width}
-          height={image.height}
-          alt={selectTranslation(image.altText)}
-          objectFit="contain"
-        />
+      <div className="bg-neutral h-full flex flex-col justify-between">
+        <div className="image h-full flex items-center" onClick={openLightbox}>
+          <Image
+            src={image.imageUrl}
+            width={image.width}
+            height={image.height}
+            alt={selectTranslation(image.altText)}
+            objectFit="contain"
+          />
+        </div>
         <div className="text-neutral-content py-1 px-3 flex justify-between items-center">
           <p>{selectTranslation(image.title)}</p>
-          <FontAwesomeIcon className="hover:text-accent" icon={faExpand} />
+          <div className="flex items-center">
+            <FontAwesomeIcon
+              className="hover:text-accent"
+              icon={faExpand}
+              onClick={openLightbox}
+            />
+            {linkToProject && (
+              <div className="view-detail">
+                <Link href={`/projects/${image.blogEntryId}`}>
+                  <a className="ml-2">
+                    <FontAwesomeIcon
+                      className="hover:text-accent"
+                      icon={faArrowRight}
+                    />
+                    <span className="info">View Project</span>
+                  </a>
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

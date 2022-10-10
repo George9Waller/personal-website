@@ -57,4 +57,14 @@ test.describe("NavBar", () => {
     await contactButton.click();
     await expect(page).toHaveURL("/contact-me");
   });
+
+  test("should link to the prints page", async ({ page }) => {
+    const contactButton = await page.locator(
+      ".navbar-end a:has-text('Prints'):visible"
+    );
+    await expect(contactButton).toHaveAttribute("href", "/prints");
+
+    await contactButton.click();
+    await expect(page).toHaveURL("/prints");
+  });
 });

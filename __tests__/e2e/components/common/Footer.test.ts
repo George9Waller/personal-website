@@ -24,6 +24,10 @@ test.describe("Footer Navigation", () => {
       "href",
       "/projects"
     );
+    await expect(infoSection.locator("a:has-text('Prints')")).toHaveAttribute(
+      "href",
+      "/prints"
+    );
   });
 
   test("Has a projects section", async ({ page }) => {

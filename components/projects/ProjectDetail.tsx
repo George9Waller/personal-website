@@ -36,7 +36,7 @@ const ProjectDetail = ({ project }: Props) => {
         {project.category.includes(ProjectCategories.FINE_ART) && (
           <PrintsAvailableBanner />
         )}
-        <ImageGallery images={project.images} />
+        <ImageGallery images={project.images} sortByTitle />
       </div>
     </div>
   );
