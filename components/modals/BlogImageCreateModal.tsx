@@ -10,6 +10,7 @@ import {
 import { BlogImage } from "@prisma/client";
 import axios from "axios";
 import { FastAverageColor, FastAverageColorResult } from "fast-average-color";
+import Image from "next/image";
 import { FormEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { UploadFileUrlResponse } from "../../pages/api/portal/aws/upload-file";
@@ -186,13 +187,18 @@ export const BlogImageCreateModal = ({
           />
           {preview && (
             <>
-              <img
-                id="preview"
-                className="mt-4"
-                src={preview}
-                alt=""
-                onLoad={imageOnLoad}
-              />{" "}
+              <div className="block">
+                <Image
+                  id="preview"
+                  className="mt-4"
+                  src={preview}
+                  alt=""
+                  onLoad={imageOnLoad}
+                  width="750"
+                  height="500"
+                  objectFit="contain"
+                />{" "}
+              </div>
               {/* eslint-disable-line @next/next/no-img-element */}
               <div
                 className="w-auto h-4 mb-4"

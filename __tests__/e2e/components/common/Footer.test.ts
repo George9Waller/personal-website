@@ -37,10 +37,19 @@ test.describe("Footer Navigation", () => {
     await expect(projectsSection.locator(".footer-title")).toHaveText(
       "Projects"
     );
-    await expect(projectsSection.locator("a")).toHaveCount(1);
+    await expect(projectsSection.locator("a")).toHaveCount(4);
     await expect(
       projectsSection.locator("a:has-text('All Projects')")
-    ).toHaveAttribute("href", "/projects");
+    ).toHaveAttribute("href", "/projects/c/all");
+    await expect(
+      projectsSection.locator("a:has-text('Photography')")
+    ).toHaveAttribute("href", "/projects/c/photography");
+    await expect(
+      projectsSection.locator("a:has-text('Fine-art')")
+    ).toHaveAttribute("href", "/projects/c/fine-art");
+    await expect(
+      projectsSection.locator("a:has-text('Coding')")
+    ).toHaveAttribute("href", "/projects/c/coding");
   });
 
   test("Has a portal section", async ({ page }) => {

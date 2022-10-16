@@ -8,7 +8,6 @@ import { InferGetStaticPropsType } from "next";
 import FlexGrid from "../components/common/FlexGrid";
 import { RECENT_ITEMS_COUNT } from "../utils/constants";
 import ImageGallery from "../components/common/ImageGallery";
-import SubHeading from "../components/common/SubHeading";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExternalLink } from "@fortawesome/free-solid-svg-icons";
