@@ -44,6 +44,11 @@ const NavLinks = ({ pathName }: NavLinkProps) => {
           <a className={getNavButtonClasses("/prints", pathName)}>Prints</a>
         </Link>
       </li>
+      <li>
+        <Link href="/gallery">
+          <a className={getNavButtonClasses("/gallery", pathName)}>Gallery</a>
+        </Link>
+      </li>
     </>
   );
 };

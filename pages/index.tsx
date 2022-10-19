@@ -21,6 +21,7 @@ const Home = ({ projects }: InferGetStaticPropsType<typeof getStaticProps>) => {
           name="description"
           content="I am a full stack web developer and also a photographer specialising in aerial and landscape. I am experienced in React and Django and work and enjoying problem solving."
         />
+        <meta name="keywords" content="georgewaller George Waller web developer software engineer photography photo aerial photography fineart fine-art" />
       </Head>
 
       <div>

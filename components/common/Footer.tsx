@@ -27,6 +27,9 @@ export const Footer = () => {
           <Link href="/prints">
             <a className="link link-hover">Prints</a>
           </Link>
+          <Link href="/gallery">
+            <a className="link link-hover">Gallery</a>
+          </Link>
         </div>
         <div>
           <span className="footer-title">Projects</span>

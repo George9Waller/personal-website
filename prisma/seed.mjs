@@ -128,6 +128,21 @@ const main = async () => {
           archieved: false,
           category: [ProjectCategories.PHOTOGRAPHY, ProjectCategories.FINE_ART],
           date: new Date("2022-06-23"),
+          images: {
+            createMany: {
+              data: [
+                {
+                  imageUrl: "https://placekitten.com/500/300",
+                  altText: constructTranslations('B kitten 1'),
+                  height: 300,
+                  width: 500,
+                  isCover: true,
+                  views: 7,
+                  title: constructTranslations("Image B 1")
+                }
+              ]
+            }
+          }
         },
         {
           title: constructTranslations("C"),

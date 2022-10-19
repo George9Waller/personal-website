@@ -67,4 +67,14 @@ test.describe("NavBar", () => {
     await contactButton.click();
     await expect(page).toHaveURL("/prints");
   });
+
+  test("should link to the gallery page", async ({ page }) => {
+    const contactButton = await page.locator(
+      ".navbar-end a:has-text('Gallery'):visible"
+    );
+    await expect(contactButton).toHaveAttribute("href", "/gallery");
+
+    await contactButton.click();
+    await expect(page).toHaveURL("/gallery");
+  });
 });

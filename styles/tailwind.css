@@ -32,6 +32,10 @@ p {
   color: hsl(var(--a));
 }
 
+.image span {
+  width: 100%!important;
+}
+
 .view-detail .info {
   max-width: 0;
   display: inline-block;

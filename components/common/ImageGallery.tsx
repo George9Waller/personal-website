@@ -22,9 +22,10 @@ interface Props {
   images: BlogImage[];
   sortByTitle?: boolean;
   linkToProject?: boolean;
+  small?: boolean;
 }
 
-export const ImageGallery = ({ images, sortByTitle, linkToProject }: Props) => {
+export const ImageGallery = ({ images, sortByTitle, linkToProject, small = false }: Props) => {
   const [currentImage, setCurrentImage] = useState(0);
   const [currentImageTimeout, setCurrentImageTimeout] = useState<
     NodeJS.Timeout | undefined
@@ -107,7 +108,7 @@ export const ImageGallery = ({ images, sortByTitle, linkToProject }: Props) => {
 
   return (
     <div className="pt-8">
-      <div className="grid grid-cols-3 gap-4">
+      <div className={classNames("grid gap-4", small ? "md:grid-cols-3 lg:grid-cols-4 sm:grid-cols-2" : "grid-cols-3")}>
         {sortedImages.map((image, index) => (
           <GalleryPhoto
             key={image.id}
