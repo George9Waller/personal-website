@@ -7,12 +7,17 @@ import { prisma } from "../prisma/db";
 import { InferGetStaticPropsType } from "next";
 import ProjectCard from "../components/projects/ProjectCard";
 import { BlogEntryWithImages } from "../types/db";
-import { RECENT_ITEMS_COUNT } from "../utils/constants";
+import { BLOG_IMAGE_ORDERING, RECENT_ITEMS_COUNT } from "../utils/constants";
 import Heading from "../components/common/Heading";
 import SubHeading from "../components/common/SubHeading";
 import FlexGrid from "../components/common/FlexGrid";
+import { ProjectCategories } from "../utils/projects";
+import ImageGallery from "../components/common/ImageGallery";
 
-const Home = ({ projects }: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Home = ({
+  projects,
+  popularImages,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <div>
       <Head>
@@ -67,6 +72,10 @@ const Home = ({ projects }: InferGetStaticPropsType<typeof getStaticProps>) => {
             ))}
           </FlexGrid>
         </Container>
+        <Container>
+          <SubHeading>Popular Images</SubHeading>
+          <ImageGallery images={popularImages} linkToProject />
+        </Container>
       </div>
     </div>
   );
@@ -90,8 +99,23 @@ export const getStaticProps = async () => {
     },
   });
 
+  const popularImages = await prisma.blogImage.findMany({
+    where: {
+      blogEntry: {
+        draft: false,
+        archieved: false,
+        category: { hasSome: ProjectCategories.FINE_ART },
+      },
+    },
+    take: RECENT_ITEMS_COUNT * 2,
+    orderBy: [BLOG_IMAGE_ORDERING.VIEWS_DESC, { id: "desc" }],
+  });
+
   return {
-    props: { projects: JSON.parse(JSON.stringify(projects)) },
+    props: {
+      projects: JSON.parse(JSON.stringify(projects)),
+      popularImages: JSON.parse(JSON.stringify(popularImages)),
+    },
     revalidate: 60,
   };
 };
