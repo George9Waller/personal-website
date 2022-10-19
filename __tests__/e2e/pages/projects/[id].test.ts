@@ -61,7 +61,7 @@ test.describe("ProjectDetail", () => {
       def do_something():
         print('Function just does nothing')
     `);
-    await expect(page.locator(".gallery-photo")).toHaveCount(4);
+    await expect(page.locator(".gallery-photo")).toHaveCount(7);
     const firstImage = await page.locator(":nth-match(.gallery-photo, 1)");
     await expect(firstImage.locator("p")).toHaveText("Image a");
     await expect(firstImage.locator("img[alt='A kitten 1']")).toHaveCount(1);

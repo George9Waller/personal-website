@@ -11,7 +11,7 @@ test.describe("Footer Navigation", () => {
 
     const infoSection = await navFooter.locator(":nth-match(div, 1)");
     await expect(infoSection.locator(".footer-title")).toHaveText("Info");
-    await expect(infoSection.locator("a")).toHaveCount(3);
+    await expect(infoSection.locator("a")).toHaveCount(5);
     await expect(infoSection.locator("a:has-text('About Me')")).toHaveAttribute(
       "href",
       "/"

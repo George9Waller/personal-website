@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test.beforeEach(async ({ page }) => {
-  page.goto("/prints");
+  await page.goto("/prints");
 });
 
 test("should load the prints page", async ({ page }) => {
@@ -19,14 +19,14 @@ test("should load the prints page", async ({ page }) => {
   await expect(secondImage.locator("p")).toHaveText("Image a");
 
   const thirdImage = await page.locator(":nth-match(.gallery-photo, 3)");
-  await expect(thirdImage.locator("p")).toHaveText("Image c");
+  await expect(thirdImage.locator("p")).toHaveText("Image B 1");
 
   const fourthImage = await page.locator(":nth-match(.gallery-photo, 4)");
-  await expect(fourthImage.locator("p")).toHaveText("Image b");
+  await expect(fourthImage.locator("p")).toHaveText("Image c");
 
   const fifthImage = await page.locator(":nth-match(.gallery-photo, 5)");
-  await expect(fifthImage.locator("p")).toHaveText("Image g");
+  await expect(fifthImage.locator("p")).toHaveText("Image b");
 
   const sixthImage = await page.locator(":nth-match(.gallery-photo, 6)");
-  await expect(sixthImage.locator("p")).toHaveText("Image e");
+  await expect(sixthImage.locator("p")).toHaveText("Image g");
 });
