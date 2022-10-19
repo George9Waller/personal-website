@@ -18,7 +18,7 @@ export async function handler(
   await prisma.newsletterSubscriber
     .update({
       where: {
-        id: id.toString(),
+        id: id?.toString(),
       },
       data: {
         emailVerified: true,

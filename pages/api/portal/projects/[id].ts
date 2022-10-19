@@ -27,7 +27,7 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
     prisma.blogEntry
       .update({
         where: {
-          id: parseInt(id.toString()),
+          id: parseInt(id?.toString() || ""),
         },
         data: {
           title: constructTranslations(body["title-en"], body["title-fr"]),
@@ -55,7 +55,7 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
     prisma.blogEntry
       .update({
         where: {
-          id: parseInt(id.toString()),
+          id: parseInt(id?.toString() || ""),
         },
         data: {
           archieved: true,

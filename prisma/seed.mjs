@@ -118,32 +118,32 @@ const main = async () => {
         },
       },
     });
+    await prisma.blogEntry.create({
+      title: constructTranslations("B"),
+      shortDescription: constructTranslations("B short"),
+      content: constructTranslations("B content"),
+      draft: false,
+      archieved: false,
+      category: [ProjectCategories.PHOTOGRAPHY, ProjectCategories.FINE_ART],
+      date: new Date("2022-06-23"),
+      images: {
+        createMany: {
+          data: [
+            {
+              imageUrl: "https://placekitten.com/500/300",
+              altText: constructTranslations('B kitten 1'),
+              height: 300,
+              width: 500,
+              isCover: true,
+              views: 7,
+              title: constructTranslations("Image B 1")
+            }
+          ]
+        }
+      }
+    })
     await prisma.blogEntry.createMany({
       data: [
-        {
-          title: constructTranslations("B"),
-          shortDescription: constructTranslations("B short"),
-          content: constructTranslations("B content"),
-          draft: false,
-          archieved: false,
-          category: [ProjectCategories.PHOTOGRAPHY, ProjectCategories.FINE_ART],
-          date: new Date("2022-06-23"),
-          images: {
-            createMany: {
-              data: [
-                {
-                  imageUrl: "https://placekitten.com/500/300",
-                  altText: constructTranslations('B kitten 1'),
-                  height: 300,
-                  width: 500,
-                  isCover: true,
-                  views: 7,
-                  title: constructTranslations("Image B 1")
-                }
-              ]
-            }
-          }
-        },
         {
           title: constructTranslations("C"),
           shortDescription: constructTranslations("C short"),

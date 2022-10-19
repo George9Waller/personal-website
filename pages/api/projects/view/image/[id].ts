@@ -16,7 +16,7 @@ export async function handler(
 
   const image = await prisma.blogImage.update({
     where: {
-      id: parseInt(id.toString()),
+      id: parseInt(id?.toString() || ""),
     },
     data: {
       views: {
