@@ -7,10 +7,17 @@ import { fetcher, getPaginationUrl } from "../../utils/common";
 import { GalleryListData } from "../api/gallery/list";
 import PaginationControls from "../../components/common/PaginationControls";
 import ImageGallery from "../../components/common/ImageGallery";
-import { BlogImageOrdering, IMAGE_PAGINATION_COUNT } from "../../utils/constants";
+import {
+  BlogImageOrdering,
+  IMAGE_PAGINATION_COUNT,
+} from "../../utils/constants";
 import Loading from "../../components/common/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarMinus, faCalendarPlus, faFire } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCalendarMinus,
+  faCalendarPlus,
+  faFire,
+} from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import classNames from "classnames";
 import { useAppContext } from "../../components/context/AppContext";
@@ -26,11 +33,16 @@ const GalleryList = () => {
 
   const getKey = (pageIndex: number, previousPageData: GalleryListData) => {
     if (previousPageData && !previousPageData.images.length) return null;
-    return `${getPaginationUrl("/api/gallery/list/", pageIndex, true, IMAGE_PAGINATION_COUNT)}&order_by=${sort}`;
+    return `${getPaginationUrl(
+      "/api/gallery/list/",
+      pageIndex,
+      true,
+      IMAGE_PAGINATION_COUNT
+    )}&order_by=${sort}`;
   };
 
   const { data, size, setSize, mutate } = useSWRInfinite(getKey, fetcher, {
-    revalidateAll: true
+    revalidateAll: true,
   });
 
   let currentCount = 0;
@@ -40,9 +52,21 @@ const GalleryList = () => {
 
   const FilterOption = ({ icon, text, sortKey }: FilterOptionProps) => {
     return (
-      <button className={classNames("btn btn-sm btn-primary", sort === sortKey ? "btn-active" : "btn-outline")} onClick={() => { setSort(sortKey); mutate(); }}><FontAwesomeIcon icon={icon} className="mr-2" />{text}</button>
+      <button
+        className={classNames(
+          "btn btn-sm btn-primary",
+          sort === sortKey ? "btn-active" : "btn-outline"
+        )}
+        onClick={() => {
+          setSort(sortKey);
+          mutate();
+        }}
+      >
+        <FontAwesomeIcon icon={icon} className="mr-2" />
+        {text}
+      </button>
     );
-  }
+  };
 
   return (
     <>
@@ -79,7 +103,11 @@ const GalleryList = () => {
           </div>
         </Container>
         <Container>
-          {images ? <ImageGallery images={images} linkToProject small /> : <Loading />}
+          {images ? (
+            <ImageGallery images={images} linkToProject small />
+          ) : (
+            <Loading />
+          )}
           {currentCount !== 0 && (
             <PaginationControls
               currentCount={currentCount}
@@ -98,5 +126,3 @@ GalleryList.getLayout = function getLayout(page: ReactElement) {
 };
 
 export default GalleryList;
-
-

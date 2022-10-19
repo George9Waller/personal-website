@@ -13,7 +13,7 @@ export interface BlogImageOrdering {
 }
 
 export const BLOG_IMAGE_ORDERING: BlogImageOrdering = {
-  DATE_DESC: { blogEntry: { date: 'desc' } },
-  DATE_ASC: { blogEntry: { date: 'asc' } },
-  VIEWS_DESC: { views: 'desc' }
-}
+  DATE_DESC: { blogEntry: { date: "desc" } },
+  DATE_ASC: { blogEntry: { date: "asc" } },
+  VIEWS_DESC: { views: "desc" },
+};

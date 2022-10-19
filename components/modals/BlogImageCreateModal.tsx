@@ -86,6 +86,8 @@ export const BlogImageCreateModal = ({
             let width = 500;
             let height = 500;
             if (target.file.files?.length) {
+              // eslint-disable-next-line
+              // @ts-ignore-next
               const image = new Image();
               image.src = window.URL.createObjectURL(target.file.files[0]);
               image.onload = () => {
