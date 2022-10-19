@@ -30,6 +30,8 @@ model BlogImage {
   isCover     Boolean   @default(false)
   width       Int
   title       Json
+  views       Int       @default(0)
+  colour      Int[]
   blogEntry   BlogEntry @relation(fields: [blogEntryId], references: [id], onDelete: Cascade)
 }
 

@@ -17,7 +17,7 @@ export async function handler(
 
   const project = await prisma.blogEntry.findUnique({
     where: {
-      id: parseInt(id.toString()),
+      id: parseInt(id?.toString() || ""),
     },
     include: {
       images: true,

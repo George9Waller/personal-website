@@ -34,17 +34,24 @@ export const constructTranslations = (en?: string, fr?: string) => {
 export const getPaginationUrl = (
   base: string,
   pageNumber?: number,
-  zeroIndexed?: boolean
+  zeroIndexed?: boolean,
+  paginationCount: number = PAGINATION_COUNT
 ) => {
   const firstPage = zeroIndexed ? 0 : 1;
-  return `${base}?take=${PAGINATION_COUNT}${
+  return `${base}?take=${paginationCount}${
     pageNumber && pageNumber > firstPage
-      ? `&skip=${(pageNumber - firstPage) * PAGINATION_COUNT}`
+      ? `&skip=${(pageNumber - firstPage) * paginationCount}`
       : ""
   }`;
 };
 
 export const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+
+export const arrayToHex = (rgb: number[]) => {
+  const hexArray = rgb.map((num) => num.toString(16));
+  const hex = hexArray.join("");
+  return `#${hex}`;
+};
 
 export const getMuiThemeOptions = (theme: string | undefined) => {
   // If editing themes returned here make sure they match the themes in daisyUi / tailwind in ./tailwind.config.js

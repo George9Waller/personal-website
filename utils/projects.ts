@@ -54,3 +54,19 @@ export const sortImagesByTitle = (images: BlogImage[]) =>
   images.sort((a, b) =>
     selectTranslation(a.title) > selectTranslation(b.title) ? 1 : -1
   );
+
+export const CATEGORY_URL_SLUGS = Object.fromEntries(
+  Object.entries(ProjectCategories).map(([key, value]) => [
+    key,
+    value.toLocaleLowerCase(),
+  ])
+);
+
+export const getCategoryOrUndefined = (cat: string | string[] | undefined) => {
+  for (const [_key, value] of Object.entries(ProjectCategories)) {
+    if (value.toLowerCase() === cat) {
+      return value;
+    }
+  }
+  return undefined;
+};

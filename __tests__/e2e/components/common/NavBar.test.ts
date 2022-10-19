@@ -57,4 +57,28 @@ test.describe("NavBar", () => {
     await contactButton.click();
     await expect(page).toHaveURL("/contact-me");
   });
+
+  test("should link to the prints page", async ({ page }) => {
+    const printsButton = await page.locator(
+      ".navbar a:has-text('Prints'):visible"
+    );
+    await expect(printsButton).toHaveAttribute("href", "/prints");
+    await expect(printsButton).not.toHaveClass(/btn-outline/);
+
+    await printsButton.click();
+    await expect(page).toHaveURL("/prints");
+    await expect(printsButton).toHaveClass(/btn-outline/);
+  });
+
+  test("should link to the gallery page", async ({ page }) => {
+    const galleryButton = await page.locator(
+      ".navbar a:has-text('Gallery'):visible"
+    );
+    await expect(galleryButton).toHaveAttribute("href", "/gallery");
+    await expect(galleryButton).not.toHaveClass(/btn-outline/);
+
+    await galleryButton.click();
+    await expect(page).toHaveURL("/gallery");
+    await expect(galleryButton).toHaveClass(/btn-outline/);
+  });
 });

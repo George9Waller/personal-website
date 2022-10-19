@@ -9,7 +9,9 @@ import {
 } from "@mui/material";
 import { BlogImage } from "@prisma/client";
 import axios from "axios";
-import { FormEvent } from "react";
+import { FastAverageColor, FastAverageColorResult } from "fast-average-color";
+import Image from "next/image";
+import { FormEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { UploadFileUrlResponse } from "../../pages/api/portal/aws/upload-file";
 import {
@@ -31,6 +33,19 @@ export const BlogImageCreateModal = ({
   onClose,
   setCreatedObject,
 }: Props) => {
+  const [selectedFile, setSelectedFile] = useState<File | undefined>();
+  const [preview, setPreview] = useState<string | undefined>();
+  const [dominantColour, setDominantColour] = useState<
+    FastAverageColorResult | undefined
+  >();
+
+  const handleClose = () => {
+    setSelectedFile(undefined);
+    setPreview(undefined);
+    setDominantColour(undefined);
+    onClose();
+  };
+
   const handleSave = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const id = toast.loading("Saving changes");
@@ -71,6 +86,8 @@ export const BlogImageCreateModal = ({
             let width = 500;
             let height = 500;
             if (target.file.files?.length) {
+              // eslint-disable-next-line
+              // @ts-ignore-next
               const image = new Image();
               image.src = window.URL.createObjectURL(target.file.files[0]);
               image.onload = () => {
@@ -92,6 +109,7 @@ export const BlogImageCreateModal = ({
                   s3ImageUrl: `${awsBaseUrl}${fullFileName}`,
                   width,
                   height,
+                  colour: dominantColour?.value.slice(0, 3),
                 } as BlogImageCreateData
               )
               .then((response) => {
@@ -107,7 +125,7 @@ export const BlogImageCreateModal = ({
                     "blog-image-create-form"
                   ) as HTMLFormElement
                 ).reset();
-                onClose();
+                handleClose();
               });
           });
       })
@@ -121,10 +139,37 @@ export const BlogImageCreateModal = ({
       });
   };
 
+  const onFileChange = (e: React.FormEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    if (!target.files || target.files.length === 0) {
+      return setSelectedFile(undefined);
+    } else {
+      return setSelectedFile(target.files[0]);
+    }
+  };
+
+  useEffect(() => {
+    if (!selectedFile) {
+      return setPreview(undefined);
+    } else {
+      const objectUrl = URL.createObjectURL(selectedFile);
+      setPreview(objectUrl);
+
+      return () => URL.revokeObjectURL(objectUrl);
+    }
+  }, [selectedFile]);
+
+  const imageOnLoad = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const fac = new FastAverageColor();
+    fac
+      .getColorAsync(e.currentTarget)
+      .then((result) => setDominantColour(result));
+  };
+
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       maxWidth="xl"
       PaperProps={{ style: { minWidth: "80%" } }}
       aria-labelledby="create-blog-image-modal-title"
@@ -140,7 +185,29 @@ export const BlogImageCreateModal = ({
             type="file"
             accept="image/*"
             required
+            onChange={onFileChange}
           />
+          {preview && (
+            <>
+              <div className="block">
+                <Image
+                  id="preview"
+                  className="mt-4"
+                  src={preview}
+                  alt=""
+                  onLoad={imageOnLoad}
+                  width="750"
+                  height="500"
+                  objectFit="contain"
+                />{" "}
+              </div>
+              {/* eslint-disable-line @next/next/no-img-element */}
+              <div
+                className="w-auto h-4 mb-4"
+                style={{ backgroundColor: dominantColour?.rgb || "#ffffff" }}
+              />
+            </>
+          )}
           <LanguageInputs sourceJSON={{}} fieldKey="title" />
           <LanguageInputs sourceJSON={{}} fieldKey="alt" />
           <FormGroup>
@@ -151,7 +218,10 @@ export const BlogImageCreateModal = ({
           </FormGroup>
         </DialogContent>
         <DialogActions>
-          <button className="btn btn-secondary modal-action" onClick={onClose}>
+          <button
+            className="btn btn-secondary modal-action"
+            onClick={handleClose}
+          >
             Close
           </button>
           <button className="btn btn-primary modal-action" type="submit">

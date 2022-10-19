@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { GITHUB_URL, LINKEDIN_URL } from "../../utils/constants";
+import { CATEGORY_URL_SLUGS, ProjectCategories } from "../../utils/projects";
 
 export const Footer = () => {
   const { data: session } = useSession();
@@ -23,12 +24,28 @@ export const Footer = () => {
           <Link href="/projects">
             <a className="link link-hover">Projects</a>
           </Link>
+          <Link href="/prints">
+            <a className="link link-hover">Prints</a>
+          </Link>
+          <Link href="/gallery">
+            <a className="link link-hover">Gallery</a>
+          </Link>
         </div>
         <div>
           <span className="footer-title">Projects</span>
-          <Link href="/projects">
+          <Link href="/projects/c/all">
             <a className="link link-hover">All Projects</a>
           </Link>
+          {Object.entries(CATEGORY_URL_SLUGS).map(([key, slug]) => {
+            const index = key as unknown as typeof ProjectCategories;
+            return (
+              <Link href={`/projects/c/${slug}`} key={key}>
+                {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                {/* @ts-ignore-next */}
+                <a className="link link-hover">{ProjectCategories[index]}</a>
+              </Link>
+            );
+          })}
         </div>
         <div>
           <span className="footer-title">Portal</span>

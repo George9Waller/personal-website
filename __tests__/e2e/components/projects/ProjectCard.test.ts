@@ -22,7 +22,7 @@ test("should render a card with multiple category tags", async ({ page }) => {
     ":nth-match(.container .project-card, 2)"
   );
   await expect(secondCard.locator(".card-title")).toContainText("B");
-  await expect(secondCard.locator("figure")).toHaveCount(0);
+  await expect(secondCard.locator("figure")).toHaveCount(1);
   await expect(secondCard.locator("h3 div")).toHaveCount(2);
   await expect(secondCard.locator("h3 span")).toContainText("Jun 2022");
   await expect(secondCard.locator(":nth-match(h3 div, 1)")).toContainText(

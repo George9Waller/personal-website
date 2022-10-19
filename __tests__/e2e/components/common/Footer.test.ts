@@ -11,7 +11,7 @@ test.describe("Footer Navigation", () => {
 
     const infoSection = await navFooter.locator(":nth-match(div, 1)");
     await expect(infoSection.locator(".footer-title")).toHaveText("Info");
-    await expect(infoSection.locator("a")).toHaveCount(3);
+    await expect(infoSection.locator("a")).toHaveCount(5);
     await expect(infoSection.locator("a:has-text('About Me')")).toHaveAttribute(
       "href",
       "/"
@@ -24,6 +24,14 @@ test.describe("Footer Navigation", () => {
       "href",
       "/projects"
     );
+    await expect(infoSection.locator("a:has-text('Prints')")).toHaveAttribute(
+      "href",
+      "/prints"
+    );
+    await expect(infoSection.locator("a:has-text('Gallery')")).toHaveAttribute(
+      "href",
+      "/gallery"
+    );
   });
 
   test("Has a projects section", async ({ page }) => {
@@ -33,10 +41,19 @@ test.describe("Footer Navigation", () => {
     await expect(projectsSection.locator(".footer-title")).toHaveText(
       "Projects"
     );
-    await expect(projectsSection.locator("a")).toHaveCount(1);
+    await expect(projectsSection.locator("a")).toHaveCount(4);
     await expect(
       projectsSection.locator("a:has-text('All Projects')")
-    ).toHaveAttribute("href", "/projects");
+    ).toHaveAttribute("href", "/projects/c/all");
+    await expect(
+      projectsSection.locator("a:has-text('Photography')")
+    ).toHaveAttribute("href", "/projects/c/photography");
+    await expect(
+      projectsSection.locator("a:has-text('Fine-art')")
+    ).toHaveAttribute("href", "/projects/c/fine-art");
+    await expect(
+      projectsSection.locator("a:has-text('Coding')")
+    ).toHaveAttribute("href", "/projects/c/coding");
   });
 
   test("Has a portal section", async ({ page }) => {

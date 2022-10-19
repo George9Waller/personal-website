@@ -61,10 +61,14 @@ test.describe("ProjectDetail", () => {
       def do_something():
         print('Function just does nothing')
     `);
-    await expect(page.locator(".gallery-photo")).toHaveCount(4);
+    await expect(page.locator(".gallery-photo")).toHaveCount(7);
     const firstImage = await page.locator(":nth-match(.gallery-photo, 1)");
     await expect(firstImage.locator("p")).toHaveText("Image a");
     await expect(firstImage.locator("img[alt='A kitten 1']")).toHaveCount(1);
+
+    await expect(page.locator(".prints-banner")).toHaveCount(1);
+    await page.click(".prints-banner");
+    await expect(page).toHaveURL("/prints");
   });
 
   test("Should be able to navigate image previews", async ({ page }) => {
@@ -97,5 +101,19 @@ test.describe("ProjectDetail", () => {
 
     await page.press(".MuiModal-root", "Escape");
     await expect(page.locator(".card-title")).toHaveCount(1);
+  });
+
+  test("Should not show prints information on non-fine-art", async ({
+    page,
+  }) => {
+    const codingProject = await prisma.blogEntry.findFirst({
+      where: {
+        title: {
+          equals: constructTranslations("G"),
+        },
+      },
+    });
+    await page.goto(`/projects/${codingProject?.id}`);
+    await expect(page.locator(".prints-banner")).toHaveCount(0);
   });
 });
