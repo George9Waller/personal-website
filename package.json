@@ -11,6 +11,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "vercel-build": "prisma generate && prisma migrate deploy && next build",
     "postbuild": "next-sitemap",
     "start": "next start -p $PORT",
     "start:dev": "next start",
