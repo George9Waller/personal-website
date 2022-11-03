@@ -26,6 +26,8 @@ const credentialsProvider = CredentialsProvider({
       emailVerified: new Date("2022-07-25"),
       image: null,
       isAdmin: true,
+      secureInfoPasswordHash: '',
+      secureInfoPasswordSalt: '',
     };
     const user: User = {
       id: "2",
@@ -34,6 +36,8 @@ const credentialsProvider = CredentialsProvider({
       emailVerified: new Date("2022-07-25"),
       image: null,
       isAdmin: false,
+      secureInfoPasswordHash: '',
+      secureInfoPasswordSalt: '',
     };
 
     if (process.env.APP_ENV === "test") {

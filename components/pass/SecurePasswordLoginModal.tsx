@@ -33,7 +33,7 @@ export const SecurePasswordLoginModal = ({ open, onClose }: Props) => {
           );
           setUserDetailsLoading(false);
         });
-  }, []);
+  }, [open, userHashSalt, setUserHashSalt]);
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
