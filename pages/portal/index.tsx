@@ -19,8 +19,8 @@ const Portal: NextPageWithLayout = () => {
   const { promiseInProgress } = usePromiseTracker();
   const [{ isAdmin }, setMeData] = useState<MeData>({
     isAdmin: false,
-    secureInfoPasswordHash: '',
-    secureInfoPasswordSalt: '',
+    secureInfoPasswordHash: "",
+    secureInfoPasswordSalt: "",
   });
 
   const apps = [
