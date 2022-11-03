@@ -6,7 +6,7 @@ import {
   TextField,
 } from "@mui/material";
 import { AssetType } from "@prisma/client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { TagData } from "../../pages/portal/pass";
 
 export interface TagOption {
