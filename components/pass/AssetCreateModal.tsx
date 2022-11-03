@@ -89,18 +89,20 @@ export const AssetCreateModal = ({
       <DialogTitle id="create-asset-modal-title">Create new {type}</DialogTitle>
       <DialogContent>
         <div className="btn-group w-full">
-          {Object.keys(AssetType).map((assetType) => (
-            <div
-              key={assetType}
-              className={classNames(
-                "btn btn-xs md:btn-sm btn-outline grow",
-                assetType === type && "btn-active"
-              )}
-              onClick={() => setType(assetType as AssetType)}
-            >
-              {assetType}
-            </div>
-          ))}
+          {Object.keys(AssetType)
+            .filter((assetType) => ["password"].includes(assetType))
+            .map((assetType) => (
+              <div
+                key={assetType}
+                className={classNames(
+                  "btn btn-xs md:btn-sm btn-outline grow",
+                  assetType === type && "btn-active"
+                )}
+                onClick={() => setType(assetType as AssetType)}
+              >
+                {assetType}
+              </div>
+            ))}
         </div>
         <AssetCreateEditForm
           type={type}
