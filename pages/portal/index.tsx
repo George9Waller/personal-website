@@ -6,7 +6,12 @@ import Loading from "../../components/common/Loading";
 import SubHeading from "../../components/common/SubHeading";
 import NavLayout from "../../components/layouts/NavLayout";
 import PortalCard from "../../components/portal/PortalCard";
-import { NewsletterApp, PortalApp, ProjectsApp } from "../../utils/portal";
+import {
+  NewsletterApp,
+  PortalApp,
+  ProjectsApp,
+  PasswordManagerApp,
+} from "../../utils/portal";
 import { MeData } from "../api/user/me";
 import { NextPageWithLayout } from "./../_app";
 
@@ -16,7 +21,11 @@ const Portal: NextPageWithLayout = () => {
     isAdmin: false,
   });
 
-  const apps = [NewsletterApp, ...(isAdmin ? [ProjectsApp] : [])];
+  const apps = [
+    PasswordManagerApp,
+    NewsletterApp,
+    ...(isAdmin ? [ProjectsApp] : []),
+  ];
 
   const getUser = async () => {
     const res = await trackPromise(fetch("api/user/me"));

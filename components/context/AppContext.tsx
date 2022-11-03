@@ -11,6 +11,10 @@ interface IAppContext {
   addAllCategories: () => void;
   sort: keyof BlogImageOrdering;
   setSort: (key: keyof BlogImageOrdering) => void;
+  getUserSecurePassword: () => string | undefined;
+  setUserSecurePassword: (password: string) => void;
+  userHashSalt: { hash: string; salt: string };
+  setUserHashSalt: (hash: string, salt: string) => void;
 }
 
 const appContextDefaultValues: IAppContext = {
@@ -18,12 +22,16 @@ const appContextDefaultValues: IAppContext = {
     ([_key, category]) => category
   ),
   sort: "VIEWS_DESC",
+  userHashSalt: { hash: "", salt: "" },
   /* eslint-disable @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars */
   addCategory: (name) => {},
   removeCategory: (name) => {},
   addSingularCategory: (name) => {},
   addAllCategories: () => {},
   setSort: (key) => {},
+  getUserSecurePassword: () => undefined,
+  setUserSecurePassword: (password) => {},
+  setUserHashSalt: (hash, salt) => {},
   /* eslint-enable @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars */
 };
 
@@ -40,6 +48,12 @@ export const AppContextProvider = ({ children }: Props) => {
     appContextDefaultValues.categories
   );
   const [sort, setSortState] = useState(appContextDefaultValues.sort);
+  const [userSecurePassword, setUserSecurePasswordState] = useState<string>();
+  const [userSecurePasswordTimeout, setUserSecurePasswordTimeout] =
+    useState<Date>();
+  const [userHashSalt, setUserHashSaltState] = useState(
+    appContextDefaultValues.userHashSalt
+  );
 
   const addCategory = (name: ProjectCategories) =>
     setCategories([...categories, name]);
@@ -57,6 +71,24 @@ export const AppContextProvider = ({ children }: Props) => {
 
   const setSort = (key: keyof BlogImageOrdering) => setSortState(key);
 
+  const getUserSecurePassword = () => {
+    return userSecurePasswordTimeout
+      ? userSecurePasswordTimeout > new Date()
+        ? userSecurePassword
+        : undefined
+      : undefined;
+  };
+
+  const setUserSecurePassword = (password: string) => {
+    const now = new Date();
+    now.setHours(now.getHours() + 1);
+    setUserSecurePasswordState(password);
+    setUserSecurePasswordTimeout(now);
+  };
+
+  const setUserHashSalt = (hash: string, salt: string) =>
+    setUserHashSaltState({ hash, salt });
+
   const value = {
     categories,
     addCategory,
@@ -65,6 +97,10 @@ export const AppContextProvider = ({ children }: Props) => {
     addAllCategories,
     sort,
     setSort,
+    getUserSecurePassword,
+    setUserSecurePassword,
+    userHashSalt,
+    setUserHashSalt,
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

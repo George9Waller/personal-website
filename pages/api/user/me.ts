@@ -6,6 +6,8 @@ import { withSentry } from "@sentry/nextjs";
 
 export interface MeData {
   isAdmin: boolean;
+  secureInfoPasswordHash: string | null;
+  secureInfoPasswordSalt: string | null;
 }
 
 export interface ErrorData {
@@ -26,9 +28,14 @@ export async function handler(
         where: {
           id: session.user?.id,
         },
+        select: {
+          isAdmin: true,
+          secureInfoPasswordHash: true,
+          secureInfoPasswordSalt: true,
+        },
       })
       .then((user) => {
-        return res.json({ isAdmin: user?.isAdmin });
+        return user && res.json(user);
       })
       .catch(() => {
         return res

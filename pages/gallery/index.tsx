@@ -37,6 +37,7 @@ const GalleryList = () => {
       "/api/gallery/list/",
       pageIndex,
       true,
+      undefined,
       IMAGE_PAGINATION_COUNT
     )}&order_by=${sort}`;
   };

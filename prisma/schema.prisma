@@ -8,8 +8,27 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
+enum AssetType {
+  password
+  card
+  contact
+  note
+  document
+  link
+}
+
+enum CardType {
+  AMEX
+  VISA
+  VISA_CREDIT
+  MASTERCARD
+  MASTERCARD_CREDIT
+  REWARDS
+  MEMBERSHIP
+}
+
 model BlogEntry {
-  id               Int         @id @db.Integer @default(autoincrement())
+  id               Int         @id @default(autoincrement()) @db.Integer
   date             DateTime    @default(now()) @db.Date
   draft            Boolean
   archieved        Boolean     @default(false)
@@ -22,7 +41,7 @@ model BlogEntry {
 }
 
 model BlogImage {
-  id          Int       @id @db.Integer @default(autoincrement())
+  id          Int       @id @default(autoincrement()) @db.Integer
   blogEntryId Int
   imageUrl    String    @db.VarChar(255)
   altText     Json
@@ -70,6 +89,9 @@ model User {
   isAdmin       Boolean   @default(false)
   accounts      Account[]
   sessions      Session[]
+  assets        Asset[]
+  secureInfoPasswordHash  String?
+  secureInfoPasswordSalt  String?
 }
 
 model VerificationToken {
@@ -81,7 +103,88 @@ model VerificationToken {
 }
 
 model NewsletterSubscriber {
-  id          String    @id @default(cuid())
-  email       String    @unique
+  id            String  @id @default(cuid())
+  email         String  @unique
   emailVerified Boolean @default(false)
+}
+
+model Asset {
+  id        String    @id @default(cuid())
+  created   DateTime  @default(now())
+  updated   DateTime  @updatedAt
+  accessed  DateTime  @default(now())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  tags      String[]
+  assetType AssetType
+
+  password Password?
+  card     Card?
+  contact  Contact?
+  note     Note?
+  document Document?
+  link     Link?
+}
+
+model Password {
+  id             String   @id @default(cuid())
+  assetId        String   @unique
+  url            String?
+  email          String?
+  username       String?
+  passwordHash   String
+  additionalInfo String?  @db.Text
+  asset          Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
+}
+
+model Card {
+  id             String    @id @default(cuid())
+  assetId        String    @unique
+  asset          Asset     @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  type           CardType
+  cardNumber     String
+  expieryDate    DateTime? @db.Date
+  validFrom      DateTime? @db.Date
+  sortCode       String?
+  AccountNumber  String?
+  secureCodeHash String?
+  secureCodeSalt String?
+  pinHash        String?
+  pinSalt        String?
+  additionalInfo String?   @db.Text
+}
+
+model Contact {
+  id             String   @id @default(cuid())
+  assetId        String   @unique
+  asset          Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  firstName      String
+  lastName       String?
+  phoneNumbers   String[]
+  emailAddresses String[]
+  birthday       String?
+  addresses      String[]
+  additionalInfo String?  @db.Text
+}
+
+model Note {
+  id      String @id @default(cuid())
+  assetId String @unique
+  asset   Asset  @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  content String @db.Text
+}
+
+model Document {
+  id      String @id @default(cuid())
+  assetId String @unique
+  asset   Asset  @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  url     String
+}
+
+model Link {
+  id      String @id @default(cuid())
+  assetId String @unique
+  asset   Asset  @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  url     String
 }
