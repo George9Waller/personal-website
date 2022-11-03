@@ -35,10 +35,11 @@ export const getPaginationUrl = (
   base: string,
   pageNumber?: number,
   zeroIndexed?: boolean,
+  search?: string,
   paginationCount: number = PAGINATION_COUNT
 ) => {
   const firstPage = zeroIndexed ? 0 : 1;
-  return `${base}?take=${paginationCount}${
+  return `${base}?${search && `search=${search}&`}take=${paginationCount}${
     pageNumber && pageNumber > firstPage
       ? `&skip=${(pageNumber - firstPage) * paginationCount}`
       : ""

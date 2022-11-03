@@ -34,7 +34,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <ThemeProvider>
           <MuiThemeWrapper>
             <AppContextProvider>
-              <ToastContainer />
+              <ToastContainer position="bottom-right" />
               {getLayout(<Component {...pageProps} />)}
             </AppContextProvider>
           </MuiThemeWrapper>

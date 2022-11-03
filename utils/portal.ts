@@ -19,6 +19,12 @@ export const NewsletterApp: PortalApp = {
   href: "/newsletter",
 };
 
+export const PasswordManagerApp: PortalApp = {
+  title: "Password Manager",
+  colour: "bg-orange-100",
+  href: "/portal/pass",
+};
+
 export const checkUser = async (
   field: keyof MeData,
   invalidFunc: () => void

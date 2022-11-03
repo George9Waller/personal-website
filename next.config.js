@@ -10,6 +10,7 @@ const nextConfig = {
     domains: [
       "georgewaller.s3.amazonaws.com",
       "georgewaller.s3.eu-west-2.amazonaws.com",
+      "t1.gstatic.com",
     ],
   },
 };

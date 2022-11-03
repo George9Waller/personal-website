@@ -29,3 +29,19 @@ export const checkUserPermission = async (
     }
   });
 };
+
+export const getUserDetails = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+) => {
+  return await unstable_getServerSession(req, res, authOptions).then(
+    async (session) => {
+      if (session?.user) {
+        return await getUser(session?.user?.id).then((user) => {
+          return user;
+        });
+      }
+      return undefined;
+    }
+  );
+};
