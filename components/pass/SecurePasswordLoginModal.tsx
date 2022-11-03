@@ -20,6 +20,7 @@ export const SecurePasswordLoginModal = ({ open, onClose }: Props) => {
 
   useEffect(() => {
     open &&
+      !userHashSalt.hash &&
       toast
         .promise(axios.get<unknown, { data: MeData }>("/api/user/me"), {
           pending: "Getting user details",

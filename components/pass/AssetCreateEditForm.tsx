@@ -6,7 +6,7 @@ import {
   TextField,
 } from "@mui/material";
 import { AssetType } from "@prisma/client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { TagData } from "../../pages/portal/pass";
 
 export interface TagOption {
@@ -59,7 +59,8 @@ export const AssetCreateEditForm = ({
         name,
         tags.map((tag) => tag.title)
       ),
-    [name, tags, setAssetDetails]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [name, tags]
   );
 
   return (

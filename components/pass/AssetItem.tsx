@@ -1,5 +1,6 @@
 import { faKey } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classNames from "classnames";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { TagData } from "../../pages/portal/pass";
@@ -10,10 +11,16 @@ import { useAppContext } from "../context/AppContext";
 interface Props {
   asset: AssetWithDetail;
   tagOptions: TagData;
+  selectedTags: string[];
   onClick: () => void;
 }
 
-export const AssetItem = ({ asset, tagOptions, onClick }: Props) => {
+export const AssetItem = ({
+  asset,
+  tagOptions,
+  selectedTags,
+  onClick,
+}: Props) => {
   const { getUserSecurePassword, userHashSalt } = useAppContext();
   const [image, setImage] = useState<boolean>(false);
 
@@ -62,11 +69,16 @@ export const AssetItem = ({ asset, tagOptions, onClick }: Props) => {
       <div className="mt-2 flex flex-wrap gap-1 flex gap-1">
         {asset.tags.map((tag, index) => {
           const tagData = tagOptions.find((tagOption) => tagOption[0] === tag);
+          const selected = selectedTags.includes(tagData ? tagData[0] : "");
+          const tagColour = tagData ? tagData[2] : "";
           return (
             <div
-              className="badge badge-outline grow"
+              className={classNames("badge grow", !selected && "badge-outline")}
               key={index}
-              style={{ borderColor: tagData ? tagData[2] : "black" }}
+              style={{
+                borderColor: tagColour,
+                backgroundColor: selected ? tagColour : "white",
+              }}
             >
               {tag}
             </div>

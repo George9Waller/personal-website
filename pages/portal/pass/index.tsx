@@ -134,8 +134,8 @@ export const PasswordManager = () => {
               {isLoading && <Loading />}
               {isError && <Error />}
               {data && securePass && (
-                <div className="flex flex-col items-center bg-white">
-                  <div className="bg-base-100 p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-2">
+                <div className="flex flex-col items-start bg-white">
+                  <div className="bg-base-100 p-4 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-2">
                     {data.map((page) => {
                       return page.assets.map((asset: AssetWithDetail) => (
                         <AssetItem
@@ -143,6 +143,7 @@ export const PasswordManager = () => {
                           asset={asset}
                           onClick={() => setAssetInEdit(asset)}
                           tagOptions={tags}
+                          selectedTags={selectedTags}
                         />
                       ));
                     })}
@@ -185,6 +186,14 @@ export const PasswordManager = () => {
                 </div>
               ))}
             </div>
+            {selectedTags.length > 0 && (
+              <button
+                className="btn btn-sm btn-accent mt-4"
+                onClick={() => setSelectedTags([])}
+              >
+                clear tags
+              </button>
+            )}
           </div>
         </div>
       </div>
