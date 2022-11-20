@@ -123,3 +123,14 @@ export const getMuiThemeOptions = (theme: string | undefined) => {
       } as ThemeOptions;
   }
 };
+
+export const getImageFileDimensions = (
+  file: File,
+  setWidthHeight: (width: number, height: number) => void
+) => {
+  const image = new Image();
+  image.src = window.URL.createObjectURL(file);
+  image.onload = () => {
+    setWidthHeight(image.width, image.height);
+  };
+};

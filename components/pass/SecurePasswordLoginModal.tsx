@@ -41,13 +41,13 @@ export const SecurePasswordLoginModal = ({ open, onClose }: Props) => {
     password &&
       userHashSalt.salt &&
       bcrypt.hash(password, userHashSalt.salt, (err, hash) => {
+        setPassword("");
         if (hash && hash === userHashSalt.hash) {
           setUserSecurePassword(password);
           toast.success("Password successfully validated");
           onClose();
         } else {
           toast.error("Password does not match");
-          setPassword("");
         }
       });
   };
