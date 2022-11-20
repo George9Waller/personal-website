@@ -30,6 +30,9 @@ const Home = ({
           name="keywords"
           content="georgewaller George Waller web developer software engineer photography photo aerial photography fineart fine-art"
         />
+        {popularImages && popularImages.length > 0 && (
+          <meta name="og:image" content={popularImages[0].imageUrl} />
+        )}
       </Head>
 
       <div>

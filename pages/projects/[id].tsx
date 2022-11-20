@@ -52,6 +52,10 @@ const ProjectDetailPage = ({ project }: Props) => {
   }
 
   const title = loadedProject ? selectTranslation(loadedProject.title) : "";
+  const ogImage =
+    loadedProject &&
+    (loadedProject.images?.find((image) => image.isCover) ||
+      ((loadedProject.images?.length > 0 || 0) && loadedProject.images[0]));
 
   return (
     <div>
@@ -66,6 +70,16 @@ const ProjectDetailPage = ({ project }: Props) => {
             <script type="application/ld+json">
               {JSON.stringify(getArticleStructuredData())}
             </script>
+            <meta
+              property="og:title"
+              content={selectTranslation(loadedProject.title)}
+            />
+            <meta property="og:type" content="article" />
+            <meta
+              property="og:url"
+              content={`${process.env.NEXT_PUBLIC_SITE_URL}/projects/${loadedProject.id}/`}
+            />
+            {ogImage && <meta property="og:image" content={ogImage.imageUrl} />}
           </>
         )}
       </Head>
