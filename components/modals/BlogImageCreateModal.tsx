@@ -18,6 +18,7 @@ import {
   BlogImageCreateData,
   BlogImageCreateResponse,
 } from "../../pages/api/portal/projects/images/create";
+import { getImageFileDimensions } from "../../utils/common";
 import LanguageInputs from "../forms/LanguageInputs";
 
 interface Props {
@@ -83,17 +84,13 @@ export const BlogImageCreateModal = ({
             },
           })
           .then(() => {
-            let width = 500;
-            let height = 500;
+            let imgWidth = 500;
+            let imgHeight = 500;
             if (target.file.files?.length) {
-              // eslint-disable-next-line
-              // @ts-ignore-next
-              const image = new Image();
-              image.src = window.URL.createObjectURL(target.file.files[0]);
-              image.onload = () => {
-                width = image.width;
-                height = image.height;
-              };
+              getImageFileDimensions(target.file.files[0], (width, height) => {
+                imgWidth = width;
+                imgHeight = height;
+              });
             }
 
             axios
@@ -107,8 +104,8 @@ export const BlogImageCreateModal = ({
                   "alt-fr": target["alt-fr"].value,
                   cover: target.cover.checked,
                   s3ImageUrl: `${awsBaseUrl}${fullFileName}`,
-                  width,
-                  height,
+                  width: imgWidth,
+                  height: imgHeight,
                   colour: dominantColour?.value.slice(0, 3),
                 } as BlogImageCreateData
               )
