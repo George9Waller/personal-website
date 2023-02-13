@@ -27,7 +27,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     <div style={{ overflowX: "hidden" }}>
       <Script
         async
-        src="https://www.googletagmanager.com/gtag/js?id=G-J9SNYSBDED"
+        src="https://www.googletagmanager.com/gtag/js?id=G-57SJ8G4K0T"
       />
       <Script async type="text/javascript" src="/googleAnalytics.js" />
       <SessionProvider>
