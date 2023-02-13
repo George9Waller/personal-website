@@ -74,16 +74,16 @@ const CV = ({ projects }: InferGetStaticPropsType<typeof getStaticProps>) => {
                     href: "https://certn.co/",
                     displayText: "Certn Website"
                   }}
-                  description="I am working as a sofware engineer using a Django React stack with AWS for a world leading startup. I am able to build my skills working on a large team, and also having to adapt to working acrossa a range of timezones."
+                  description="I am working as a software engineer using a Django React stack with AWS for a world leading startup. I am able to build my skills working on a large team, and also having to adapt to working across a range of timezones."
                   roles={[
                     {
                       fromDate: new Date("2023-01-01"),
-                      title: "Junior Engineer",
+                      title: "Certn",
                       children: (
                         <>
                           <p>
                             I upgraded existing systems to use high quality coding
-                            standards folling the company principals. My main
+                            standards following the company principals. My main
                             projects included:
                           </p>
                           <ul>
