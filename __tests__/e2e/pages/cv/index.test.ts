@@ -87,30 +87,23 @@ test.describe("CV", () => {
       "Brighton, UK"
     );
     await expect(contactLinks.locator(":nth-match(div, 2)")).toHaveText(
-      "+44 7894 846744"
+      "george@georgewaller.com"
     );
     await expect(contactLinks.locator(":nth-match(div, 2) a")).toHaveAttribute(
       "href",
-      "tel:+447894846744"
+      "mailto:george@georgewaller.com,george.waller3@gmail.com"
     );
     await expect(contactLinks.locator(":nth-match(div, 3)")).toHaveText(
-      "george@georgewaller.com"
+      "George9Waller"
     );
     await expect(contactLinks.locator(":nth-match(div, 3) a")).toHaveAttribute(
       "href",
-      "mailto:george@georgewaller.com,george.waller3@gmail.com"
-    );
-    await expect(contactLinks.locator(":nth-match(div, 4)")).toHaveText(
-      "George9Waller"
-    );
-    await expect(contactLinks.locator(":nth-match(div, 4) a")).toHaveAttribute(
-      "href",
       "https://github.com/George9Waller"
     );
-    await expect(contactLinks.locator(":nth-match(div, 5)")).toHaveText(
+    await expect(contactLinks.locator(":nth-match(div, 4)")).toHaveText(
       "George Waller"
     );
-    await expect(contactLinks.locator(":nth-match(div, 5) a")).toHaveAttribute(
+    await expect(contactLinks.locator(":nth-match(div, 4) a")).toHaveAttribute(
       "href",
       "https://www.linkedin.com/in/georgewaller/"
     );
