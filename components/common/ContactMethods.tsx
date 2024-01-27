@@ -1,4 +1,4 @@
-import { faAt, faPhone } from "@fortawesome/free-solid-svg-icons";
+import { faAt } from "@fortawesome/free-solid-svg-icons";
 import CvStat from "../cv/CvStat";
 import ExternalLink from "./ExternalLink";
 
