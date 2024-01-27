@@ -12,10 +12,6 @@ test.describe("ContactMe", () => {
   });
 
   test("has links", async ({ page }) => {
-    await expect(page.locator("a:has-text('+44 7894 846744')")).toHaveAttribute(
-      "href",
-      "tel:+447894846744"
-    );
     await expect(
       page.locator("a:has-text('george@georgewaller.com')")
     ).toHaveAttribute(
